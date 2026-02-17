@@ -1,0 +1,21 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{collide}\PYG{p}{(}\PYG{n}{Pacman}\PYG{+w}{ }\PYG{n}{pacman}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Ghost}\PYG{+w}{ }\PYG{n}{ghost}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{//Pacman collides with a Ghost}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{collide}\PYG{p}{(}\PYG{n}{MoveableBlock}\PYG{+w}{ }\PYG{n}{entity}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Teleporter}\PYG{+w}{ }\PYG{n}{teleporter}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{//A MoveableBlock collides with a Teleporter}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{collide}\PYG{p}{(}\PYG{n}{Ghost}\PYG{+w}{ }\PYG{n}{ghost}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{GhostHome}\PYG{+w}{ }\PYG{n}{home}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{//A Ghost collides with GhostHome}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{collide}\PYG{p}{(}\PYG{n}{Ghost}\PYG{+w}{ }\PYG{n}{ghost}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Door}\PYG{+w}{ }\PYG{n}{door}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{//A Ghost collides with a Door}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{collide}\PYG{p}{(}\PYG{n}{Pacman}\PYG{+w}{ }\PYG{n}{pacman}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Pellet}\PYG{+w}{ }\PYG{n}{pellet}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{//Pacman collides with a Pellet}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{collide}\PYG{p}{(}\PYG{n}{Pacman}\PYG{+w}{ }\PYG{n}{pacman}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{BigPellet}\PYG{+w}{ }\PYG{n}{pellet}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{//Pacman collides with a BigPellet}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

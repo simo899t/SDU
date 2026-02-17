@@ -1,0 +1,76 @@
+
+- question 1 - events
+	- **TRUE** this can happend
+	- **TRUE** since $P(A)P(B) = P(A sect B) > 0 =P(A sect B)$ 
+	- **TRUE** since $P(A sect B) = 0  < P(A)P(B) = P(A sect B)$ 
+	- **FALSE** since![[CD07C79C-A5EE-4575-9E3C-F4404A88AB7B_1_102_o.jpeg]]
+	- **FALSE** Because $P(B) != 1$
+- question 2
+	- **TRUE** with smaller data we need more bias to avoid overfitting/variance
+	- **TRUE** if k grows, classifying will be more general, and less sensitive to position of new data
+	- **FALSE** only if $k=1$ then training error is 0, because the data
+	- **FALSE** Since bias help representation with small data, more data will decrease bias as the model is more representative
+	- **TRUE** as $k$ grows it will increasingly underfit more, thus less variance 
+- question 3 
+	- **TRUE** since $EE[X^2]>EE[X^2]-EE[X]^2$
+	- **FALSE** 
+		- $P(C=1) =2/3dot 1/3 dot 1/3 dot 3 = 6/27$
+		- $P(C=3) =2/3dot 2/3 dot 2/3 dot 1 = 8/27$
+		- Since $6/27 < 8/27 => P(C=1) gt.not P(C=3)$
+	- **TRUE**
+		- $P(C=0) =1/3dot 1/3 dot 1/3 dot 1 = 1/27$
+		- $P(C=3) =2/3dot 2/3 dot 2/3 dot 1 = 8/27$
+		- Since $1/27 < 8/27 => P(C=1) lt P(C=3)$
+	- **TRUE**
+		- For $sum_(i=1)^m i dot P(C=i)$
+		- $P(C=1) =2/3dot 1/3 dot 1/3 dot 3 = 6/27$
+		- $P(C=1) =2/3dot 2/3 dot 1/3 dot 3 = 12/27$
+		- $P(C=3) =2/3dot 2/3 dot 2/3 dot 1 = 8/27$
+		- Then $EE[X] = 0 + 6/27+2 dot 12/27+3 dot 8/27 =2$
+		- Then $EE[X^2] = 0 + 6/27+2^2 dot 12/27+3^2 dot 8/27 =4.6$
+		- Then $EE[X]^2 = 0 + 6/27+2 dot 12/27+3 dot 8/27 = 4$
+	- **FALSE**
+- question 4
+	- **TRUE** as increase in bias increases underfitting
+	- **FALSE** with punishment, wights will get smaller so less capacity
+	- **TRUE** Since no, that is irrelevant, maybe the opposite
+	- **FALSE** No this is the point of bias
+	- **TRUE** the point of bias again
+- question 5
+	- NOT CORRICULUM
+- question 6
+	- **TRUE** this is $arg min L_S(h)$
+	- **TRUE** Test data will always get better, but test error will be bad at some point
+	- **FALSE** More data will result in better model, (opt is more to the right)
+	- **FALSE** more complexity will result in overfitting
+	- **TRUE** 
+- question 7
+	- **TRUE**
+	- **TRUE**
+	- **TRUE**
+	- **FALSE**
+	- **FALSE**
+- question 8
+	- **FALSE** this computes all gradients
+	- **TRUE**
+	- **TRUE** it runs through train_dl 20 times
+	- **TRUE** 
+	- **TRUE**
+- question 9
+	- NOT CORRICULUM
+- question 10 
+	- **TRUE** because $25/35 >25/40$
+	- **FALSE** because $0.6 lt.not 0.5$ 
+	- **TRUE** because $0.6 >0.57$
+	- **TRUE**
+	- **FALSE**
+- question 11
+	- NOT CORRICULUM
+- question 11
+	- **FALSE** since spread cannot me $gt 1$
+	- **TRUE** this is just mean
+	- **FALSE** since missing $sect$
+	- **TRUE** as long as $pi$ is the same (identically dist.)
+	- **TRUE** we can check with $pi = 0.5$ then
+		- $(1/2)^5 = (1/2)^3(1-1/2)^2$
+

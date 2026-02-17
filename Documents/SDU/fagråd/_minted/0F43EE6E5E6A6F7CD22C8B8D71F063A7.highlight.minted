@@ -1,0 +1,9 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kd}{interface} \PYG{n+nc}{ICollideHandler}\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{ghostCollision}\PYG{p}{(}\PYG{n}{Ghost}\PYG{+w}{ }\PYG{n}{ghost}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{pelletCollision}\PYG{p}{(}\PYG{n}{Pellet}\PYG{+w}{ }\PYG{n}{pellet}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{bigPelletCollision}\PYG{p}{(}\PYG{n}{BigPellet}\PYG{+w}{ }\PYG{n}{pellet}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{doorCollision}\PYG{p}{(}\PYG{n}{Door}\PYG{+w}{ }\PYG{n}{door}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{homeCollision}\PYG{p}{(}\PYG{n}{Ghost}\PYG{+w}{ }\PYG{n}{ghost}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

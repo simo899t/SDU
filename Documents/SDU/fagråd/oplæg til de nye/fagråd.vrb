@@ -1,0 +1,22 @@
+\frametitle{Implementeret polymorfi}
+\begin{minted}[fontsize=\scriptsize]{Java}
+
+    public void collide(Pacman pacman, Ghost ghost) {
+        //Pacman collides with a Ghost
+    }
+    public void collide(MoveableBlock entity, Teleporter teleporter) {
+        //A MoveableBlock collides with a Teleporter
+    }
+    public void collide(Ghost ghost, GhostHome home) {
+        //A Ghost collides with GhostHome
+    }
+    public void collide(Ghost ghost, Door door) {
+        //A Ghost collides with a Door
+    }
+    public void collide(Pacman pacman, Pellet pellet) {
+        //Pacman collides with a Pellet
+    }
+    public void collide(Pacman pacman, BigPellet pellet) {
+        //Pacman collides with a BigPellet
+    }
+\end{minted}

@@ -1,0 +1,1 @@
+https://www.ted.com/talks/noam_brown_ai_won_t_plateau_if_we_give_it_time_to_think

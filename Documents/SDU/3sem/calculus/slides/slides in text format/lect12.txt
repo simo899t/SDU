@@ -1,0 +1,609 @@
+Integration
+AI503
+Shan Shan
+
+Lecture 12
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+1 / 26
+
+Change of variables
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+2 / 26
+
+Jacobian matrix
+
+For T (u, v ) = (x(u, v ), y (u, v )) define
+J(u, v ) =
+
+xu xv
+∂(x, y )
+.
+=
+∂(u, v )
+yu yv
+
+Provided the partial derivatives exist.
+ 
+u
+is A.
+The Jacobian matrix of the linear map T (u, v ) = A
+v
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+3 / 26
+
+Change of variables formula (2D)
+
+Theorem
+Let T : D ∗ → D be one-to-one and onto (up to boundaries). For
+integrable f on D:
+ZZ
+ZZ
+
+f x(u, v ), y (u, v ) | det(J(u, v ))| du dv .
+f (x, y ) dx dy =
+D
+
+AI503 Shan Shan
+
+D∗
+
+Integration
+
+Lecture 12
+
+4 / 26
+
+Why the Jacobian?
+
+Counterexample to naive formula without Jacobian:
+Consider a linear map T that scales area by factor c ̸= 1. Without the
+Jacobian area (and integrals) would be incorrect.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+5 / 26
+
+Polar coordinates
+
+Apply the formula to T (r , θ) = (r cos θ, r sin θ). Compute
+!
+cos θ −r sin θ
+det(J(r , θ)) = det
+= r.
+sin θ r cos θ
+Hence
+Z 2π Z 1
+
+ZZ
+f (x, y ) dx dy =
+D
+
+AI503 Shan Shan
+
+f (r cos θ, r sin θ) r dr dθ.
+0
+
+0
+
+Integration
+
+Lecture 12
+
+6 / 26
+
+Gaussian integral (application)
+
+Use polar coordinates to compute
+Z ∞
+
+2
+
+e −x dx.
+
+−∞
+
+Standard trick: square the integral and use polar coordinates to obtain
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+√
+π.
+
+7 / 26
+
+Jacobian in 3D
+
+For T (u, v , w ) = (x(u, v , w ), y (u, v , w ), z(u, v , w )),
+xu xv
+∂(x, y , z)
+= yu yv
+J=
+∂(u, v , w )
+zu zv
+
+AI503 Shan Shan
+
+Integration
+
+xw
+yw .
+zw
+
+Lecture 12
+
+8 / 26
+
+Change of variables formula (3D)
+
+Let W and W ∗ be elementary region in R3 and let T : W ∗ → W be
+one-to-one and onto W (except possibly on a set that is the union of
+graphs of functions of two variables). Then for any integrable function
+f : W → R, we have
+ZZZ
+f (x, y , z) dV
+W
+ZZZ
+
+=
+f x(u, v , w ), y (u, v , w ), z(u, v , w ) |J| du dv dw .
+W∗
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+9 / 26
+
+Cylindrical coordinates
+
+Let x = r cos θ, y = r sin θ and z = z. Let W ∗ consists of points in the
+form (r , θ, z) where 0 ≤ r ≤ 1, 0 ≤ θ ≤ 2π, 0 ≤ z ≤ 1. Find the image set
+and compute its Jacobian.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+10 / 26
+
+Spherical coordinates
+
+Let x = ρ sin ϕ cos θ, y = ρ sin ϕ cos θ and z = ρ cos ϕ. Compute its
+Jacobian and use this to derive the change of variable spherical cooridnate
+formula.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+11 / 26
+
+Final notes
+
+Check one-to-one condition or restrict domain when using change of
+variables.
+Always include absolute value of Jacobian.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+12 / 26
+
+Taylor polynomials
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+13 / 26
+
+Motivation: Linear Approximation
+
+For a differentiable function f (x), near x = a:
+f (x) ≈ f (a) + f ′ (a)(x − a)
+This is the linear approximation or tangent line.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+14 / 26
+
+Motivation: Linear Approximation
+
+For a differentiable function f (x), near x = a:
+f (x) ≈ f (a) + f ′ (a)(x − a)
+This is the linear approximation or tangent line.
+Example: f (x) = cos(x) at a = 0
+cos(x) ≈ 1 − 0 · x = 1
+Better: cos(x) ≈ 1 −
+
+AI503 Shan Shan
+
+Integration
+
+x2
+2!
+
+Lecture 12
+
+14 / 26
+
+Taylor Polynomials
+
+Definition
+The n-th degree Taylor polynomial of f at x = a is
+Tn (x) = f (a) + f ′ (a)(x − a) +
+
+AI503 Shan Shan
+
+f ′′ (a)
+f (n) (a)
+(x − a)2 + · · · +
+(x − a)n
+2!
+n!
+
+Integration
+
+Lecture 12
+
+15 / 26
+
+Taylor Polynomials
+
+Definition
+The n-th degree Taylor polynomial of f at x = a is
+Tn (x) = f (a) + f ′ (a)(x − a) +
+
+f ′′ (a)
+f (n) (a)
+(x − a)2 + · · · +
+(x − a)n
+2!
+n!
+
+The idea: include higher-order derivatives to improve the local
+approximation.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+15 / 26
+
+Example: Taylor Polynomials for cos(x) around 0
+
+T0 (x) = 1
+x2
+2!
+x2 x4
+T4 (x) = 1 −
++
+2!
+4!
+2
+x
+x4 x6
+T6 (x) = 1 −
++
+−
+2!
+4!
+6!
+T2 (x) = 1 −
+
+cos(x) =
+
+∞
+X
+
+(−1)k
+
+k=0
+
+AI503 Shan Shan
+
+Integration
+
+x 2k
+(2k)!
+
+Lecture 12
+
+16 / 26
+
+Visualization: Better Approximations
+
+T2 (x) approximates well near 0
+T4 (x) and T6 (x) improve accuracy over larger intervals
+As n → ∞, Tn (x) → cos(x)
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+17 / 26
+
+Lagrange Error Bound for Taylor Polynomials
+Suppose f has (n + 1) continuous derivatives on an interval containing a
+and x.
+
+Taylor’s Theorem with Remainder
+f (x) = Tn (x) + Rn (x)
+where
+Rn (x) =
+
+f (n+1) (c)
+(x − a)n+1
+(n + 1)!
+
+for some c between a and x. If |f (n+1) (t)| ≤ M on the interval, then
+|Rn (x)| ≤
+
+M
+|x − a|n+1 .
+(n + 1)!
+
+This quantifies how fast Tn (x) converges to f (x).
+Higher derivatives control the approximation accuracy.
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+18 / 26
+
+Example
+
+Give a bound on the error, when e x is approximated by its fourth-degree
+Taylor polynomial about 0 for −0.5 ≤ x ≤ 0.5.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+19 / 26
+
+Multivariate Taylor Polynomials
+Let f : Rn → R be smooth near a = (a1 , . . . , an ).
+
+First-Order Approximation (Linearization)
+f (x) ≈ f (a) + ∇f (a) · (x − a)
+i
+∂f
+∂f
+(a)
+·
+·
+·
+(a)
+where ∇f (a) = ∂x
+.
+∂xn
+1
+h
+
+Second-Order Approximation
+1
+f (x) ≈ f (a) + ∇f (a) · (x − a) + (x − a)⊤ Hf (a)(x − a)
+2
+where Hf (a) is the Hessian matrix of second derivatives.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+20 / 26
+
+Higher-Order Multivariate Taylor Polynomials
+Multi-index Notation
+For α = (α1 , . . . , αn ) ∈ Nn :
+|α| = α1 + · · · + αn ,
+
+α! = α1 ! · · · αn !,
+
+α
+
+(x − a) =
+
+n
+Y
+
+(xi − ai )αi .
+
+i=1
+
+Taylor Polynomial of Order m
+Tm (x) =
+
+X D α f (a)
+|α|≤m
+
+α!
+
+(x − a)α
+
+|α|
+
+f
+where D α f = ∂x α∂1 ···∂x
+αn .
+1
+
+n
+
+The terms of degree 1 and 2 give the linear and quadratic
+approximations.
+Higher-degree terms capture curvature and mixed derivatives.
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+21 / 26
+
+Mathematics Beyond Calculus for Machine Learning
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+22 / 26
+
+Mathematics Beyond Calculus for Machine Learning
+
+Calculus is only the beginning: it gives local, continuous reasoning.
+Modern ML models rely on more advanced tools:
+Probability and measure theory
+Functional analysis
+Differential geometry
+Differential equations and dynamics
+
+These fields provide both rigor and intuition for high-dimensional
+learning.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+23 / 26
+
+Probability: The Powerhouse of Machine Learning
+
+Data is uncertain
+Key ideas:
+
+ need probabilistic reasoning.
+
+Bayesian inference: learning as belief updating.
+Stochastic optimization (SGD): random sampling for efficiency.
+Generative models: learning probability distributions.
+
+Measure-theoretic probability underpins likelihoods, expectations, and
+convergence proofs.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+24 / 26
+
+Differential Equations and Dynamics
+
+Neural network training can be viewed as a dynamical system:
+dθ
+= −∇θ L(θ)
+dt
+
+Continuous-time limits
+
+ differential equations:
+
+Gradient flow, diffusion processes.
+Neural ODEs model data with continuous transformations.
+
+Understanding stability and convergence uses ODE theory.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+25 / 26
+
+Differential Geometry and Computer Vision
+
+Data often lives on a manifold, not in flat space.
+Geometry provides tools for:
+
+
+
+Manifold learning, embeddings (diffusion maps, Laplacian eigenmaps)
+Invariance to rotations, translations
+Lie groups
+Shape analysis and 3D perception
+
+Vision models (e.g., equivariant CNNs) are grounded in geometric
+principles.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+26 / 26
+
+Functional Analysis and Infinite-Dimensional Spaces
+
+Functions can be seen as points in a vector space.
+Hilbert and Banach spaces generalize geometry to function spaces.
+Reproducing Kernel Hilbert Spaces (RKHS) form the backbone of
+kernel methods and Gaussian processes.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 12
+
+27 / 26
+
+

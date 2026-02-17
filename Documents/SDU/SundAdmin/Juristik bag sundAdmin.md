@@ -1,0 +1,3 @@
+- Patientens ret til værdighed
+	- Det er som princip ikke ulovligt at have en åben database, men hvis det resultere i at personens værdighed bliver krænket, er det ulovligt
+	- I teorien, kunne man  "afpersonliggøre" dataen og derved ikke skulle gå op i data sikkerhed

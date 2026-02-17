@@ -1,0 +1,71 @@
+ Gæsteunderviser: Stefan Juvald Stade
+
+- Teknisk kompeksitet
+	- De fleste AI løsninger består **flere lag af digitale teknologier, som alle i sig selv består af juridiske udfordringer (software, cloud og data mm.)**
+	  
+- Juridisk kompleksitet
+
+### AI ACT
+ Jura kan let være en barrierer ift idriftsættelse
+ - AI ACT = AI-forordningen, som regulere ansvarlig brug af kunstig intelligens i Europa, er den første lovgivning i verden på dette område (ift kompleksitet)
+	 - 113 artikler og 13 bilag
+	 - Krav afhænger af risiko - særligt tunge krav til højrisiko AI og udbydere af AI modeller (fx OpenAI ift. GPT)
+	 - Forpligtelser for både leverandør ("udbyder")  og kunder ("idriftsætter")
+	 - Håndhæves nationalt, og på EU plan
+ - Relevant for mange, men der er stadig stor forskel på hvem der skal vide hvad
+ - A Risk Based Aproach
+ - Article 4
+	 - Det kræves af en organisation, at man som medarbejdere i et firma der bruger AI systemer, at læse "AI litteracy" som træning til brug af AI.
+		 - Identificer relevante grupper af medarbejdere
+		 - Risikovurdering.
+			 - Kombinationen af risikoen for fejl og skadens alvor
+		- Praktiske, tekniske og etiske overvejelser
+- Konkrete eksempler på risici
+	- Hallucinationer
+	- Målrettede hackerangreb
+	- Utilsigteet deling af fortrolige oplysninger (fx forretningshemmeligheder)
+	- Krænkelse af andre rettigheder, fx ophavsret til biller/lyd
+	- Ovettrædelse af lovgivning, fx GDP eller forvaltningsregler
+- Forbudte AI-praksisser
+	- Bevidst manipulation
+	- Udnyttelse af sårbarheder
+	- Social bedømmelse
+	- Risikovurderinger af fysiske personer
+	- Oprettelse eller udvidelse af ansigtsgenkendelsesdatabaser
+	- Udledning af følelser på arbejdsplads og uddannelsesinstitutioner
+	- Biometrisk kategorisering
+	- Biometrisk fjernidentifikation i realtid på offentliger steder
+- Højrisiko-AI systemer
+	- Bilag 1
+		- Maskiner
+		- Legetøj
+		- Fritidsfartøjer og personlige fartøjer
+		- Elevatorer
+		- Sikkerhedssystemer til eksplosiv atmosfære
+		- Radioudstyr
+		- Trykbærende udstyr
+		- Togbaneanlæg
+		- Personlige værnemidler
+		- Gasapperater
+		- Medicinisk udstyr
+		- In vitro-diagnostik
+	- Bilag 3
+		-  
+	- Forpligtelser for "providers"
+		- Risikostyring (art. 9)
+		- Data og datastyring (art. x)
+		- Teknisk dokumentation (art. x)
+		- Registrering af hændelser (art. x)
+		- Transperens og information til idriftsættere (art. x)
+		- Menneskeligt tilsyn (*Human oversight*) (art. x)
+		- Nøjagtighed, robusthed og cybersikkerhed (art. x)
+		- Kvalitetsstyringsystem (art. x)
+		- Rapportering af hændelser til myndigheder (art. 20)
+	- Forpligtelser for "deployers"
+		- Følg brugsanvisningen
+		- Menneskeligt tilsyn med nødvendige kompetencer
+		- Hvis kontrol med inputdata = sikre relevant data ift. formål
+		- Overvåg drift af systemer og underret hvis risiko og hændelser
+		- Opbevar logfiler (hvis under idriftsætters kontrol)
+		- Informer medarbejdere hvis systemet anvender på arbejdspladsen
+		- Underret personer
