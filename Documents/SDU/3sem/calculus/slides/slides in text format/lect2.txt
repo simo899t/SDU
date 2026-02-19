@@ -1,0 +1,836 @@
+Continuity and differentiation
+AI503
+Shan Shan
+
+Lecture 2
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+1 / 36
+
+Definition of Limit
+
+Definition
+We say
+lim f (x) = L
+
+x→c
+
+if we can get f (x) as close to L as we want by taking x sufficiently close to
+c (but x ̸= c).
+Formally, for any ϵ > 0, there is a δ > 0 such that if 0 < |x − c| < δ then
+|f (x) − L| < ϵ.
+Note:
+The limit does not require f (c) to be defined.
+The limit does not exist if f (x) behaves differently from left and right.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+2 / 36
+
+Definition of Continuity
+
+Definition
+f is continuous at x = c if
+lim f (x) = f (c)
+
+x→c
+
+f is continuous on [a, b] if continuous at every point in [a, b].
+Intuitively, you can draw the graph of a continuous function over that
+interval without lifting your pen from the paper!
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+3 / 36
+
+Example
+Show f (x) = x 3 is continuous at every c ∈ R.
+Proof: It is equivalent to show that for every c,
+lim f (x) = c 3
+
+x→c
+
+Notice that
+|f (x) − f (c)| = |x 3 − c 3 | = |(x − c)(x 2 + xc + c 2 )|
+If |x − c| < 1, then
+|x 2 + xc + c 2 | ≤ |x|2 + |x||c| + |c|2 ≤ (|c| + 1)2 + |c|(|c| + 1) + c 2 =: M
+To guarantee |x 3 − c 3 | < ε, choose
+δ = min{1, ε/M}
+This completes the proof.
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+4 / 36
+
+Continuity Laws and Theorems
+
+Continuity Laws: If f , g continuous on interval, b constant:
+bf (x) is continuous
+f (x) + g (x) is continuous
+f (x)g (x) is continuous
+f (x)/g (x) is continuous, provided g (x) ̸= 0 on the interval
+f (g (x)) is continuous, provided that the composite function f (g (x))
+is defined on the interval
+Why are the continuity laws true? How can you prove them?
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+5 / 36
+
+Intermediate Value Theorem
+
+Theorem
+If f continuous on [a, b] and k between f (a) and f (b), there exists c s.t.
+f (c) = k.
+Example: Show that f (x) = x 3 + x − 1 has a root in [0, 1].
+Compute f (0) = 03 + 0 − 1 = −1
+Compute f (1) = 13 + 1 − 1 = 1
+0 lies between f (0) = −1 and f (1) = 1
+By the Intermediate Value Theorem, ∃c ∈ [0, 1] such that f (c) = 0
+Conclusion: f (x) has at least one root in [0, 1].
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+6 / 36
+
+Definition of Derivative
+
+Definition
+The derivative of a function at a point x = a is, rate of change of f at a,
+defined as
+f (a + h) − f (a)
+f ′ (a) = lim
+h→0
+h
+If this limit exists, f is differentiable at a.
+Indicates slope of the tangent line.
+Critical point: the x such that f ′ (x) = 0 or undefined.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+7 / 36
+
+Example
+
+When we evaluate the derivative of f (x) = x 2 at x = 2, we carry out the
+following calculation:
+(2 + h)2 − 22
+h→0
+h
+4 + 4h + h2 − 4
+= lim
+h→0
+h
+4h + h2
+= lim
+h→0
+h
+= lim (4 + h) = 4
+
+f ′ (2) = lim
+
+h→0
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+8 / 36
+
+Derivative Function
+
+Important: f ′ (x) is a function itself!
+
+Definition
+Given a function f (x), its derivative function is
+f (x + h) − f (x)
+h→0
+h
+
+f ′ (x) = lim
+d
+Also denoted y ′ , dy
+dx , dx f (x)
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+9 / 36
+
+Derivative Shortcuts
+1. Linearity: For constants a, b and functions f , g ,
+d
+[af (x) + bg (x)] = af ′ (x) + bg ′ (x)
+dx
+2. Power Rule: For n ∈ R,
+d n
+[x ] = nx n−1
+dx
+3. Product Rule:
+d
+[f (x)g (x)] = f ′ (x)g (x) + f (x)g ′ (x)
+dx
+4. Quotient Rule:
+
+
+d f (x)
+f ′ (x)g (x) − f (x)g ′ (x)
+=
+,
+dx g (x)
+g (x)2
+AI503 Shan Shan
+
+Continuity and differentiation
+
+g (x) ̸= 0
+Lecture 2
+
+10 / 36
+
+Derivative Shortcuts
+5. Chain Rule: If y = f (g (x)),
+dy
+= f ′ (g (x)) · g ′ (x)
+dx
+6. Exponential and Logarithm:
+d x
+[e ] = e x ,
+dx
+
+d x
+[a ] = ax ln a
+dx
+
+d
+1
+[ln x] = ,
+dx
+x
+
+d
+1
+[loga x] =
+dx
+x ln a
+
+0
+∞
+7. L’Hôpital’s Rule: For limx→c gf (x)
+(x) = 0 or ∞ ,
+
+f (x)
+f ′ (x)
+= lim ′ ,
+x→c g (x)
+x→c g (x)
+lim
+
+AI503 Shan Shan
+
+if limit exists.
+
+Continuity and differentiation
+
+Lecture 2
+
+11 / 36
+
+Relation: Differentiable =⇒ Continuous
+
+Theorem
+A differentiable function is always continuous.
+Is the converse true?
+Counterexample: f (x) = |x| is continuous everywhere but not
+differentiable at 0.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+12 / 36
+
+Tangent Line Approximation
+
+The derivative of a function f at point A can be interpreted as the slope of
+the tangent line to the graph of the function at A.
+
+Definition
+Suppose f is differentiable at a. Then, for values of x near a, the tangent
+line approximation of f (x) is
+f (x) ≈ f (a) + f ′ (a)(x − a)
+The expression f (a) + f ′ (a)(x − a) is called the local linearization of f
+near x = a.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+13 / 36
+
+Error Analysis
+
+The error, E (x), in the approximation is defined by
+E (x) = f (x) − f (a) + f ′ (a)(x − a)
+Then
+E (x)
+=0
+x→a x − a
+lim
+
+Further, near x = a,
+E (x) ≈
+
+AI503 Shan Shan
+
+f ′′ (a)
+(x − a)2 .
+2
+
+Continuity and differentiation
+
+Lecture 2
+
+14 / 36
+
+Example
+Let f (x) =
+
+√
+
+x.
+
+1
+
+Find f ′ (4).
+
+2
+
+Now give the equation for the tangent line at the point x = 4.
+
+3
+
+4
+
+Draw the graph of f (x) for 0 ≤ x ≤ 10. On your drawing, add in the
+tangent line you just calculated.
+√
+Use the equation of the tangent line to approximate 4.1.
+
+5
+
+Compute the error in 4.
+
+6
+
+More generally, let E (x) be the error in the tangent line
+approximation to f for x near 4. What does a table of values for
+E (x)/(x − 4) suggest about limx→4 E (x)/(x − 4)?
+
+7
+
+Make another table to see that E (x) ≈ k(x − 4)2 . Estimate the value
+of k. Check that a possible value is k = f ′′ (4)/2.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+15 / 36
+
+A Graphing Exercise
+Examine the graph of a function f (x) below. Sketch a graph of f ′ (x).
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+16 / 36
+
+Positive and Negative Derivative
+
+Theorem
+1
+
+If f ′ (x) > 0 on an interval, then f (x) is increasing on that interval.
+
+2
+
+If f ′ (x) < 0 on an interval, then f (x) is decreasing on that interval.
+
+3
+
+If f ′ (x) = 0 on an interval, then f (x) is constant on that interval.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+17 / 36
+
+Mean Value Theorem
+
+Theorem
+If f is continuous on a ≤ x ≤ b and differentiable on a < x < b, then
+there exists a number c, with a < c < b, such that
+f ′ (c) =
+
+f (b) − f (a)
+b−a
+
+In other words, f (b) − f (a) = f ′ (c)(b − a).
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+18 / 36
+
+Second Derivative
+
+Definition
+The second derivative of a function f is the derivative of the derivative
+function of f .
+f ′ (x + h) − f ′ (x)
+h→0
+h
+
+f ′′ (x) = (f ′ (x))′ = lim
+Indicates concavity.
+
+Inflection point: where concavity changes. Check when f ′′ (x) = 0 or
+undefined. WARNING: Not every point where f ′′ (x) = 0 is an
+inflection point. Example: f (x) = x 4 .
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+19 / 36
+
+Example
+For each of the following functions, draw tangent lines to the curve on the
+left-hand side of the graph, in the middle, and on the right-hand side of
+the graph. What does the trend of your slopes tell you about the sign of
+the second derivative? Why?
+y
+
+y
+2
+
+10
+
+1
+−10−5
+
+5 10
+
+x
+
+−10−5
+
+5 10
+
+1 y
+0.8
+
+1 y
+−1
+
+5
+
+x
+
+x
+2
+
+AI503 Shan Shan
+
+4
+
+−4 −2
+−1
+
+2 4
+
+−2
+
+5 y
+
+0.6
+−5
+
+x
+
+y
+
+x
+5
+
+Continuity and differentiation
+
+−2 −1
+−5
+−10
+
+x
+1
+
+Lecture 2
+
+2
+
+20 / 36
+
+Second Derivative and Concavity
+
+1
+
+2
+
+If f ′′ > 0 on an interval, then f ′ is increasing over that interval, so the
+graph of f is concave up.
+If f ′′ < 0 on an interval, then f ′ is decreasing over that, so the graph
+of f is concave down.
+
+The converse of the above statements are NOT true! Think f (x) = x 4 .
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+21 / 36
+
+Second Derivative and Concavity
+
+So, for a general function f twice differentiable:
+If the graph of f is concave up, then f ′′ ≥ 0
+If the graph of f is concave down, then f ′′ ≤ 0 .
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+22 / 36
+
+Optimization: Local Extrema
+
+Let a be a point in the domain of a differentiable function f . Then
+f has a local maximum at a if f (a) ≥ f (x) for all x near a.
+f has a local minimum at a if f (a) ≤ f (x) for all x near a.
+We use the term extrema to refer to both maxima and minima.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+23 / 36
+
+Critical Points and Graphs
+
+x0
+
+x0
+
+What happens to f ′ around x0 in each of the graphs?
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+24 / 36
+
+The First Derivative Test
+
+All local extrema occur either at the end points of the domain or at the
+critical points.
+
+The First Derivative Test
+Let x0 be a critical point of a continuous function f .
+If f ′ changes from positive to negative at x0 , then f has a local
+maximum.
+If f ′ changes from negative to positive at x0 , then f has a local
+minimum.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+25 / 36
+
+Examples
+
+1
+2
+
+Find and classify all of the local extrema of f (x) = x 3 − 3x + 4.
+True or False? If f ′ (x0 ) = 0, then f has a local max or min at x0 .
+Explain.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+26 / 36
+
+The Second Derivative Test
+
+All local extrema occur either at the end points of the domain or at the
+critical points.
+
+The Second Derivative Test:
+Let x0 be a critical point of a continuous function f .
+If f ′ (x0 ) = 0 and f ′′ (x0 ) > 0 then f has a local minimum at x0 .
+If f ′ (x0 ) = 0 and f ′′ (x0 ) < 0 then f has a local maximum at x0 .
+If f ′ (x0 ) = 0 and f ′′ (x0 ) = 0 then the test is inconclusive.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+27 / 36
+
+Examples
+
+1
+
+2
+
+Use the second derivative test to classify the critical points of
+f (x) = x 3 − 3x + 4.
+Consider f (x) = (x 2 − 4)7 . Find and classify all local extrema.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+28 / 36
+
+Local vs. Global Extrema
+
+A global maximum of f is the greatest value of f over its domain
+(or a specified interval).
+A global minimum is the least value of f over its domain (or a
+specified interval).
+Local extrema only describe behavior near a point, while global
+extrema compare values over the entire interval/domain.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+29 / 36
+
+Example: Global vs. Local Extrema
+Consider the function below:
+Identify the local minima and maxima.
+Identify the global minimum and maximum.
+14
+
+12
+
+10
+
+8
+y
+
+6
+
+4
+
+2
+
+0
+
+AI503 Shan Shan
+
+1
+
+2
+x
+
+3
+
+Continuity and differentiation
+
+4
+
+Lecture 2
+
+30 / 36
+
+Procedure for Finding Global Extrema
+
+Use the previous graph to guide you, what are the possible locations for
+the global extrema? They appear at local extrame!
+To find the global max and min of f on [a, b]:
+1
+
+Find the critical points of f in (a, b).
+
+2
+
+Evaluate f at the critical points and endpoints a, b.
+Compare values:
+
+3
+
+Largest = global maximum
+Smallest = global minimum
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+31 / 36
+
+Practice: Global Extrema
+
+1
+
+Find the global max and min of f (x) = x(x − 1) on 0 ≤ x ≤ 3.
+
+2
+
+Find the global max and min of f (x) = x 3 − 7x + 6 on −4 ≤ x ≤ 2.
+
+3
+
+Find the global max and min of g (x) = ln(1 + x 2 ) on −1 ≤ x ≤ 2.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+32 / 36
+
+Extreme Value Theorem
+
+Theorem
+If f is continuous on a closed finite interval [a, b], then f is guaranteed to
+have both a global maximum and a global minimum on that interval.
+Endpoints a and b are possible locations for global extrema.
+Critical points in (a, b) are also candidates.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+33 / 36
+
+Why Hypotheses Matter
+
+Let us draw the graph of g (x) = x1 . Does g have a global maximum
+over the interval 0 < x ≤ 1?
+Let us draw the graph of h(x) = x 2 . Does h have a global maximum
+over the interval 0 ≤ x < ∞?
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+34 / 36
+
+Why Hypotheses Matter
+
+g (x) = x1 on 0 < x ≤ 1 does not have a global maximum (domain
+not closed).
+h(x) = x 2 on 0 ≤ x < ∞ does not have a global maximum (domain
+not bounded).
+Both fail the Extreme Value Theorem assumptions.
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+35 / 36
+
+When things get a little harder
+
+Find the global max and min of f (t) = te −t for t ≥ 0. (Hint: careful here,
+as the domain is neither closed nor finite)
+
+AI503 Shan Shan
+
+Continuity and differentiation
+
+Lecture 2
+
+36 / 36
+
+

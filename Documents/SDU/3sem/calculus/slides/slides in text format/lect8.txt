@@ -1,0 +1,653 @@
+Derivatives and optimization
+AI503
+Shan Shan
+
+Lecture 8
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+1 / 30
+
+Correction from last time
+
+Definition (Critical Points)
+Points where ∇f = 0 or undefined.
+p
+Find and analyze any critical points of f (x, y ) = − x 2 + y 2 .
+The partial derivatives are undefined when x = y = 0 (i.e., at the origin).
+Hence (0, 0) is a critical point. However, we cannot apply the second
+derivative test, because we cannot compute the second derivatives at
+(0, 0).
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+2 / 30
+
+Chain rule
+
+Theorem
+If f , g , and h are differentiable and if z = f (x, y ), and x = g (t), and
+y = h(t), then
+∂z dx
+∂z dy
+dz
+=
++
+.
+dt
+∂x dt
+∂y dt
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+3 / 30
+
+Chain rule in a diagram
+The following diagram keeps track of how a change in t propagates
+through the chain of composed functions.
+
+Figure: There are two paths from t to z, one through x and one through y . For
+each path, we multiply together the derivatives along the path. Then, to
+calculate dz/dt, we add the contributions from the two paths.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+4 / 30
+
+Questions
+
+Suppose that z = f (x, y ) = x sin y , where x = t 2 and y = 2t + 1. Let
+z = g (t). Compute g ′ (t) directly and using the chain rule.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+5 / 30
+
+Questions
+
+If f , g , h are differentiable and if z = f (x, y ), with x = g (u, v ) and
+∂z
+∂z
+and ∂v
+?
+y = h(u, v ). What is ∂u
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+6 / 30
+
+Chain rule in multivariable
+Theorem (Multivariable Chain Rule)
+Let f : Rn → R be differentiable, and let each xi be a differentiable
+function of t1 , . . . , tm :
+xi = xi (t1 , . . . , tm ),
+
+i = 1, . . . , n.
+
+Define
+z = f (x1 , . . . , xn ).
+Then z is differentiable with respect to tj , and
+n
+
+X ∂f ∂xi
+∂z
+=
+,
+∂tj
+∂xi ∂tj
+
+j = 1, . . . , m.
+
+i=1
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+7 / 30
+
+Differentiability of Multivariable Functions
+Definition (Differentiable)
+A function f : Rn → R is differentiable at the point a = (a1 , . . . , an ) if
+there exists a linear function
+L(x) = f (a) +
+
+n
+X
+
+mi (xi − ai )
+
+i=1
+
+such that, if the error is defined by f (x) = L(x) + E (x), and h = x − a,
+then the relative error satisfies
+lim
+
+h→0
+
+where ∥h∥ =
+
+q
+
+E (a + h)
+= 0,
+∥h∥
+
+h12 + · · · + hn2 is the Euclidean norm of h.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+8 / 30
+
+The function f is differentiable on a region R ⊂ Rn if it is
+differentiable at each point of R.
+The function L is called the local linearization of f near a.
+Intuitively, differentiable means f is well-approximated by a linear map
+near x0 .
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+9 / 30
+
+If f is differentiable, then all partial derivatives exist there.
+
+Show that if f is differentiable with the local linearization
+L(x) = f (a) +
+
+n
+X
+
+mi (xi − ai ),
+
+i=1
+
+then
+mi =
+
+AI503 Shan Shan
+
+∂f
+(a).
+∂xi
+
+Derivatives and optimization
+
+Lecture 8
+
+10 / 30
+
+Suppose f : Rn → R is differentiable at a = (a1 , . . . , an ). By definition,
+P
+f (a + h) − f (a) − ni=1 mi hi
+lim
+= 0,
+h→0
+∥h∥
+where h = (h1 , . . . , hn ).
+Let hi > 0. Taking h = (0, . . . , hi , . . . , 0) (only the i-th component
+nonzero), we get
+f (a1 , . . . , ai + hi , . . . , an ) − f (a) − mi hi
+= 0.
+hi →0
+|hi |
+lim
+
+Hence,
+f (a1 , . . . , ai + hi , . . . , an ) − f (a) − mi hi
+∂f
+=
+(a) − mi = 0.
+hi →0
+hi
+∂xi
+lim
+
+Similar result holds for hi < 0.
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+11 / 30
+
+Therefore, if any of the partial derivatives fail to exist, then
+the function cannot be differentiable
+
+Consider the function f (x, y ) =
+origin?
+
+AI503 Shan Shan
+
+p
+x 2 + y 2 . Is f differentiable at the
+
+Derivatives and optimization
+
+Lecture 8
+
+12 / 30
+
+Existence of both partial derivatives at a point is not
+sufficient to guarantee differentiability
+
+1
+
+1
+
+Consider the function f (x, y ) = x 3 y 3 . Compute the partial derivatives at
+(x, y ) = (0, 0). Is f differentiable at (0, 0)?
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+13 / 30
+
+In summary,
+If a function is differentiable at a point, then both partial derivatives
+exist there.
+Having both partial derivatives at a point does not guarantee that a
+function is differentiable there.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+14 / 30
+
+Continuity and differentiability
+
+If a function is differentiable at a point, then it is continuous there.
+Having both partial derivatives at a point does not guarantee that a
+function is continuous there.
+But, continuity of partial derivatives implies differentiability
+
+Theorem
+If the partial derivatives, fx and fy , of a function f exist and are continuous
+on a small disk centered at the point a, then f is differentiable at a.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+15 / 30
+
+Question
+
+Show that the function f (x, y ) = ln(x 2 + y 2 ) is differentiable everywhere
+in its domain.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+16 / 30
+
+A word on differential
+
+Sometimes (e.g., in differential geometry course) you will see something
+called a differential. This is simply an inner product of the gradient vector
+with another vector.
+dfx0 (h) = ∇f (x0 ) · h.
+Equivalently, a differential is a linear combination of partial derivatives.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+17 / 30
+
+Definition of Definite Integral of Single Variable Function
+Definition
+Let f (x) be a function on [a, b]. Then the definite integral of f from a to
+b is defined as
+Z b
+n
+X
+f (xk∗ )∆x
+f (x) dx = lim
+a
+
+n→∞
+
+k=1
+
+∗
+if the limit exists, where ∆x = b−a
+n , xk = a + k∆x, and xk ∈ [xk−1 , xk ]. If
+the limit exists, we say that f is integrable on [a, b].
+
+The definite integral represents the area under the graph of f from a
+to b.
+If f is continuous on [a, b], or has only finitely many jump
+discontinuities, then f is integrable on [a, b].
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+18 / 30
+
+Use the definition of the definite integral to compute
+Z b
+c dx
+
+for constants a < b and c.
+
+a
+
+Check your answer geometrically.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+19 / 30
+
+Use the definition of definite integral to simplify
+Z b
+cf (x) dx
+
+for constant c.
+
+a
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+20 / 30
+
+Use the definition of definite integral to show that
+Z b
+
+Z b
+[f (x) + g (x)] dx =
+
+a
+
+AI503 Shan Shan
+
+Z b
+f (x) dx +
+
+a
+
+Derivatives and optimization
+
+g (x) dx.
+a
+
+Lecture 8
+
+21 / 30
+
+Evaluate
+
+Z 3
+2x dx
+0
+
+as a limit of Riemann sums.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+22 / 30
+
+Fundamental Theorem of Calculus (Evaluation Theorem)
+
+Theorem
+If f is continuous on [a, b], then
+Z b
+f (x) dx = F (b) − F (a),
+a
+
+where F is any antiderivative of f , i.e., F ′ (x) = f (x).
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+23 / 30
+
+Proof of FTC
+Divide [a, b] into n subintervals with endpoints
+a = x0 < x1 < · · · < xn = b.
+The distance between subsequent xk ’s is ∆x = b−a
+n .
+Let F be an antiderivative of f . We see that
+F (b) − F (a) =
+
+n
+X
+
+[F (xk ) − F (xk−1 )]
+
+k=1
+
+=
+=
+
+n
+X
+k=1
+n
+X
+
+F ′ (ck )∆x
+
+(Mean Value Theorem)
+
+f (ck )∆x
+
+k=1
+
+for some ck ∈ [xk−1 , xk ].
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+24 / 30
+
+Proof of FTC
+
+Since F is differentiable, it is continuous. Taking the limit as n → ∞
+gives
+Z b
+F (b) − F (a) =
+f (x) dx.
+a
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+25 / 30
+
+Problem: Using FTC
+
+Compute
+Z 3
+2x dx
+0
+
+using the fundamental theorem of calculus.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+26 / 30
+
+Second Fundamental Theorem of Calculus
+
+Theorem
+Let f be continuous on an interval. Then, for x and a in that interval,
+Z x
+d
+f (t) dt = f (x)
+dx a
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+27 / 30
+
+Proof of Second FTC
+Suppose g (x) =
+
+Rx
+
+a f (t)dt. Then
+
+g (x + h) − g (x)
+=
+h
+
+R x+h
+x
+
+f (t)dt
+.
+h
+
+Since f is continuous on [x, x + h], by the Extreme Value Theorem, f
+attains minimum m and maximum M on [x, x + h], so
+Z x+h
+mh ≤
+f (t)dt ≤ Mh.
+x
+
+Dividing by h gives
+R x+h
+
+f (t)dt
+≤ M.
+h
+As h → 0, m → f (x) and M → f (x), so by the Squeeze Theorem,
+Z x
+
+d
+f (t)dt = f (x).
+dx a
+m≤
+
+AI503 Shan Shan
+
+x
+
+Derivatives and optimization
+
+Lecture 8
+
+28 / 30
+
+Problems: Second FTC
+
+Find
+
+d
+dx
+
+AI503 Shan Shan
+
+Z x
+cos t dt.
+2
+
+Derivatives and optimization
+
+Lecture 8
+
+29 / 30
+
+Problems: Second FTC
+
+Let g (x) =
+
+Rx √
+1
+
+1 + t 2 dt.
+
+Find g ′ (x)
+Find g (x 3 )
+d
+g (x 3 ).
+Compute dx
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 8
+
+30 / 30
+
+

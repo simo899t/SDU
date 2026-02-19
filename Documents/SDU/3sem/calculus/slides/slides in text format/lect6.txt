@@ -1,0 +1,717 @@
+Derivatives and optimization
+AI503
+Shan Shan
+
+Lecture 6
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+1 / 30
+
+Definition of Partial Derivatives
+
+Partial derivatives of f at (a, b)
+For all points at which the limit exist, we define the partial derivatives at
+the point (a, b) by
+f (a + h, b) − f (a, b)
+h→0
+h
+f (a, b + h) − f (a, b)
+fy (a, b) = lim
+h→0
+h
+fx (a, b) = lim
+
+Functions of (x, y ): fx (x, y ), fy (x, y ).
+∂z ∂z
+Alternative notation: ∂x
+, ∂y .
+
+Measures the rate of change in x or y direction.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+2 / 30
+
+Partial Derivatives in n Variables
+
+Partial derivatives of f at (x1 , . . . , xn )
+For all points at which the limit exist, we define the partial derivatives at
+the point (x1 , . . . , xn ) by
+f (x1 , . . . , xi + h, . . . , xn ) − f (x1 , . . . , xi , . . . , xn )
+∂f
+(x1 , . . . , xn ) = lim
+h→0
+∂xi
+h
+Compute by treating all other variables as constants.
+Example:
+f (x, y , z) = x 2 yz
+∂f
+= 2xyz,
+∂x
+
+AI503 Shan Shan
+
+∂f
+= x 2 z,
+∂y
+
+Derivatives and optimization
+
+∂f
+= x 2y
+∂z
+
+Lecture 6
+
+3 / 30
+
+Local linearity
+
+Tangent hyperplane approximation/ First order approximation
+For x = (x1 , . . . , xn ) near a = (a1 , . . . , an ):
+f (x) ≈ L(x) = f (x) +
+
+n
+X
+∂f
+i=1
+
+∂xi
+
+(a)(xi − ai )
+
+Error behavior: If f has continuous second derivatives, then
+
+f (x) − L(x) = O ∥x − a∥2 .
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+4 / 30
+
+Definition: Directional Derivative
+
+Directional Derivative
+The directional derivative of f at (a, b) in the direction of a unit vector
+u = u1 i + u2 j is
+f (a + hu1 , b + hu2 ) − f (a, b)
+,
+h→0
+h
+
+fu (a, b) = lim
+provided the limit exists.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+5 / 30
+
+Questions
+
+Calculate the directional derivative of f (x, y ) = x 2 + y 2 at (1, 0) in the
+direction of i + j.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+6 / 30
+
+Definition: Directional Derivative in n Variables
+
+Directional Derivative
+Let f : Rn → R and let a = (a1 , . . . , an ). The directional derivative of f
+at a in the direction of a unit vector u = (u1 , . . . , un ) is
+f (a1 + hu1 , . . . , an + hun ) − f (a1 , . . . , an )
+,
+h→0
+h
+
+fu (a) = lim
+
+provided the limit exists.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+7 / 30
+
+Computing Directional Derivatives from Partial Derivatives
+
+Approximate f (a1 + hu1 , . . . , an + hun ) with the first-order
+approximation at (hu1 , . . . , hun )
+What happens when you simplify the limit in the previous definition?
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+8 / 30
+
+Gradient Vector in n Variables
+
+Gradient
+Let f : U ⊂ Rn → R be differentiable at a = (a1 , . . . , an ). The gradient
+of f at a is
+
+
+∂f
+∂f
+∂f
+(a),
+(a), . . . ,
+(a) .
+∇f (a) =
+∂x1
+∂x2
+∂xn
+
+Directional Derivative via Gradient
+If u = (u1 , . . . , un ) is a unit vector, the directional derivative of f at a in
+the direction of u is
+fu (a) = ∇f (a) · u =
+
+n
+X
+∂f
+i=1
+
+AI503 Shan Shan
+
+∂xi
+
+Derivatives and optimization
+
+(a)ui .
+
+Lecture 6
+
+9 / 30
+
+Alternative notation
+
+
+∇f = gradf =
+
+AI503 Shan Shan
+
+∂f
+∂f
+,...,
+∂x1
+∂xn
+
+Derivatives and optimization
+
+
+.
+
+Lecture 6
+
+10 / 30
+
+Example
+
+Find the gradient of f (x, y ) = x + e y at (1, 1). Use it to compute the
+directional derivative in the direction of i + j.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+11 / 30
+
+Question
+
+We computed the directional derivative by the inner product with the
+gradient vector
+fu (a) = ∇f (a) · u
+Recall that the inner product measures the alignment of two vectors:
+∇f (a) · u = ∥∇f (a)∥ ∥u∥ cos θ = ∥∇f (a)∥ cos θ
+Think, what does this tell us about the gradient vector?
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+12 / 30
+
+Properties of the gradient vector I
+
+Direction of Fastest Increase
+Assume ∇f (x) ̸= 0. Then ∇f (x) points in the direction along which f is
+increasing the fastest.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+13 / 30
+
+Question
+
+In the following picture, mark the gradient vector of f at (a, b).
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+14 / 30
+
+Properties of the gradient vector II
+
+Normal to the level set
+If f is reasonably well behaved, the gradient and the level set will be
+perpendicular.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+15 / 30
+
+Example
+
+Let f (x, y , z) = x 2 + y 2 . The following picture draws the level surface of
+f (x, y , z) = 1. Note how the gradient of f at the point (0,1,1) and (1,0,1)
+are perpendicular to the level surface.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+16 / 30
+
+Application to optimization problems
+
+Definition
+Given a real-valued function f : Ω ⊂ Rn → R, the general problem of
+finding the value that minimizes f is formulated as follows.
+min f (x).
+x∈Ω
+
+In this context, f is the objective function (sometimes referred to as loss
+function or cost function).
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+17 / 30
+
+Gradient descent
+
+Given an initial point x0 , find iterates xn+1 recursively using
+xn+1 = xn − γ∇f (xn )
+for some γ > 0. The parameter γ is called the step length or the learning
+rate.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+18 / 30
+
+Demo
+
+https://fa.bianp.net/teaching/2018/eecs227at/gradient_
+descent.html
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+19 / 30
+
+Example
+
+Let’s consider a simple classification example where we need to classify
+whether a student passes an exam based on two features:
+1
+
+x1 = Hours studied
+
+2
+
+x2 = Hours slept
+
+The goal is to make a binary classification such that
+1
+
+y = 1 if the student passes (positive class).
+
+2
+
+y = 0 if the student fails (negative class)
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+20 / 30
+
+Example (continued)
+(i)
+
+(i)
+
+1
+
+Suppose a data set {x1 , x2 , y (i) } with i = 1, . . . , m is given.
+
+2
+
+The logistic regression model is defined by
+f (x1 , x2 ) =
+
+1
+1 + e −(θ1 x1 +θ2 x2 +b)
+
+where θ1 and θ2 are parameters (weights) for the features. and b is
+some bias term.
+3
+
+The predicted outcome using the logistic model is
+(i)
+
+(i)
+
+y (i) = f (x1 , x2 ).
+Think: What is the range of f ?
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+21 / 30
+
+Example (continued)
+The amount of error we made is characterized by the following function.
+Let us define
+L(θ1 , θ2 , b) = −
+
+m
+i
+1 X h (i)
+y log(ŷ (i) ) + (1 − y (i) ) log(1 − ŷ (i) )
+m
+i=1
+
+What is the gradient vector? HW: Check
+m
+
+∂L
+1 X (i)
+(i)
+=
+(ŷ − y (i) )x1
+∂θ1
+m
+i=1
+
+m
+1 X
+
+∂L
+=
+∂θ2
+m
+
+i=1
+
+m
+1 X
+
+∂L
+=
+∂b
+m
+AI503 Shan Shan
+
+(i)
+
+(ŷ (i) − y (i) )x2
+(ŷ (i) − y (i) )
+
+i=1
+
+Derivatives and optimization
+
+Lecture 6
+
+22 / 30
+
+Second-order Partial Derivatives (n variables)
+
+Since the partial derivatives of a function are themselves functions, we can
+differentiate them, giving second-order partial derivatives.
+A function f (x1 , . . . , xn ) has n first-order partial derivatives
+∂f
+,
+∂xi
+
+i = 1, . . . , n
+
+How many second-order partial derivatives does it have?
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+23 / 30
+
+Second-order Partial Derivatives (n variables)
+
+Second-Order Partial Derivatives of f (x1 , . . . , xn )
+∂2f
+,
+∂xi2
+
+∂2f
+,
+∂xi ∂xj
+
+i, j = 1, . . . , n, i ̸= j
+
+Total: n2 = n pure second derivatives + n(n − 1) mixed derivatives.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+24 / 30
+
+Example
+
+Compute the second-order partial derivatives of
+f (x1 , x2 ) = x1 x22 + 3x12 e x2 .
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+25 / 30
+
+Equality of mixed partial derivatives
+
+2
+
+2
+
+f
+f
+Observe in the previous example ∂x∂1 ∂x
+= ∂x∂2 ∂x
+. This is not an accident!
+2
+1
+In general
+
+Equality of Mixed Partial Derivatives
+If all mixed partial derivatives are continuous, then
+∂2f
+∂2f
+=
+.
+∂xi ∂xj
+∂xj ∂xi
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+26 / 30
+
+Local Extrema
+
+Definition (Local Extrema)
+f has a local maximum at P0 if f (P0 ) ≥ f (P) for all P near P0 .
+f has a local minimum at P0 if f (P0 ) ≤ f (P) for all P near P0 .
+Local extrema can only occur at critical points or at the boundary of the
+function domain.
+
+Definition (Critical Points)
+Points where ∇f = 0 or undefined.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+27 / 30
+
+Second Derivative Test for n variables
+At a critical point P0 , let H be the Hessian matrix:
+ ∂2f
+
+2f
+. . . ∂x∂1 ∂x
+∂x12
+n
+ .
+.. 
+..
+
+.
+H=
+.
+. .
+ .
+∂2f
+∂2f
+∂xn ∂x1 . . .
+∂x 2
+n
+
+Compute eigenvalues of H.
+All positive eigenvalues =⇒ local minimum
+All negative eigenvalues =⇒ local maximum
+Mixed signs =⇒ saddle point
+Zero eigenvalue(s) =⇒ test inconclusive
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+28 / 30
+
+Example
+
+Find and analyze the critical points of f (x, y ) = x 2 − 2x + y 2 − 4y + 5.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+29 / 30
+
+Example
+
+p
+Find and analyze any critical points of f (x, y ) = − x 2 + y 2 .
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+30 / 30
+
+Example
+
+Find and analyze any critical points of f (x, y ) = x 2 − y 2 .
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+31 / 30
+
+Example
+
+Classify the critical points of f (x, y ) = x 4 + y 4 , and g (x, y ) = −x 4 − y 4
+and h(x, y ) = x 4 − y 4 .
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+32 / 30
+
+Global Extrema
+
+Definition (Global Extrema)
+For f defined on R ⊂ Rn :
+f has a global maximum at P0 if f (P0 ) ≥ f (P) for all P ∈ R.
+f has a global minimum at P0 if f (P0 ) ≤ f (P) for all P ∈ R.
+Global extrema occur either at critical points or on the boundary of R.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+33 / 30
+
+Extreme Value Theorem (Multivariable)
+
+Theorem
+If f is continuous on a closed and bounded region R, then f attains both a
+global maximum and minimum somewhere in R.
+Closed region: contains its boundary
+Bounded region: does not stretch to infinity
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 6
+
+34 / 30
+
+

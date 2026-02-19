@@ -1,0 +1,595 @@
+Derivatives and optimization
+AI503
+Shan Shan
+
+Lecture 7
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+1 / 30
+
+Gradient Vector in n Variables
+
+Gradient
+Let f : U ⊂ Rn → R be differentiable at a = (a1 , . . . , an ). The gradient
+of f at a is
+
+
+∂f
+∂f
+∂f
+(a),
+(a), . . . ,
+(a) .
+∇f (a) =
+∂x1
+∂x2
+∂xn
+
+Directional Derivative via Gradient
+If u = (u1 , . . . , un ) is a unit vector, the directional derivative of f at a in
+the direction of u is
+fu (a) = ∇f (a) · u =
+
+n
+X
+∂f
+i=1
+
+AI503 Shan Shan
+
+∂xi
+
+Derivatives and optimization
+
+(a)ui .
+
+Lecture 7
+
+2 / 30
+
+Properties of the gradient vector I
+
+Direction of Fastest Increase
+Assume ∇f (x) ̸= 0. Then ∇f (x) points in the direction along which f is
+increasing the fastest.
+
+Normal to the level set
+If f is reasonably well behaved, the gradient and the level set will be
+perpendicular.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+3 / 30
+
+Gradient descent
+
+The minimization problem of an arbitrary function f whose gradient exists
+everywhere on the domain can be solved by the following method.
+Given an initial point x0 , find iterates xn+1 recursively using
+xn+1 = xn − γ∇f (xn )
+for some γ > 0. The parameter γ is called the step length or the learning
+rate.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+4 / 30
+
+Second-order Partial Derivatives (n variables)
+
+Since the partial derivatives of a function are themselves functions, we can
+differentiate them, giving second-order partial derivatives.
+A function f (x1 , . . . , xn ) has n first-order partial derivatives
+∂f
+,
+∂xi
+
+i = 1, . . . , n
+
+How many second-order partial derivatives does it have?
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+5 / 30
+
+Second-order Partial Derivatives (n variables)
+
+Second-Order Partial Derivatives of f (x1 , . . . , xn )
+∂2f
+,
+∂xi2
+
+∂2f
+,
+∂xi ∂xj
+
+i, j = 1, . . . , n, i ̸= j
+
+Total: n2 = n pure second derivatives + n(n − 1) mixed derivatives.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+6 / 30
+
+Example
+
+Compute the second-order partial derivatives of
+f (x1 , x2 ) = x1 x22 + 3x12 e x2 .
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+7 / 30
+
+Equality of mixed partial derivatives
+
+2
+
+2
+
+f
+f
+Observe in the previous example ∂x∂1 ∂x
+= ∂x∂2 ∂x
+. This is not an accident!
+2
+1
+In general
+
+Equality of Mixed Partial Derivatives
+If all mixed partial derivatives are continuous, then
+∂2f
+∂2f
+=
+.
+∂xi ∂xj
+∂xj ∂xi
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+8 / 30
+
+The Hessian Matrix
+Definition: For f : Rn → R, the Hessian is the matrix of
+second-order partial derivatives:
+
+ 2
+∂ f
+∂2f
+∂2f
+·
+·
+·
+2
+∂x1 ∂x2
+∂x1 ∂xn
+1
+
+ ∂x
+∂2f
+∂2f 
+ ∂2f
+·
+·
+·
+2
+ ∂x2 ∂x1
+∂x
+∂x
+∂x2
+n
+2
+H(f )(x) =  .
+
+.
+.
+.
+ ..
+..
+..
+.. 
+
+
+∂2f
+∂2f
+∂2f
+∂xn ∂x1
+∂xn ∂x2 · · ·
+∂x 2
+n
+
+Properties:
+Symmetric (think why?)
+Describes local curvature of f .
+
+Applications:
+Optimization: minima, maxima, saddle points.
+Machine learning: Newton’s method, second-order methods.
+Physics: stability of equilibria.
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+9 / 30
+
+Why Does the Hessian Describe Curvature?
+1D case: Second derivative measures curvature:
+f ′′ (x) > 0 ⇒ curves upward (convex),
+f ′′ (x) < 0 ⇒ curves downward (concave).
+Multivariate case: The Hessian generalizes this idea, and it gives the
+second derivative of f along direction v .
+!
+n
+n
+X
+X
+∂f
+∂2f
+2
+Dv f (x) = Dv (Dv f (x)) = Dv
+vi =
+vi vj
+∂xi
+∂xi ∂xj
+i=1
+
+i,j=1
+
+⊤
+
+= v H(f )(x)v
+Interpretation:
+Positive in all directions ⇒ local minimum.
+Negative in all directions ⇒ local maximum.
+Mixed signs ⇒ saddle point.
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+10 / 30
+
+Application to optimization
+
+Definition (Local Extrema)
+f has a local maximum at P0 if f (P0 ) ≥ f (P) for all P near P0 .
+f has a local minimum at P0 if f (P0 ) ≤ f (P) for all P near P0 .
+Local extrema can only occur at critical points or at the boundary of the
+function domain.
+
+Definition (Critical Points)
+Points where ∇f = 0 or undefined.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+11 / 30
+
+Second Derivative Test for n Variables
+
+At a critical point P0 , let H = H(f )(P0 ) be the Hessian matrix:
+Use the quadratic form v ⊤ Hv to test curvature along all directions v :
+v ⊤ Hv > 0 for all v ̸= 0 (H is positive definite) =⇒ local minimum
+v ⊤ Hv < 0 for all v ̸= 0 (H is negative definite) =⇒ local maximum
+v ⊤ Hv can be positive in some directions and negative in others (H is
+indefinite) =⇒ saddle point
+v ⊤ Hv = 0 in some nonzero direction (H is semidefinite) =⇒ test
+inconclusive
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+12 / 30
+
+Positive Definiteness and Eigenvalues
+
+Definition
+Let A ∈ Rn×n . A scalar λ ∈ C is called an eigenvalue of A if there exists
+a nonzero vector v ∈ Cn such that
+Av = λv .
+The vector v is called an eigenvector corresponding to λ.
+Equivalently, λ is an eigenvalue if it satisfies the characteristic
+equation:
+det(A − λI ) = 0.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+13 / 30
+
+Positive Definiteness and Eigenvalues
+
+Theorem (Characterization via Eigenvalues)
+Let H ∈ Rn×n be a symmetric matrix with eigenvalues λ1 , . . . , λn . Then:
+H is positive definite ⇐⇒ λi > 0 for all i
+H is negative definite ⇐⇒ λi < 0 for all i
+H is indefinite ⇐⇒ it has both positive and negative eigenvalues
+H is semidefinite ⇐⇒ all eigenvalues are nonnegative (positive
+semidefinite) or nonpositive (negative semidefinite)
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+14 / 30
+
+Second Derivative Test for n variables
+
+At a critical point P0 , let H = H(f )(P0 ) be the Hessian matrix: Compute
+eigenvalues of H.
+All positive eigenvalues =⇒ local minimum
+All negative eigenvalues =⇒ local maximum
+Mixed signs =⇒ saddle point
+Zero eigenvalue(s) =⇒ test inconclusive
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+15 / 30
+
+Example
+
+Find and analyze the critical points of f (x, y ) = x 2 − 2x + y 2 − 4y + 5.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+16 / 30
+
+Example
+
+p
+Find and analyze any critical points of f (x, y ) = − x 2 + y 2 .
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+17 / 30
+
+Example
+
+Find and analyze any critical points of f (x, y ) = x 2 − y 2 .
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+18 / 30
+
+Example
+
+Classify the critical points of f (x, y ) = x 4 + y 4 , and g (x, y ) = −x 4 − y 4
+and h(x, y ) = x 4 − y 4 .
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+19 / 30
+
+Global Extrema
+
+Definition (Global Extrema)
+For f defined on R ⊂ Rn :
+f has a global maximum at P0 if f (P0 ) ≥ f (P) for all P ∈ R.
+f has a global minimum at P0 if f (P0 ) ≤ f (P) for all P ∈ R.
+Global extrema occur either at critical points or on the boundary of R.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+20 / 30
+
+Question
+
+Do all functions have global extrema? Can you think of a counterexample?
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+21 / 30
+
+Extreme Value Theorem (Multivariable)
+
+Theorem
+If f is continuous on a closed and bounded region R, then f attains both a
+global maximum and minimum somewhere in R.
+Closed region: contains its boundary
+Bounded region: does not stretch to infinity
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+22 / 30
+
+Question
+
+Does the function f = 1/(x 2 + y 2 ) have global maxima and minima on the
+region R given by 0 < x 2 + y 2 ≤ 1 ?
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+23 / 30
+
+Question
+
+Does the function f = x 2 y 2 have global maxima and minima in the
+xy -plane?
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+24 / 30
+
+Chain rule
+
+Theorem
+If f , g , and h are differentiable and if z = f (x, y ), and x = g (t), and
+y = h(t), then
+∂z dx
+∂z dy
+dz
+=
++
+.
+dt
+∂x dt
+∂y dt
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+25 / 30
+
+Chain rule in a diagram
+The following diagram keeps track of how a change in t propagates
+through the chain of composed functions.
+
+Figure: There are two paths from t to z, one through x and one through y . For
+each path, we multiply together the derivatives along the path. Then, to
+calculate dz/dt, we add the contributions from the two paths.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+26 / 30
+
+Questions
+
+Suppose that z = f (x, y ) = x sin y , where x = t 2 and y = 2t + 1. Let
+z = g (t). Compute g ′ (t) directly and using the chain rule.
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+27 / 30
+
+Questions
+
+If f , g , h are differentiable and if z = f (x, y ), with x = g (u, v ) and
+∂z
+∂z
+and ∂v
+?
+y = h(u, v ). What is ∂u
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+28 / 30
+
+Chain rule in multivariable
+Theorem (Multivariable Chain Rule)
+Let f : Rn → R be differentiable, and let each xi be a differentiable
+function of t1 , . . . , tm :
+xi = xi (t1 , . . . , tm ),
+
+i = 1, . . . , n.
+
+Define
+z = f (x1 , . . . , xn ).
+Then z is differentiable with respect to tj , and
+n
+
+X ∂f ∂xi
+∂z
+=
+,
+∂tj
+∂xi ∂tj
+
+j = 1, . . . , m.
+
+i=1
+
+AI503 Shan Shan
+
+Derivatives and optimization
+
+Lecture 7
+
+29 / 30
+
+

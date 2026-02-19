@@ -1,0 +1,62 @@
+
+- question 1 - ROC
+	- **TRUE**
+	- **FALSE**
+	- **TRUE**
+	- **FALSE**
+	- **FALSE**
+- question 2
+	- NOT CORRICULUM
+- question 3 - kNN
+	- **TRUE** - read on *bias complexity*
+	- **FALSE** - would probably not change anything
+	- **TRUE** - More consistent
+	- **FALSE** - scaling does nothing
+	- **FALSE** - test is irrelevant
+- question 4
+	- NOT CORRICULUM
+- question 5 - gradient descent
+	- **FALSE** - the provided code does not split or train on data
+	- **FALSE** - step 5 does back-probagration
+	- **TRUE** - model is trained with learning and optimizing
+	- **TRUE** - Yes the gradient descent is done iterative (100)
+	- **FALSE** - no the 7th line resets gradient vector
+- question 6
+	- NOT CORRICULUM
+- question 7
+	- NOT CORRICULUM
+- question 8 - coint toss
+	- ![[Pasted image 20260119143735.png]]
+	- **TRUE** - three times means 2 heads
+	- **FALSE** - $P(A sect B) != P(A)P(B)$
+	- **TRUE**
+	- **FALSE** $P(A|B) = P(A sect B) = 4/7$
+	- **TRUE**
+- question 9 - random variables 
+	- **TRUE** because of $\mathbb{E}[aX] = a\mathbb{E}[X]$
+	- **TRUE** because of $\mathrm{Var}[X] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2$
+	- **FALSE** because of $\mathrm{Var}(aX) = a^2 \mathrm{Var}(X)$
+	- **FALSE** because $"Cov"[X,Y] := E[(X-E[X])(Y-E[Y])] = E[X Y] - E[X]E[Y]$
+	- **TRUE**  idk why
+- question 10 - confusion matrices
+	- **TRUE** beacuse $"accuracy" = 50/(20+30+50) = 1/2 < 1/3$
+	- **TRUE** because $"precision = 15/(2+15+3) = 3/4 = 0.75"$
+	- **FALSE** because $15/(15+7+2) =15/24$ and $15/(2+3) = 3$
+	- **FALSE** because its $1/3$ for each class
+	- **FALSE** because $(2+3)/(2+3+15+45) = 3/4 =15/(15+2+3) = 15/20 = 3/4$
+- question 11 - bernouli
+	- **TRUE** because dataset $S={1,0,1,1}$ means that the posterior $"Beta"(Pi|alpha+3,beta+1)$
+	- **TRUE** because ![[811366C6-22F9-4B98-BF94-AEE2F0F1CB59_1_105_c.jpeg]]
+	-  **TRUE** because $pi$ is the same for every coin toss
+	- **FALSE**![[Pasted image 20260121142943.png]]
+	- **TRUE** since $P(A sect B) = P(A)P(B)$
+- question 11
+	- NOT CORRICULUM
+- question 12 - events
+	![[26AD5E07-2B04-4281-8A81-A3088BAC58B7_1_102_o.jpeg]]
+	- **TRUE** because $1/2 = 1/2$
+	- **TRUE** because $1/3 < 1/2$
+	- **FALSE** because $P(A)P(C) = 1/2 dot 1/2 = 1/4$
+	- **TRUE** because $P(A)+P(B) > P(A)+P(B) + P(A)P(B)$
+	- **TRUE** 
+
