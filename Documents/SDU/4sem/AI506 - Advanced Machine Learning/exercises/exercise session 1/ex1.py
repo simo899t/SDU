@@ -8,47 +8,35 @@
 #   activation: ReLU
 #   dropout:    0.2
 #   optimizer:  SGD
-#   lr:         0.1
-#   n_epoch:    20
+#   lr:         0.1 
+#   n_epoch:    20        
 #   scheduler:  StepLR(optimizer, step_size=10, gamma=0.1)
 #   Accuracy:   98.52%
 # ===============================
 
-import seaborn as sns
 import torch
 import torch.nn as nn
 from torch import optim
-from torch.optim.lr_scheduler import StepLR
 from torchvision import datasets, transforms
-import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Download the MNIST dataset (first without transform to compute mean/std)
-raw_train = datasets.MNIST(
-    root="./data", train=True, download=True, transform=transforms.ToTensor()
-)
+raw_train = datasets.MNIST(root='./data', train=True, download=True, transform=transforms.ToTensor())
 mean = raw_train.data.float().mean() / 255
 std = raw_train.data.float().std() / 255
 
 # Now use these values in Normalize
-transform = transforms.Compose(
-    [transforms.ToTensor(), transforms.Normalize((mean.item(),), (std.item(),))]
-)
-train_dataset = datasets.MNIST(
-    root="./data", train=True, download=True, transform=transform
-)
-test_dataset = datasets.MNIST(
-    root="./data", train=False, download=True, transform=transform
-)
-train_loader = torch.utils.data.DataLoader(
-    dataset=train_dataset, batch_size=64, shuffle=True
-)
-test_loader = torch.utils.data.DataLoader(
-    dataset=test_dataset, batch_size=64, shuffle=False
-)
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((mean.item(),), (std.item(),))
+])
+train_dataset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
+test_dataset = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
+train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=64, shuffle=True)
+test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=64, shuffle=False)
 
 
 break_on_first_solution = False
-
 
 class MyNetwork(nn.Module):
     def __init__(self):
@@ -59,7 +47,7 @@ class MyNetwork(nn.Module):
         self.fc4 = nn.Linear(in_features=512, out_features=512)
         self.fc5 = nn.Linear(in_features=512, out_features=512)
         self.fc6 = nn.Linear(in_features=512, out_features=10)
-        self.activation = nn.ReLU()  # 98.32%
+        self.activation = nn.ReLU()                 # 98.32%
         # self.activation = nn.LeakyReLU(0.001)     # 98.32%
         # self.activation = nn.Sigmoid()            # 97.56%
         # self.activation = nn.Tanh()               # 98.08%
@@ -72,8 +60,9 @@ class MyNetwork(nn.Module):
 
         self.dropout = nn.Dropout(0.2)
 
+    
     def forward(self, x):
-        x = x.view(-1, 28 * 28)
+        x = x.view(-1, 28*28)
         x = self.dropout(self.activation(self.fc1(x)))
         x = self.activation(self.fc2(x))
         x = self.activation(self.fc3(x))
@@ -82,8 +71,8 @@ class MyNetwork(nn.Module):
         x = self.fc6(x)
         return x
 
-
 net = MyNetwork()
+
 
 
 # learning rates
@@ -108,21 +97,19 @@ optimizer = optim.SGD(net.parameters(), lr=SGD_lr)
 # optimizer = optim.ASGD(net.parameters(), lr=learning_rate)
 # optimizer = optim.AdamW(net.parameters(), lr=AdamW_lr, weight_decay=0.0001)
 
+from torch.optim.lr_scheduler import StepLR
 
 optimizer = optim.SGD(net.parameters(), lr=SGD_lr)
-scheduler = StepLR(
-    optimizer, step_size=5, gamma=0.8
-)  # Decays LR by 0.1 every 10 epochs
+scheduler = StepLR(optimizer, step_size=5, gamma=0.8)  # Decays LR by 0.1 every 10 epochs
+
+
 
 
 criterion = nn.CrossEntropyLoss()
 
-
 all_epoch_losses = []
-all_test_accuracies = []
 for i in range(n_epochs):
     epoch_losses = []
-    net.train()
     for batch in train_loader:
         x, y = batch
         y_hat = net(x)
@@ -130,12 +117,13 @@ for i in range(n_epochs):
         loss.backward()
         optimizer.step()
         optimizer.zero_grad()
-        epoch_losses.append(loss.item())
+        epoch_losses.append(loss)
     avg_loss = sum(epoch_losses) / len(epoch_losses)
     all_epoch_losses.append(avg_loss)
     scheduler.step()
 
     print(f"Epoch {i} avg loss: {avg_loss.item()}")
+
 
     # Evaluate on test set and print accuracy for each epoch
     net.eval()
@@ -149,27 +137,6 @@ for i in range(n_epochs):
             total += y_test.size(0)
     acc = correct / total
     print(f"Epoch {i} test accuracy: {acc * 100:.2f}%")
-    all_test_accuracies.append(acc)
     _avg.append(acc)
     if break_on_first_solution and (acc - 1.0) == 0:
         break
-
-# Plot training loss and test accuracy
-epochs = list(range(1, len(all_epoch_losses) + 1))
-plt.figure(figsize=(12, 5))
-plt.subplot(1, 2, 1)
-plt.plot(epochs, all_epoch_losses, label="Train Loss")
-plt.xlabel("Epoch")
-plt.ylabel("Loss")
-plt.title("Training Loss per Epoch")
-plt.legend()
-
-plt.subplot(1, 2, 2)
-plt.plot(epochs, all_test_accuracies, label="Test Accuracy", color="orange")
-plt.xlabel("Epoch")
-plt.ylabel("Accuracy")
-plt.title("Test Accuracy per Epoch")
-plt.legend()
-
-plt.tight_layout()
-plt.show()

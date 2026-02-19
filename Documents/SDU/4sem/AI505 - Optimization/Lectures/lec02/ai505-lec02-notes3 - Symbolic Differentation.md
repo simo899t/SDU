@@ -1,0 +1,3 @@
+Symbolic derivatives can give valuable insight into the structure of the problem domain and, in some cases, produce analytical solutions of extrema (e.g., solving for $diff/(diff x) f (x) = 0$) that can eliminate the need for derivative calculation altogether.
+
+But they do not lend themselves to efficient runtime calculation of derivative values, as they can get exponentially larger than the expression whose derivative they represent
