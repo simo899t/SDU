@@ -1,7 +1,8 @@
 
 #let title = "Lecture 4: Local Descent"
 #let author = "Simon Holm"
-#let date = "19. februar 2026"
+#let date = "19/02/2026"
+
 #import "../../../../../../temp.typ": *
 
  #sdu-title(

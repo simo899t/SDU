@@ -40,16 +40,15 @@
     left: 4pt + rgb("#00b4d8"),
     rest: 1pt + rgb("#22223b")
   ),
-  shadow: (x: 2pt, y: 2pt, blur: 6pt, color: rgb("#00000033")),
   inset: (left: 18pt, right: 18pt, top: 14pt, bottom: 14pt),
   radius: 10pt,
   [
+    #set par(leading: 0.75em)
     #text(
-      fill: rgb("#caf0f8"), 
-      font: "JetBrains Mono", 
+      fill: rgb("#caf0f8"),
+      font: "JetBrains Mono",
       size: 10pt,
       weight: "medium",
-      line-spacing: 120%
     )[#content]
   ]
 )
@@ -93,23 +92,26 @@
 )
 
 // --- Document metadata (override in your file) ---
-#let default-title = "Untitled Document"
-#let default-author = "Simon Holm"
-#let default-date = "a"
+
 
 #let default-title = "Untitled Document"
+#let default-course= "SDU"
 #let default-author = "Simon Holm"
 #let default-date = "16/12/2002"
+
 
 #let sdu-title(
   title: default-title,
   author: default-author,
+  course: default-course,
   date: default-date
 ) = align(center,
   block(
     inset: (top: 6cm),
     [
       #text(size: 24pt, weight: "bold")[#title]
+      #v(1.5em)
+      #text(size: 18pt, weight: "medium", fill: gray)[#course]
       #v(1.5em)
       #text(size: 14pt, weight: "medium")[#author]
       #v(0.5em)
@@ -128,6 +130,3 @@
 // #set author = "Simon Holm"
 // #set date = "19. februar 2026"
 // ...
-
-
-#pagebreak()
