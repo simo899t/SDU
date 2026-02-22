@@ -40,3 +40,9 @@ Need for consistency:
 Self-enhancement: 
 - We need to feel good about ourselves and maintain self-esteem → Source of a lot of
 biases (e.g., we remember our good deeds better than our faults, perceive us as less biased, more competent and happier than others)
+
+= Social identity & self-categorization theory
+- We all have a personal identity & several social identities
+- Social identities emerge from our social roles, groups, and categories
+- Depending on the context, different identities can be salient
+- Salient identities shape our perceptions, emotions, and behaviours

@@ -1,9 +1,7 @@
-// --- Macro to replace $phi$ with $phi.alt$ in math expressions ---
-
-// SDU global Typst template
-// Place this file at SDU/temp.typ and import it in any Typst file:
+// global Typst template
 //   #import "../../temp.typ": *
-// Then override variables like title, author, date as needed.
+// Then override variables like title, author, course, date as needed.
+#import "@preview/lovelace:0.3.0": *
 
 #set page(
   paper: "us-letter",
@@ -19,36 +17,43 @@
 #set math.equation(numbering: none)
 #set math.mat(delim: "[", gap: 0.3em)
 
+// just nice
+#let evaluated(expr, size: 100%) = $lr(#expr|, size: #size)$
+
+
+// shortcuts
 #let redmath(x) = text(fill: red, $#x$)
 #let bluemath(x) = text(fill: blue, $#x$)
 #let greenmath(x) = text(fill: green, $#x$)
-#let evaluated(expr, size: 100%) = $lr(#expr|, size: #size)$
 #let int(a,b,c) = $integral_(#a)^(#b) #c$ 
 #let prod(a,b,c) = $product_(#a)^(#b) #c$ 
-#let sum(a,b,c) = $sum_(#a)^(#b) #c$ 
-#let lim(a) = $lim_(#a)$ 
-#let phi = $phi.alt$
+#let summ(a,b,c) = $sum_(#a)^(#b) #c$ 
+#let limm(a) = $lim_(#a)$
+#let nf(..args) = if args.pos().len() == 0 { $nabla f$ } else { $nabla f(#args.pos().at(0))$ }
+#let nnf(..args) = if args.pos().len() == 0 { $nabla^2 f$ } else { $nabla^2 f(#args.pos().at(0))$ }
+#let qquad = $quad quad$
+#let qqquad = $quad quad quad$
+#let qqqquad = $quad quad quad quad$
 
+// pseudocode alias
+#let pseudo = pseudocode-list
+
+// symbols
+#let phi = $phi.alt$
+#let eps = $epsilon$
 
 #let code(content) = block(
-  fill: gradient.linear(
-    rgb("#23272e"), 
-    rgb("#2d3340"), 
-    angle: 120deg
-  ),
-  stroke: (
-    left: 4pt + rgb("#00b4d8"),
-    rest: 1pt + rgb("#22223b")
-  ),
-  inset: (left: 18pt, right: 18pt, top: 14pt, bottom: 14pt),
-  radius: 10pt,
+  fill: rgb("#282c34"),
+  stroke: 1pt + rgb("#3e4452"),
+  inset: (left: 16pt, right: 16pt, top: 12pt, bottom: 12pt),
+  radius: 4pt,
   [
     #set par(leading: 0.75em)
     #text(
-      fill: rgb("#caf0f8"),
+      fill: rgb("#b9c3d5"),
       font: "JetBrains Mono",
       size: 10pt,
-      weight: "medium",
+      weight: "regular",
     )[#content]
   ]
 )
@@ -120,13 +125,17 @@
   )
 )
 
+#sdu-title(
+  title: title,
+  author: author,
+  date: date
+)
 
-// Only show the title page if this file is the main document (not imported as a module)
-// Typst does not have a built-in __main__ check, but you can document that users should not call sdu-title themselves unless they want to override.
 
 // --- Usage in a new Typst file ---
 // #import "../../temp.typ": *
 // #set title = "My Note Title"
-// #set author = "Simon Holm"
-// #set date = "19. februar 2026"
+// #set course = "Course name/code"
+// #set author = "Name"
+// #set date = "Date"
 // ...

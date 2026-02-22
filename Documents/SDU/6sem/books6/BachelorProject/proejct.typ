@@ -88,10 +88,8 @@
   ]
 )
 
-// Title page
-// Custom front page for Bachelor's Project Thesis
-// Custom front page for Bachelor's Project Thesis
-#pagebreak()
+
+
 #align(center)[
   #text(size: 32pt, weight: "bold", fill: rgb("#1a365d"))[Title of Thesis]
   #v(1em)
@@ -109,7 +107,7 @@
   #v(2em)
   #text(size: 12pt, fill: rgb("#888"))[Bachelor of Science in Artificial Intelligence]
   #v(20em)
-  #image("assets/IMADA_en.png", width: 6cm)
+  #image("/assets/image-8.png", width: 6cm)
 ]
 #pagebreak()
 
