@@ -1,9 +1,14 @@
-
 #let title = "Lecture 4: Local Descent"
 #let author = "Simon Holm"
 #let date = "19/02/2026"
 
 #import "../../../../../../temp.typ": *
+
+#note(
+  title: title,
+  author: author,
+  date: date
+)
 
 #pagebreak()
 
@@ -247,7 +252,7 @@ Let $x_k$ be a sequence of steps in $r in RR^n$ that (at some point) converges t
 
 When analyzing rate of convergence we wish to learn how much closer to the solution a step takes us. This is important as steps might be computationally expensive, and we would rather take less steps, if its posible.
 
-We would like to classify methods by their rate of convergence.
+We would like to classify methods by their rate of convergence. We can then test increasingly tighter rates until one fails to analyse more speceficly.
 
 === Q-linear
 For this there should exist a constant $r in (0,1)$
@@ -264,17 +269,71 @@ $ lim(k->oo) norm(x_(k+1)-x^*)/norm(x_k -x^*) =0 $
 Example: ${1+k^(-k)}$ wil Superlinearly converge to 1
 
 This is because
-$ qquad square $
-
+$ limm(k->0) norm(x_(l+1) - x^*)/norm(x_k -x^*) = 0 $
 
 === Q-quadratic
-
-
-
+The convergence is said to be *Q-quadratic* if
 
 $ norm(x_(k+1)-x^*)/norm(x_k -x^*)^2 <=M, quad forall k "sufficiently large" $
 
-Superlinear convergence (quadratic, cubic, quartic, etc) is regarded as fast and desirable, while
+Where $M$ is a positive constant not necessarily $<1$. 
+
+
+Example: ${1+(0.5)^(2^k)}$
+
+In these exmaples values $r$ and $M$ depends on both the algorithm and the particular problem itself.
+
+Superlinear convergencenses (quadratic, cubic, quartic, etc) is regarded as fast and desirable, while
 sublinear convergence is usually impractical.
 
 === R-linear
+A slightly weaker form of convergence is the *R-linear*
+
+R-linear just that the errors are on average decreasing at a linear rate — individual steps can be noisy, bad or good - as long as the overall trend stays below the linearly decreasing envelope $v_k$.
+
+We say that convergence is R-linear (root-linear) if there is a sequence of nonnegative scalars {vk }
+such that
+
+$ norm(x_k - x^*) <= {v_k}, quad forall k " and" {v_k} "converges "bold("Q-linearly")" to zero" $
+
+#pagebreak()
+
+= Trust Region Methods
+Descent methods (like GradientDescent and Newtons method), place alot of trust in the approximated information. That is since we approximate the function, its only accurate close to the current point
+
+We introduce *trust refions* as a local area of the design space where the model is belived to be reliable, that means the area for which the approximation of the function, is accureate enough where we can still rely on the information from that area.
+
+*Trust region methods*, limit the step size to ensure local approximation error is minimized
+
+We define 
+- a new design point $x'$
+- a local function approximation $accent(f,\^)(x')$ (like the second-order Taylor approximation)
+- a trust region radius $delta$
+
+We then
+
+$ min_x accent(f,\^)(x') quad s.t quad norm(x-x') <= del $
+
+$ #image("/assets/image-5.png", width: 30em) $
+
+This is now a constrained optimization problem. We can solfe this pretty efficiently if $pred(f)$ is quadratic.
+
+We can test the performance of $del$ by
+$ eta = "actual improment"/"predicted improvement" = (f(x)-f(x'))/(f(x)-pred(f) (x')) $
+
+We can then expland or contract $del$
+
+$ "If" eta<eta_1 " contract by a factor " gam_k < 1 $
+$ "If" eta>eta_2 " expand by a factor " gam_k > 1 $
+
+#figure(
+  image("/assets/image-9.png", width: 20em),
+  caption: [In this example the trust regions are circular, but they doesnt have to be]
+)
+
+== Termination Conditions:
+These are some common termination conditions and are commonly used together
+- Maximum Iterations: $k>k_"max"$
+- Absolute Improvement: $f(x_k) - f(x_(k+1)) < eps_a$
+- Relative Improvement: $f(x_k) - f(x_(k+1)) < eps_r abs(f_(x_k)) $
+- Gradient Magnitude: $norm(nf(x_(k+1))) < eps_g$

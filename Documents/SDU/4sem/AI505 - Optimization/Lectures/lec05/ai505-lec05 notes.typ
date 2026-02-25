@@ -5,13 +5,11 @@
 
 #import "../../../../../../temp.typ": *
 
- #sdu-title(
+ #note(
    title: title,
    author: author,
    date: date
  )
-
-#pagebreak()
 
 // Your content starts here
 
@@ -72,8 +70,16 @@ $ d_k = -r_k + beta_k d_(k-1) $
 We wish to find $ beta_k = (r_k^T A d_(k-1))/(d_(k-1)^T A d_(k-1)) $
 Because of the constraint $d_k^T A d_k = 0$
 
-
-
-
-
 #image("/assets/image.png")
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,7 +5,7 @@
 
 #import "../../../../../../temp.typ": *
 
- #sdu-title(
+ #note(
    title: title,
    author: author,
    date: date
@@ -94,17 +94,23 @@ Here is an example of a ```py bracket_min``` function at work
 Note that we can then shrink the interval by making function evaluations and see if they hold the unimodality property. By this we can eliminate parts of the interval that cannot contain the minimum with guarantee.
 #pagebreak()
 
+= Shrinking the interval
+When shrinking an interval $[a,c]$ we can assume a middlepoint $b$ and then place some evaluation point $x$ and compare $x$ and $b$
 
-= Fibonacci Search Algorithm
-Using the Fibonacci sequence of 
-$ F_0 = F_1 = 1, quad F_n = F_(n-1)+F_(n-2), quad forall n | n>=2 $
+- *if* $f(x) < f(b)$ the minimum is between $b$ and the far end, so discard the near end
+- *if* $f(x) > f(b)$ the minimum is between $a$ and $x$, so discard the far end
 
-to divide the interval at each iteration "```py stepsize *= Fn```"
+== Fibonacci Search Algorithm
 
-= Golden Section Search
-Using the fixed golden ratio $phi$ 
-$ lim(n->oo) F_(n+1)/F_n = lim_(n->oo) 1/(rho_n) = lim(n->oo) phi (1s^(n+1))/(1-s^n) = phi approx 1.61803 $
-to divide the interval at each iteration "```py stepsize *= 1.61803```"
+$ F_0 = 0, F_1 = F_2 = 1, quad F_n = F_(n-1)+F_(n-2) $
+
+the placement of $x$ is determined by Fibonacci numbers, and you decide upfront how many iterations you want. It's optimal for a fixed number of evaluations.
+
+== Golden Section Search
+$ limm(n->oo) (F_(n+1))/F_n = limm(n->oo) 1/rho_n = limm(n->oo) phi (1-s^(n+1))/(1-s^n) $
+
+places $x$ at the golden ratio $phi = 0.618$ of the interval. Each step shrinks the interval by the same factor $phi$. It's essentially the limit of Fibonacci search as the number of iterations goes to infinity.
+
 
 
 = Quadratic Fit Search
@@ -159,7 +165,7 @@ In other words, we look for the roots of $nf(x)$ aka, where it cuts the x-axis
 We can do this, by 
 - setting an interval
 - splitting the interval $(a+b)/2$
-- chose a side that where $"sign"(f'(a))̸ = "sign"(f'(b))$
+- chose a side that where $"sign"(f'(a)) != "sign"(f'(b))$
 - repeat until error is acceptable. (interval is "small enough")
 
 This is guaranteed to converge within $eps$ of $x^*$ within $log(abs(b-a)/eps)$

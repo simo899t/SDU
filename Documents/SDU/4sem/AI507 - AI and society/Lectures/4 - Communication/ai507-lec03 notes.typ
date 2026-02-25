@@ -1,12 +1,12 @@
 
-#let title = "Lecture 1: Intelligence"
+#let title = "Lecture 4: Communication"
 #let author = "Simon Holm"
 #let course = "AI507: Artificial Intelligence and Society"
-#let date = "06/02/2026"
+#let date = "/02/2026"
 
 #import "../../../../../../temp.typ": *
 
- #sdu-title(
+ #note(
    title: title,
    author: author,
    course: course,
@@ -17,5 +17,3 @@
 
 // Your content starts here
 
-
-= 

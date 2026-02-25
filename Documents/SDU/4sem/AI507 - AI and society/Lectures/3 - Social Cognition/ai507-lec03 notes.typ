@@ -1,16 +1,16 @@
 
-#let _title = "Lecture 3: Social Cognition"
-#let _author = "Simon Holm"
-#let _course = "AI507: Artificial Intelligence and Society"
-#let _date = "19/02/2026"
+#let title = "Lecture 3: Social Cognition"
+#let author = "Simon Holm"
+#let course = "AI507: Artificial Intelligence and Society"
+#let date = "19/02/2026"
 
 #import "../../../../../../temp.typ": *
 
- #sdu-title(
-   title: _title,
-   author: _author,
-   course: _course,
-   date: _date
+ #note(
+   title: title,
+   author: author,
+   course: course,
+   date: date
  )
 
 #pagebreak()

@@ -6,7 +6,7 @@
 
 #import "../../../../../../temp.typ": *
 
- #sdu-title(
+ #note(
    title: title,
    author: author,
    course: course,
