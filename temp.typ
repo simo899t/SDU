@@ -27,7 +27,8 @@
 #let summ(a,b,c) = $sum_(#a)^(#b) #c$ 
 #let limm(a) = $lim_(#a)$
 #let pred(a) = $accent(#a,\^)$
-#let QED = [#h(1fr) $square$]
+#let QED = [#h(100%) $square$]
+#let f = [#h(1fr)]
 #let qquad = $quad quad$
 #let qqquad = $quad quad quad$
 #let qqqquad = $quad quad quad quad$

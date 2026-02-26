@@ -14,10 +14,8 @@ d  = anp.array([1.0, -1.0])
 def strong_backtracking(f, nabla, x, d, alpha=1, beta=1e-4, sigma=0.1):
     y0, g0, y_prev, alpha_prev = f(x), nabla(x) @ d, None, 0
     alpha_lo, alpha_hi = None, None
-    rejected     = []   # failed sufficient decrease or curvature — shrinks bracket
-    provisional  = []   # passed sufficient decrease, advances bracket, not final
-
-    print("start")
+    rejected     = []   # failed, shrink
+    passed  = []   # passed, continue
 
     # bracket phase
     while True:
@@ -30,14 +28,14 @@ def strong_backtracking(f, nabla, x, d, alpha=1, beta=1e-4, sigma=0.1):
         dir_gradient = nabla(x + alpha*d) @ d
         if abs(dir_gradient) <= -sigma * g0:
             print("strong Wolfe in " r"$\alpha$" f"{alpha:.6f}")
-            return alpha, rejected, provisional
+            return alpha, rejected, passed
         elif dir_gradient >= 0:
             rejected.append(alpha)
             alpha_lo, alpha_hi = alpha, alpha_prev
             print(f"bracket done: low={alpha_lo:.6f}  high={alpha_hi:.6f}")
             break
         else:
-            provisional.append(alpha)   # sufficient decrease holds, keep expanding
+            passed.append(alpha)   # sufficient decrease holds, keep expanding
         y_prev, alpha_prev, alpha = y, alpha, 2 * alpha
 
     # zoom phase
@@ -53,15 +51,15 @@ def strong_backtracking(f, nabla, x, d, alpha=1, beta=1e-4, sigma=0.1):
             g = nabla(x + alpha*d) @ d
             if abs(g) <= -sigma*g0:
                 print(f"Zoom done: lo={alpha_lo:.6f}  hi={alpha_hi:.6f}")
-                return alpha, rejected, provisional
+                return alpha, rejected, passed
             elif g*(alpha_hi - alpha_lo) >= 0:
                 rejected.append(alpha)
                 alpha_hi = alpha_lo
             else:
-                provisional.append(alpha)  # updates alpha_lo, still zooming
+                passed.append(alpha)  # updates alpha_lo, still zooming
             alpha_lo = alpha
     print(f"Zoom done: lo={alpha_lo:.6f}  hi={alpha_hi:.6f}")
-    return alpha_lo, rejected, provisional
+    return alpha_lo, rejected, passed
 
 accepted_alpha, rejected_alphas, provisional_alphas = strong_backtracking(f, nabla_f, x0, d)
 

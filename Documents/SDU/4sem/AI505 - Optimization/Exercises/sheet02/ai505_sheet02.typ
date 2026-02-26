@@ -269,11 +269,10 @@ d  = anp.array([1.0, -1.0])
 def strong_backtracking(f, nabla, x, d, alpha=1, beta=1e-4, sigma=0.1):
     y0, g0, y_prev, alpha_prev = f(x), nabla(x) @ d, None, 0
     alpha_lo, alpha_hi = None, None
-    rejected     = []   # failed sufficient decrease or curvature — shrinks bracket
-    provisional  = []   # passed sufficient decrease, advances bracket, not final
+    rejected     = []   # failed, shrink
+    provisional  = []   # passed, continue
+    
     print("starting bracketing phase")
-
-
 
     # bracket phase
     while True:
