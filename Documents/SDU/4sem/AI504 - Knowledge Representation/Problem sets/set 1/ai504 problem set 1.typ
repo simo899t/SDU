@@ -1,7 +1,7 @@
 #import "../../../../../../temp.typ": *
 
 #assignment(
-  title: "Exercise sheet 2",
+  title: "Problem set 1",
   course: "AI504 — Knowledge Representation",
   author: "Simon Holm",
   date: "February, 2026",
@@ -12,25 +12,47 @@ An _interval_ is an ordered pair of real numbers $(a,b)$ such that $a<b$. We say
 
 == Solution
 
+The relation definition is that 
+$ "if" (x,y) in R "then" x bold(R)y. $
+
 The interleaves relation is defined as:
+
+$ (a,b)bold(R)(c,d) = a<c<b<d. $
+
+
+
+For transitivity
+$ (a,b)bold(R)(c,d) and (c,d)bold(R)(e,f) => (a,b)bold(R)(e,f). $
+
+By the interleaves definition
 
 $ (a,b)bold(R)(c,d) = a<c<b<d $
 
-We can easily counter example this with the fact that
+$ (c,d)bold(R)(e,f) = c<e<d<f $
 
-$ (1,2)bold(R) (3,4) = 1<3<2<4 quad bold("FALSE") $
+We wish to prove that $a<e and b<f and e<b$
 
-The relation is therfore *not transitive*
+We can then prove that
 
-We need additional information (the closure) to say that the interleave is transitive.
+$ a<c and c<e => a<e $
+and 
+$ b<d and d<f => b<f $
 
-Because of this we add
-$ R^+ = {((a,b),(c,b))|a<c "and" c<b} $
+since we only know that
+$ c<e<d and c<b<d $
+We cannot say anything about weather $e<b$ is true
 
-Now $ a<b, a<c, c<b, c<d $
+So take a counter example
 
-This all shows that
-$ a<c<b<d $
+that $ c<e<d and c<b<d => e=b or e<b or e>b $
+
+
+We can denote the relation closure $R^+$ as
+$ R^+ = {(e,b)} $
+
+
+
+
 #pagebreak()
 
 = Problem 2
@@ -57,30 +79,65 @@ For this problem $ R = {(x,y) | "some relation"} $
 We wish to show that $ R(P cup Q) = R(P)cup R(Q) $
 
 We know that
-$ forall y in R(P cup Q), exists x in P cup Q | (x,y) = R $
+$ forall y in R(P cup Q), exists x in P cup Q | (x,y) in R $
 
 This just means that for every $y$ from the relation on the union of the 
 subsets $P$ and $Q$ there must be some $x$ where the relation $R$ holds.
 
 Then we can show that the $y$ can either come from $R(P)$ or $R(Q)$.
 
-$ forall y in R(P) cup R(Q): y in R(P) "or" y in R(Q) $
+$ forall y in R(P) cup R(Q): y in R(P) or y in R(Q) $
 This is the same as $R(P cup Q) = R(P)cup R(Q)$ #QED
 
 === (b)
 
-We can try the same technique on $R(P cap Q) = R(P)cap R(Q)$
+We can apply on $R(P cap Q) = R(P)cap R(Q)$
 
-The same applies when
-$ forall y in R(P cap Q), exists x in P cap Q | (x,y) = R $
+The same applies for
+$ forall y in R(P cap Q), exists x in P cap Q | (x,y) in R $
 
 again the $y$ must come from an $x$ mapped $R$
 
 But when we do
 
-$ forall y in R(P) cap R(Q): y in R(P) "and" y in R(Q) $
+$ forall y in R(P) cap R(Q): y in R(P) and y in R(Q) $
 
 We realise that for $y$ to exist $P$ and $Q$ must share an element that both 
-maps to the same $y$ if they dont then *this does not hold*. #QED
+maps to the same $y$ if they dont then *this does not hold*. 
+
+Counter exmaple: 
+#figure(
+  image("/assets/IMG_7680.jpeg", width: 30em),
+  caption: [look at this idiot]
+)
+
+#QED
+#pagebreak()
+
+=== (c)
+
+For $ (R cup S)(P) = R(P) cup S(P) $
+
+We can say that any $y$ must come from an $x$ in $P$ applied by  $R$  $ S$
+$ forall y in (R cup S)(P), exists x in P | (x,y) in R "or" S $
+
+Then we can describe $y in R(P) cup S(P)$
+
+$ forall y in R(P) cup S(P), exists x in P| (x,y) in R "or" S $
+
+=== (d)
+
+For $ (R cap S)(P) = R(P) cap S(P) $
+
+any $y$ must have an $x$ from $P$ which is applied by $R cap S$
+$ forall y in (R cap S)(P), exists x in P | (x,y) in R cap S $
+
+Then showing that $x$ can only be 
+$ forall y in R(P) cap S(P), exists x in P |(x,y) in R and S $
+
+
+
+
+$ #image("/assets/IMG_7682.jpeg", width: 30em) $
 
 

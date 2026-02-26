@@ -78,6 +78,70 @@
 #let cap = $inter$
 #let cup = $union$
 
+#import "@preview/cetz:0.4.2"
+
+// Mapping diagram between two sets.
+// Each arrow entry: (from-idx, to-idx)  or  (from-idx, to-idx, color)  or  (from-idx, to-idx, color, label)
+// Indices are 0-based.
+#let mapdiag(
+  title: none,
+  a: $A$,
+  b: $B$,
+  a-elems: (),
+  b-elems: (),
+  arrows: (),
+  arrow-color: black,
+) = {
+  let na = a-elems.len()
+  let nb = b-elems.len()
+  let oval-h = 1.5
+  let usable = 1.0
+  let ypos(i, n) = if n <= 1 { 0.0 } else { usable - i * (2.0 * usable / (n - 1)) }
+  let x-a = 0
+  let x-b = 4
+  let off = 0.15
+
+  align(center, cetz.canvas({
+    import cetz.draw: *
+
+    circle((x-a, 0), radius: (0.6, oval-h), stroke: black)
+    circle((x-b, 0), radius: (0.6, oval-h), stroke: black)
+
+    content((x-a, oval-h + 0.5), a)
+    content((x-b, oval-h + 0.5), b)
+
+    if title != none {
+      content(((x-a + x-b) / 2, oval-h + 1.2), title)
+    }
+
+    for i in range(na) {
+      content((x-a, ypos(i, na)), a-elems.at(i))
+    }
+    for i in range(nb) {
+      content((x-b, ypos(i, nb)), b-elems.at(i))
+    }
+
+    for arr in arrows {
+      let fi    = arr.at(0)
+      let ti    = arr.at(1)
+      let c     = arr.at(2, default: arrow-color)
+      let label = arr.at(3, default: none)
+      let y1 = ypos(fi, na)
+      let y2 = ypos(ti, nb)
+      line(
+        (x-a + off, y1),
+        (x-b - off, y2),
+        stroke: c,
+        mark: (end: ">", fill: c))
+      if label != none {
+        content(
+          ((x-a + x-b) / 2, (y1 + y2) / 2 + 0.25),
+          text(fill: c, label))
+      }
+    }
+  }))
+}
+
 #let code(content) = block(
   fill: rgb("#282c34"),
   stroke: 1pt + rgb("#3e4452"),
@@ -471,6 +535,21 @@
 //   ccs: [\u{2192} Human-centered computing \u{2192} HCI theory, concepts and models],   // optional
 // )
 // #set page(columns: 2)    // body in two columns (optional)
+//
+// -- Mapping Diagram --
+// #mapdiag(
+//   title: $f: A -> B$,                      // optional title above diagram
+//   a: $A$,                                   // left set label  (default $A$)
+//   b: $B$,                                   // right set label (default $B$)
+//   a-elems: ($1$, $2$, $3$),                 // elements in left set
+//   b-elems: ($a$, $b$, $c$),                 // elements in right set
+//   arrow-color: black,                        // default arrow colour
+//   arrows: (
+//     (0, 0),                                  // plain arrow (uses arrow-color)
+//     (1, 2, red),                             // coloured arrow
+//     (2, 1, blue, $g$),                       // coloured arrow with label
+//   ),
+// )
 //
 // -- Project --
 // #import "../../temp.typ": *

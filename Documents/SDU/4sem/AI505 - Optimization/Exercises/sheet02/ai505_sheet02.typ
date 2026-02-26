@@ -182,7 +182,7 @@ def strong_backtracking(f, nabla, x, d, alpha=1, beta=1e-4, sigma=0.1):
     y0, g0, y_prev, alpha_prev = f(x), nabla(x) @ d, None, 0
     alpha_lo, alpha_hi = None, None
 
-    print("start")
+    print("starting bracketing phase")
 
     # bracket phase
     while True:
@@ -200,6 +200,8 @@ def strong_backtracking(f, nabla, x, d, alpha=1, beta=1e-4, sigma=0.1):
             print(f"bracket done: low={alpha_lo:.6f}  high={alpha_hi:.6f}")
             break
         y_prev, alpha_prev, alpha = y, alpha, 2 * alpha
+
+    print("starting zoom phase")
 
     # zoom phase
     ylo = f(x + alpha_lo*d)
@@ -237,6 +239,7 @@ alpha=1.750000  f=-5.371094  low=1.500000  high=2.000000
 alpha=1.625000  f=-5.839600  low=1.750000  high=1.500000
 alpha=1.562500  f=-5.930161  low=1.625000  high=1.500000
 alpha=1.531250  f=-5.943664  low=1.562500  high=1.500000
+starting zoom phase
 Zoom done: lo=1.562500  hi=1.500000
 Accepted alpha: 1.53125
   ```
@@ -268,8 +271,9 @@ def strong_backtracking(f, nabla, x, d, alpha=1, beta=1e-4, sigma=0.1):
     alpha_lo, alpha_hi = None, None
     rejected     = []   # failed sufficient decrease or curvature — shrinks bracket
     provisional  = []   # passed sufficient decrease, advances bracket, not final
+    print("starting bracketing phase")
 
-    print("start")
+
 
     # bracket phase
     while True:
@@ -291,6 +295,8 @@ def strong_backtracking(f, nabla, x, d, alpha=1, beta=1e-4, sigma=0.1):
         else:
             provisional.append(alpha)   # sufficient decrease holds, keep expanding
         y_prev, alpha_prev, alpha = y, alpha, 2 * alpha
+
+    print("starting zoom phase")
 
     # zoom phase
     ylo = f(x + alpha_lo*d)
@@ -441,14 +447,14 @@ We know that
 
 therfore
 
-$ ppx (x^T A x - b^T x) = summ(j, ,x_j a_(k j)) +  summ(i, ,x_i a_(i k)) - b.   $
+$ ppx (x^T A x - b^T x) = summ(j, ,x_j a_(k j)) +  summ(i, ,x_i a_(i k)) - b_k.   $
 
 
 We know that $sum a_(k j)x_j = (A x)_k$ (dot product of the $k'$th column)
 
 and $sum a_(i k)x_i = (A^T x)_k$ (dot product of the $k'$th row) 
 
-$ summ(j, ,x_j a_(k j)) +  summ(i, ,x_i a_(i k)) - b = A x +A^T x - b  $
+$ summ(j, ,x_j a_(k j)) +  summ(i, ,x_i a_(i k)) - b_k => A x +A^T x - b  $
 
 Where $A+A^T = 2A$ since $A$ is symmetric
 
@@ -493,7 +499,7 @@ Tasks
 #abc[
   Derive the update formula for $x_k$
 ][
-  Show that the error $e_k = norm(x_k)$ follows an exponential decay when $0 < alpha < 2$.
+  Show that the error $e_k = abs(x_k)$ follows an exponential decay when $0 < alpha < 2$.
 ][
   Compute $(e_(k+1))/e_k$ and determine the rate of convergence for different values of $alpha$
 ][
@@ -507,18 +513,92 @@ Tasks
 
 We know that $ x_k = x_(k-1) + alpha dot (-x_(k-1)) = (1-alpha) x_(k-1) $
 
-and since $ e_k = norm(x_k) = norm((1-alpha) x_(k-1)) = norm((1-alpha)) dot norm(x_(k-1)) $
+and since for each $x$, $abs(x_k) =e_k$ then 
 
-we can say that $ norm(x_k) = norm((1-alpha)) dot norm(x_(k-1)) => norm(x_k)/norm(x_(k-1)) = norm((1-alpha)) $
+$ e_k = abs(x_k) = abs((1-alpha) x_(k-1)) = abs((1-alpha)) dot abs(e_(k-1)) $
 
-The fact that the error from step $x_(k-1) -> x_(k)$ is bounded by $norm((1-alpha))$
+we can then say that $ abs(e_k) = abs((1-alpha)) dot abs(e_(k-1)) => abs(e_k)/abs(e_(k-1)) = abs((1-alpha)) $
 
-Then we can say that $ e_k = norm((1-alpha))^k dot x_0 $
+The fact that the error $e_(k-1) -> e_(k)$ is bounded by $abs((1-alpha))$
 
-Since we want the error to go towards $0$, that is $limm(k->oo) = 0$
+Then we can say that $ e_k = abs((1-alpha))^k dot e_0 $
 
-Then we want $ limm(k->oo) norm((1-alpha))^k -> 0 $
+Since we want the error to go towards $0$, that is $limm(k->oo) e_k = 0$
+
+Then we want $ limm(k->oo) abs((1-alpha))^k -> 0 $
 
 For this $ alpha in (0,2) $
 
 This could be yet another constraint, ensuring that the step length converges to 0 error.
+
+
+Let's compute $e_(k+1)/e_k$ by $alpha$-values $-3, 0.5, 1, 1.5$ and $3$.
+
+So we wish to compute $ limm(k->oo) abs(1-(-3))^k dot e_0 $
+
+
+
+#pagebreak()
+
+We can test differet $alpha$'a using gradient descent
+
+#code(
+    ```py
+import autograd as auto
+import autograd.numpy as np
+
+def f(x):
+    return 1/2 * x**2
+
+nabla_f = auto.grad(f)
+
+x0 = 1.0  # changed from 0 to avoid trivial starting point
+
+def gradient_descent(f, grad, x0, alpha=0.1, tol=1e-6, max_iter=1000):
+    x = x0
+    for i in range(max_iter):
+        g = grad(x)
+        x_new = x - alpha * g
+        if abs(x_new - x) < tol:
+            print(f"Converged at iteration {i+1}")
+            break
+        x = x_new
+    return alpha, x
+
+alpha1, x_opt = gradient_descent(f, nabla_f, x0, 0.1)
+print(f"With alpha: {alpha1}, optimal x: {x_opt:.6f}, f(x): {f(x_opt):.6f}")
+
+alpha2, x_opt = gradient_descent(f, nabla_f, x0, 0.5)
+print(f"With alpha: {alpha2}, optimal x: {x_opt:.6f}, f(x): {f(x_opt):.6f}")
+
+alpha3, x_opt = gradient_descent(f, nabla_f, x0, 1)
+print(f"With alpha: {alpha3}, optimal x: {x_opt:.6f}, f(x): {f(x_opt):.6f}")
+
+alpha4, x_opt = gradient_descent(f, nabla_f, x0, 1.5)
+print(f"With alpha: {alpha4}, optimal x: {x_opt:.6f}, f(x): {f(x_opt):.6f}")
+
+alpha5, x_opt = gradient_descent(f, nabla_f, x0, 1.9)
+print(f"With alpha: {alpha5}, optimal x: {x_opt:.6f}, f(x): {f(x_opt):.6f}")
+    ```
+)
+
+Output:
+
+#code(
+    ```
+Converged at iteration 111
+With 0.1, optimal x: 0.000009, f(x): 0.000000
+Converged at iteration 20
+With 0.5, optimal x: 0.000002, f(x): 0.000000
+Converged at iteration 2
+With 1, optimal x: 0.000000, f(x): 0.000000
+Converged at iteration 22
+With 1.5, optimal x: -0.000000, f(x): 0.000000
+Converged at iteration 139
+With 1.9, optimal x: 0.000000, f(x): 0.000000
+    ```
+)
+#pagebreak()
+
+This fits well with the plot of $ f(x)=1/2 x^2 $
+$ #image("/assets/image-20.png") $

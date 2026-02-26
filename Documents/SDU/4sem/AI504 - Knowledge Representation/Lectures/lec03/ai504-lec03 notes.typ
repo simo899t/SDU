@@ -1,6 +1,6 @@
-#let title = "Lecture 2: "
+#let title = "Lecture 3: "
 #let course = "AI504 - Knowledge Represntation"
-#let date = "23/02/2026"
+#let date = "26/02/2026"
 
 #import "../../../../../../temp.typ": *
 
