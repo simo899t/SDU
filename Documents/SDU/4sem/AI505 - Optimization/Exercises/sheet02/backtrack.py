@@ -15,8 +15,21 @@ def backtracking_line_search(f, grad, x, d, alpha_0=1, p=0.5, beta=1e-4):
         alpha *= p
     return alpha
 
-alpha = backtracking_line_search(f,nabla_f,x0,d)
+def solve(f, nabla_f, x, d, max_iter=1000):
+    for k in range(max_iter):
+        g = nabla_f(x)
+        if np.linalg.norm(g) < 1e-6:   # convergence check
+            print(f"Converged at iteration {k}")
+            break
+        d = -g
+        alpha = backtracking_line_search(f, nabla_f, x, d)
+        print(f"iter {k}: alpha = {alpha:.6f},  f(x) = {f(x):.6f}")
+    x = x + alpha * d
+    return x
 
-print(alpha)
+
+x = solve(f,nabla_f,x0,d)
+
+print(x)
 
 print("done!")
