@@ -5,6 +5,7 @@
   course: "AI504 — Knowledge Representation",
   author: "Simon Holm",
   date: "February, 2026",
+  outline-depth: 1
 )
 
 = Problem 1 
@@ -40,18 +41,19 @@ $ b<d and d<f => b<f $
 
 since we only know that
 $ c<e<d and c<b<d $
-We cannot say anything about weather $e<b$ is true
+We cannot say anything about weather $e<b$ is true.
 
-So take a counter example
+Lets do a *counterexmple.*
 
-that $ c<e<d and c<b<d => e=b or e<b or e>b $
+Let $ A = [1,3] quad B = [2,6] quad C =[5,8] $
 
+If we apply $ A bold(R)B and B bold(R)C => A bold(R)C $
 
-We can denote the relation closure $R^+$ as
-$ R^+ = {(e,b)} $
+This would imply that $[1,3]$ interleaves $[5,8]$
 
+this is false because it would imply that $ 1<5<3<8 $
 
-
+For this to work we need the relation closure $R^+$
 
 #pagebreak()
 
@@ -81,13 +83,14 @@ We wish to show that $ R(P cup Q) = R(P)cup R(Q) $
 We know that
 $ forall y in R(P cup Q), exists x in P cup Q | (x,y) in R $
 
-This just means that for every $y$ from the relation on the union of the 
-subsets $P$ and $Q$ there must be some $x$ where the relation $R$ holds.
+This just means that for every $y$ in the relation on the union of the 
+subsets $P$ and $Q$, there must be some $x$ where the relation $R$ holds.
 
-Then we can show that the $y$ can either come from $R(P)$ or $R(Q)$.
+Then we can show that the $y$ can either come from $R(P)$ or $R(Q)$, so
 
-$ forall y in R(P) cup R(Q): y in R(P) or y in R(Q) $
-This is the same as $R(P cup Q) = R(P)cup R(Q)$ #QED
+$ forall y in R(P) cup R(Q): y in R(P) "or"  y in R(Q). $
+This is the same as $R(P cup Q) = R(P)cup R(Q).$ #QED
+#pagebreak()
 
 === (b)
 
@@ -100,18 +103,33 @@ again the $y$ must come from an $x$ mapped $R$
 
 But when we do
 
-$ forall y in R(P) cap R(Q): y in R(P) and y in R(Q) $
+$ forall y in R(P) cap R(Q): y in R(P) "and" y in R(Q) $
 
 We realise that for $y$ to exist $P$ and $Q$ must share an element that both 
 maps to the same $y$ if they dont then *this does not hold*. 
 
-Counter exmaple: 
-#figure(
-  image("/assets/IMG_7680.jpeg", width: 30em),
-  caption: [look at this idiot]
-)
+Let's do a *counterexample* to proerly disprove this
 
-#QED
+Let set $X$ be a set, and $Y$ be the forward image of relations $R_1$, $S_1$ and $R_2$, $S_2$
+
+Then let $P$ be a subset of $X$
+
+Lets check if $ R(P cap Q) = R(P) cap R(Q) $
+
+When 
+
+$ X={1,2} "and" Y={1,2} "and" P={1} superset X "and" Q={2} superset X $
+
+
+Now let
+$ R= {(1,2), (2,2)} $
+
+now we can check
+$ R(P cap Q) = {(1,2), (2,2)}({1} cap {2}) = emptyset $
+and
+$ R(P) cap R(Q) = {(1,2), (2,2)}({1}) cap {(1,2), (2,2)}({2}) = {2} cap {2} = {2} $
+
+Since $emptyset != {2}$ this *counters* the statement. #QED
 #pagebreak()
 
 === (c)
@@ -136,8 +154,174 @@ Then showing that $x$ can only be
 $ forall y in R(P) cap S(P), exists x in P |(x,y) in R and S $
 
 
+Let's do a *counterexample* to disprove this
+
+Let $X$ be a set, and $Y$ be the forward image of relations $R$, $$
+
+Then let $P$ be a subset of $X$
+
+Then i want to see if $ (R cap S)(P) = R(P)) cap S(P) $
+
+$ X={1,2} "and" Y={1,2} "and" P={1,2} superset X $
 
 
-$ #image("/assets/IMG_7682.jpeg", width: 30em) $
+Now let
+$ R = {(1,2), (1,3), (3,1)} quad S = {(1,3), (2,1), (2,2), (3,3)} $
+
+then 
+$ R cap S = {(1,3)} $
+
+now we can check
+$ (R cap S)(P) = {(1,3)}({1,2}) = {3} $
+and
+$ R(P)) cap S(P) = {(1,2), (1,3), (3,1)}({1,2})) cap {(1,3), (2,1), (2,2), (3,3)}({1,2})\ 
+= {1,2,3} cap {1,2,3} = {1,2,3} $
+
+Since ${3} != {1,2,3}$ this *counters* the statement. #QED
+
+#pagebreak()
+
+= Problem 3
+A _full binary_ tree is a nonempty binary tree where each node is a leaf or has exactly two children.
+Define a function $dotless.j$ from full binary trees to rational numbers by recursion as follows:
+
+$
+  dotless.j(T) := mycases(
+    1, T "is a leaf",
+    1 + (dotless.j(T_0) + dotless.j(T_1))/4, "otherwise, where" T_0 "and" T_1 "are the two subtrees",
+    word: "if"
+  )
+$
+
+Calculate the value of $dotless.j$ on lots of small examples. Formulate a conjecture about how big it can get, and prove it.
+
+== Solution
+
+Lets start of by doing a few examples
+
+=== Example 2
+$ #tree(
+  spacing: (40pt, 40pt),
+  node-inset: 4pt
+)[
+  - $T_0$
+
+] $
+
+Here $dotless.j(T) = 1 $
+
+=== Example 2
+$ #tree(
+  spacing: (40pt, 40pt),
+  node-inset: 4pt
+)[
+  - $T_0$
+    - $ T_1 $
+    - $ T_2 $
+] $
+
+Here $dotless.j(T) =1+(1+1)/4 = 1 + 1/2 = 1.5 $
+
+
+=== Example 3
+$ #tree(
+  spacing: (40pt, 40pt),
+  node-inset: 4pt
+)[
+  - $T_0$
+    - $ T_1 $
+      - $ T_3 $
+      - $ T_4 $
+    - $ T_2 $
+] $
+
+Here $dotless.j(T) =1+((1+(1+1)/4)+1)/4 = 1 + (2+ 1/2)/4 = 1.625 $
+
+=== Example 4
+$ #tree(
+  spacing: (40pt, 40pt),
+  node-inset: 4pt
+)[
+  - $T_0$
+    - $ T_1 $
+      - $ T_3 $
+      - $ T_4 $
+    - $ T_2 $
+      - $ T_5 $
+      - $ T_6 $
+] $
+
+Here $dotless.j(T) =1+((1+(1+1)/4)+(1+(1+1)/4))/4 = 1 + (3)/4 = 1.75 $
+
+=== Example 5
+$ #tree(
+  spacing: (40pt, 40pt),
+  node-inset: 4pt
+)[
+   - $T_0$
+    - $ T_1 $
+      - $ T_3 $
+        - $ T_7 $
+        - $ T_8 $
+      - $ T_4 $
+    - $ T_2 $
+      - $ T_5 $
+        - $ T_9 $
+        - $ T_10 $
+      - $ T_6 $
+] $
+
+Here $dotless.j(T) =1+((((1+(1+1)/4) + 1)/4)+(((1+(1+1)/4)+1)/4))/4 = 1 + (13)/16 = 1.8125 $
+
+
+=== Conjecture
+
+From the examples above, it seem that $dotless.j(T_("size "k))->2$ as $k -> oo$.
+
+We know that for a full endless binary tree, then for any $dotless.j (T)$ 
+$ dotless.j (T) = 1+(dotless.j (T)+dotless.j (T))/4 = 1+1/2 dotless.j (T). $
+Then by recursion
+$ dotless.j (T) = 1+1/2 dotless.j (T) = 1+1/2 (1+1/2 dotless.j (T))) = 1+1/2 + 1/4 dotless.j (T) $
+
+That means that as the tree becomes infinitly large, that is $abs(T) -> oo$. It means that $ dotless.j (T) = summ(i=0,oo,(1/2)^i) $
+
+We know that geometric series where $r<1$, then $summ(i=0,oo,r^i) = 1/(1-r)$
+
+$ dotless.j (T) = summ(i=0,oo,(1/2)^i) = 1/(1-frac(1,2)) = 1/frac(1,2,style: "skewed") = 2 $
+
+#pagebreak()
+
+= Problem 4
+Consider a directed graph $G$ with $12$ vertices that satisfies the following two properties:
+- $G$ is _strongly connected_, i.e., between any two distinct vertices $u$ and $v$, there is a directed path from $u$ to $v$ as well as a directed path from $v$ to $u$, and
+- there is at most one directed edge coming out of each vertex.
+
+Draw $G$, and ague why your drawing is the _only possible_ solution (up to isomorphism).
+
+== Solution
+
+Since each vertex has *at most one* directed edge going out, and $G$ must be strongly connected, every vertex must have *exactly one* outgoing as well as *exactly one* ingoing edge as every node must also be reachable. This creates a 12-cycle:
+
+#figure(
+  dirgraph("
+#scl: 0.7;
+1.12;
+1>2; 2>3; 3>4; 4>5; 5>6; 6>7;
+7>8; 8>9; 9>10; 10>11; 11>12; 12>1;
+"),
+caption: [$G:$ A strongly connected 12-cycle.]
+) <fig:cycle>
+
+
+*Isomophic property* between to structures includes sharing the same properties. For this 12-cycle, because its vertices have exactly one ingoing and exactly one outgoing edge, it means, that any vertex is traversable from any other vertex. This is property is true regardless of the order of vertices. Because of this, @fig:cycle
+
+
+
+
+
+
+
+
+
 
 

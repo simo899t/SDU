@@ -6,7 +6,7 @@
   author: "Simon Holm",
   date: "February, 2026",
 )
-
+ 
 = Exercise $bold(1^*)$
 
 Suppose we have a unimodal function defined on the interval $[1, 32]$. After three function evaluations of our choice, will we be able to narrow the optimum to an interval of at most length 10? Why or why not? How much more can we reduce with one further evaluation?
@@ -242,7 +242,7 @@ alpha=1.531250  f=-5.943664  low=1.562500  high=1.500000
 starting zoom phase
 Zoom done: lo=1.562500  hi=1.500000
 Accepted alpha: 1.53125
-  ```
+  ``` 
 )
 #pagebreak()
 - Plotting the iterations of $alpha$
@@ -399,9 +399,15 @@ d  = -(nabla_f(x0))
 
 def backtracking_line_search(f, grad, x, d, alpha_0=1, p=0.5, beta=1e-4):
     y, g, alpha = f(x), grad(x), alpha_0
+    
     while ( f(x + alpha * d) > y + beta * alpha * np.dot(g, d) ) :
         alpha *= p
     return alpha
+
+
+def solve(max_iter=1000)
+
+
 
 alpha = backtracking_line_search(f,nabla_f,x0,d)
 

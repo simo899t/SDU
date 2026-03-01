@@ -7,9 +7,6 @@ n = 10
 
 x0 = np.full(10,-1)
 
-# print(x0)
-
-
 def ex_rosenbrock(x,a):
     sum = 0
 
@@ -36,10 +33,11 @@ def rosen_hess(x):
 
 rosen = lambda x: ex_rosenbrock(x, 50)
 rosen_der = auto.grad(rosen)
+rosen_hess_auto = auto.jacobian(rosen_der)
 
 res = opt.minimize(rosen, x0, method='Newton-CG',
-               jac=rosen_der, hess=rosen_hess,
-               options={'tol': 1e-10, 'disp': True, 'maxiter': 100000})
+               jac=rosen_der, hess=rosen_hess_auto,
+               options={'gtol': 1e-12, 'disp': True, 'maxiter': 10000})
 res.x
 
 if not res.success:

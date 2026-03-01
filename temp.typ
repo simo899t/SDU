@@ -1,4 +1,7 @@
 #import "@preview/lovelace:0.3.0": *
+#import "@preview/tdtr:0.5.2" : *
+#import "@preview/h-graph:0.1.0": *
+#let dirgraph(src) = h-graph(src, polar-render)
 
 #set page(
   paper: "us-letter",
@@ -27,12 +30,14 @@
 #let summ(a,b,c) = $sum_(#a)^(#b) #c$ 
 #let limm(a) = $lim_(#a)$
 #let pred(a) = $accent(#a,\^)$
-#let QED = [#h(100%) $square$]
+#let QED = [#h(1fr) $square$]
 #let f = [#h(1fr)]
 #let qquad = $quad quad$
 #let qqquad = $quad quad quad$
 #let qqqquad = $quad quad quad quad$
 #let sign(a) = $"sign"(#a)$
+#let superset = $subset.eq$
+
 // --- Calculus notation ---
 #let dx = $dif x$
 #let px = $partial x$
@@ -79,68 +84,31 @@
 #let cap = $inter$
 #let cup = $union$
 
-#import "@preview/cetz:0.4.2"
+#let tree(body, draw-node: tidy-tree-draws.circle-draw-node, ..args) = tidy-tree-graph(body, draw-node: draw-node, ..args)
 
-// Mapping diagram between two sets.
-// Each arrow entry: (from-idx, to-idx)  or  (from-idx, to-idx, color)  or  (from-idx, to-idx, color, label)
-// Indices are 0-based.
-#let mapdiag(
-  title: none,
-  a: $A$,
-  b: $B$,
-  a-elems: (),
-  b-elems: (),
-  arrows: (),
-  arrow-color: black,
-) = {
-  let na = a-elems.len()
-  let nb = b-elems.len()
-  let oval-h = 1.5
-  let usable = 1.0
-  let ypos(i, n) = if n <= 1 { 0.0 } else { usable - i * (2.0 * usable / (n - 1)) }
-  let x-a = 0
-  let x-b = 4
-  let off = 0.15
 
-  align(center, cetz.canvas({
-    import cetz.draw: *
+#let group-by-pairs(elements) = {
+  let lefts = elements
+    .enumerate()
+    .filter(((index, _)) => calc.rem(index, 2) == 0)
+    .map(((_, element)) => element)
+  let rights = elements
+    .enumerate()
+    .filter(((index, _)) => calc.rem(index, 2) == 1)
+    .map(((_, element)) => element)
+  lefts.zip(rights)
+}
 
-    circle((x-a, 0), radius: (0.6, oval-h), stroke: black)
-    circle((x-b, 0), radius: (0.6, oval-h), stroke: black)
-
-    content((x-a, oval-h + 0.5), a)
-    content((x-b, oval-h + 0.5), b)
-
-    if title != none {
-      content(((x-a + x-b) / 2, oval-h + 1.2), title)
-    }
-
-    for i in range(na) {
-      content((x-a, ypos(i, na)), a-elems.at(i))
-    }
-    for i in range(nb) {
-      content((x-b, ypos(i, nb)), b-elems.at(i))
-    }
-
-    for arr in arrows {
-      let fi    = arr.at(0)
-      let ti    = arr.at(1)
-      let c     = arr.at(2, default: arrow-color)
-      let label = arr.at(3, default: none)
-      let y1 = ypos(fi, na)
-      let y2 = ypos(ti, nb)
-      line(
-        (x-a + off, y1),
-        (x-b - off, y2),
-        stroke: c,
-        mark: (end: ">", fill: c))
-      if label != none {
-        content(
-          ((x-a + x-b) / 2, (y1 + y2) / 2 + 0.25),
-          text(fill: c, label))
+#let mycases(..cases, word: none) = {
+  let cases = group-by-pairs(cases.pos())
+    .map(((value, condition)) => {
+      if word != none {
+        $#value quad &#word #condition$
+      } else {
+        $#value quad & #condition$
       }
-    }
-  }))
+    })
+  math.cases(..cases)
 }
 
 #let code(content) = block(
@@ -212,6 +180,7 @@
   course: default-course,
   date: default-date,
   outline: true,
+  outline-depth: none,
 ) = {
   set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
   align(center,
@@ -240,7 +209,7 @@
     )
   )
   pagebreak()
-  if outline { std.outline(); pagebreak() }
+  if outline { std.outline(depth: outline-depth); pagebreak() }
 }
 
 #let exercise(
@@ -249,6 +218,7 @@
   course: default-course,
   date: default-date,
   outline: true,
+  outline-depth: none,
 ) = {
   set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
   align(center,
@@ -277,7 +247,7 @@
     )
   )
   pagebreak()
-  if outline { std.outline(); pagebreak() }
+  if outline { std.outline(depth: outline-depth); pagebreak() }
 }
 
 #let assignment(
@@ -286,6 +256,7 @@
   course: default-course,
   date: default-date,
   outline: true,
+  outline-depth: none,
 ) = {
   set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
   align(center,
@@ -314,7 +285,7 @@
     )
   )
   pagebreak()
-  if outline { std.outline(); pagebreak() }
+  if outline { std.outline(depth: outline-depth); pagebreak() }
 }
 
 #let project(
@@ -327,6 +298,7 @@
   supervisor: none,
   university: "University of Southern Denmark",
   outline: true,
+  outline-depth: none,
 ) = {
   set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
   align(center,
@@ -390,15 +362,52 @@
           )
         )
       ),
-      v(1.8em), 
+      v(1.8em),
       image("/assets/image-8.png", width: 15em),
       v(1cm),
     )
   )
   pagebreak()
-  if outline { std.outline(); pagebreak() }
+  if outline { std.outline(depth: outline-depth); pagebreak() }
 }
 
+#let exam(
+  title: default-title,
+  author: default-author,
+  course: default-course,
+  date: default-date,
+  outline: true,
+  outline-depth: none,
+) = {
+  set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
+  align(center,
+    stack(
+      spacing: 0pt,
+      v(1.2cm),
+      // Green top bar + label
+      line(length: 100%, stroke: 3pt + rgb("#1a6b3c")),
+      v(1.2em),
+      text(size: 9.5pt, fill: rgb("#1a6b3c"), tracking: 2.5pt, weight: "bold")[EXAM],
+      v(2.5cm),
+      // Title
+      text(size: 30pt, weight: "bold")[#title],
+      v(1.3em),
+      line(length: 28%, stroke: 0.5pt + rgb("#bbbbbb")),
+      v(0.7em),
+      text(size: 14pt, fill: rgb("#444444"))[#course],
+      // Push to bottom
+      v(1fr),
+      text(size: 12pt)[#author],
+      v(0.3em),
+      text(size: 11pt, fill: rgb("#888888"))[#date],
+      v(1.8em),
+      image("/assets/image-8.png", width: 15em),
+      v(1cm),
+    )
+  )
+  pagebreak()
+  if outline { std.outline(depth: outline-depth); pagebreak() }
+}
 
 
 
@@ -492,11 +501,12 @@
 // -- Notes --
 // #import "../../temp.typ": *
 //
-// #notes(
+// #note(
 //   title: "Lecture Notes",
 //   course: "DM000 — Course Name",
 //   author: "Simon Holm",
 //   date: "February 2026",
+//   outline-depth: 2,      // optional; none = unlimited
 // )
 
 // -- Exercises --
@@ -507,16 +517,29 @@
 //   course: "DM000 — Course Name",
 //   author: "Simon Holm",
 //   date: "February 2026",
+//   outline-depth: 2,      // optional
 // )
 //
 // -- Assignments --
 // #import "../../temp.typ": *
 //
 // #assignment(
-//   title: "Exercises 1",
+//   title: "Assignment 1",
 //   course: "DM000 — Course Name",
 //   author: "Simon Holm",
 //   date: "February 2026",
+//   outline-depth: 2,      // optional
+// )
+//
+// -- Exam --
+// #import "../../temp.typ": *
+//
+// #exam(
+//   title: "Exam Prep",
+//   course: "DM000 — Course Name",
+//   author: "Simon Holm",
+//   date: "February 2026",
+//   outline-depth: 2,      // optional
 // )
 //
 // -- CHI Paper --
@@ -564,4 +587,5 @@
 //   group: "Group 4",                    // optional
 //   supervisor: "Prof. Jane Doe",        // optional
 //   university: "University of Southern Denmark",
+//   outline-depth: 2,                    // optional
 // )
