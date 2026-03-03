@@ -1,4 +1,4 @@
-#let title = "Lecture 1: "
+#let title = "Lecture 1: Introduction"
 #let course = "AI504 - Knowledge Represntation"
 #let date = "23/02/2026"
 

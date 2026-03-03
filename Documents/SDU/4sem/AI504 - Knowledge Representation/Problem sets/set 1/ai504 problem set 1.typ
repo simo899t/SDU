@@ -3,8 +3,8 @@
 #assignment(
   title: "Problem set 1",
   course: "AI504 — Knowledge Representation",
-  author: "Simon Holm",
-  date: "February, 2026",
+  author: ("Simon Holm", "Johannes Rothe", "Shuagib Ibrahim", "Anne Sofie Høj"),
+  date: "March, 2026",
   outline-depth: 1
 )
 
@@ -20,8 +20,6 @@ The interleaves relation is defined as:
 
 $ (a,b)bold(R)(c,d) = a<c<b<d. $
 
-
-
 For transitivity
 $ (a,b)bold(R)(c,d) and (c,d)bold(R)(e,f) => (a,b)bold(R)(e,f). $
 
@@ -31,17 +29,23 @@ $ (a,b)bold(R)(c,d) = a<c<b<d $
 
 $ (c,d)bold(R)(e,f) = c<e<d<f $
 
-We wish to prove that $a<e and b<f and e<b$
+Then we wish to prove that 
+$ (a,b)bold(R)(e,f) = a<e<b<f$
 
-We can then prove that
+For this there is the following requirements
+$ a<c<e<b<d<f $
 
-$ a<c and c<e => a<e $
+We can then prove the following
+
+$ a<c "and" c<e => a<e $
 and 
-$ b<d and d<f => b<f $
+$ b<d "and" d<f => b<f $
 
 since we only know that
-$ c<e<d and c<b<d $
+$ c<e<d "and" c<b<d $
 We cannot say anything about weather $e<b$ is true.
+
+#pagebreak()
 
 Lets do a *counterexmple.*
 
@@ -54,6 +58,20 @@ This would imply that $[1,3]$ interleaves $[5,8]$
 this is false because it would imply that $ 1<5<3<8 $
 
 For this to work we need the relation closure $R^+$
+
+Lets argue that fro the closure, we need
+
+$ (a,b) bold(R) (c,d) "and" (c,d) bold(R) (e,f ) => (a,b)bold(R)(e,f) $
+
+Where 
+
+$ (a,b)bold(R)(e,f) = a<e<b<f $
+
+Since by definition we already know $a<e$ and $b<f$
+
+The closure needs to be
+
+$ R^+ = {(e,b)} $
 
 #pagebreak()
 
@@ -236,6 +254,7 @@ $ #tree(
 ] $
 
 Here $dotless.j(T) =1+((1+(1+1)/4)+1)/4 = 1 + (2+ 1/2)/4 = 1.625 $
+#pagebreak()
 
 === Example 4
 $ #tree(
@@ -271,23 +290,50 @@ $ #tree(
       - $ T_6 $
 ] $
 
-Here $dotless.j(T) =1+((((1+(1+1)/4) + 1)/4)+(((1+(1+1)/4)+1)/4))/4 = 1 + (13)/16 = 1.8125 $
+Here $dotless.j(T) =1+((1+((1+(1+1)/4) + 1)/4)+(1+((1+(1+1)/4)+1)/4))/4 = 1 + (13)/16 = 1.8125 $
 
+#pagebreak()
 
 === Conjecture
 
-From the examples above, it seem that $dotless.j(T_("size "k))->2$ as $k -> oo$.
+From the examples above, it seems that $dotless.j(T_("size "k))->2$ as $k -> oo$.
+
+Lets try and prove this
+
 
 We know that for a full endless binary tree, then for any $dotless.j (T)$ 
 $ dotless.j (T) = 1+(dotless.j (T)+dotless.j (T))/4 = 1+1/2 dotless.j (T). $
 Then by recursion
-$ dotless.j (T) = 1+1/2 dotless.j (T) = 1+1/2 (1+1/2 dotless.j (T))) = 1+1/2 + 1/4 dotless.j (T) $
+
+$ dotless.j (T) = 1+1/2 dotless.j (T) = 1+1/2 + 1/4 dotless.j (T) $
 
 That means that as the tree becomes infinitly large, that is $abs(T) -> oo$. It means that $ dotless.j (T) = summ(i=0,oo,(1/2)^i) $
 
 We know that geometric series where $r<1$, then $summ(i=0,oo,r^i) = 1/(1-r)$
 
 $ dotless.j (T) = summ(i=0,oo,(1/2)^i) = 1/(1-frac(1,2)) = 1/frac(1,2,style: "skewed") = 2 $
+
+
+
+
+// #pseudo[
+// *Proof by structured induction*
+// + *$underline("Base case")$*
+//   + if $T$ is a single leaf (a node with no children) then $dotless.j (T)=1$
+// + *$underline("Inductive step")$*
+//   + For any tree with two subtrees (full tree) $ dotless.j (T) = 1+ (dotless.j(T_("subtree 1")) + dotless.j(T_("subtree 2")))/4 $ 
+//   + *$underline("inductive hypothosis")$*
+//     + Since $T$ is a full infinite tree, any subtree is also a full tree
+//     + $ dotless.j (T) = 1+ (2dotless.j(T))/4 = 1+1/2 dotless.j(T) $
+//     + Then by recursion $ dotless.j (T) = 1+1/2 dotless.j (T) = 1+1/2 + 1/4 dotless.j (T) $
+//     + This is a geometric series such that
+//     + $ dotless.j (T) = 1+ 1/2 + 1/4 + 1/8 +1/16 +dots $
+//     + $ dotless.j (T) = summ(i=0,oo,(1/2)^i) = 1/(1-frac(1,2,style: "skewed")) = 1/frac(1,2,style: "skewed") = 2 $
+// 
+//     + 
+//   +
+//   
+// ]
 
 #pagebreak()
 
@@ -313,7 +359,7 @@ caption: [$G:$ A strongly connected 12-cycle.]
 ) <fig:cycle>
 
 
-*Isomophic property* between to structures includes sharing the same properties. For this 12-cycle, because its vertices have exactly one ingoing and exactly one outgoing edge, it means, that any vertex is traversable from any other vertex. This is property is true regardless of the order of vertices. Because of this, @fig:cycle
+*Isomophic property* between two structures means that they share the same exact same properties. For this 12-cycle, because its vertices have exactly one ingoing and exactly one outgoing edge, it means, that any vertex is traversable from any other vertex. This property is true regardless of the order of vertices. Because of this, @fig:cycle depicts the _only possible_ solution (up to isomorphism).
 
 
 

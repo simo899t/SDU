@@ -86,13 +86,13 @@
 
 // Title page
 #align(center)[
-  #text(size: 18pt, weight: "bold")[Exercises 4]
+  #text(size: 18pt, weight: "bold")[Lecture 5 - Convolutional Networks]
   
   #v(1em)
   
   Simon Holm \
-    AI505: Optimization \
-    Teacher: Marco Chiarandini
+    AI506: Advanced Machine Learning \
+    Teacher: Lucas Galke
 ]
 
 #pagebreak()

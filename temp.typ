@@ -83,6 +83,10 @@
 #let gam = $gamma$
 #let cap = $inter$
 #let cup = $union$
+#let ent = symbol("⊨", ("not", "⊭"))
+#let prov = symbol("⊢", ("not", "⊬"))
+
+#let dag = $dagger$
 
 #let tree(body, draw-node: tidy-tree-draws.circle-draw-node, ..args) = tidy-tree-graph(body, draw-node: draw-node, ..args)
 
@@ -109,6 +113,12 @@
       }
     })
   math.cases(..cases)
+}
+
+// Helper: accepts a string or array of strings, formats as "A · B · C"
+#let _fmt-authors(author) = {
+  if type(author) == str { author }
+  else { author.join(" · ") }
 }
 
 #let code(content) = block(
@@ -200,7 +210,7 @@
       text(size: 14pt, fill: rgb("#444444"))[#course],
       // Push to bottom
       v(1fr),
-      text(size: 12pt)[#author],
+      text(size: 12pt)[#_fmt-authors(author)],
       v(0.3em),
       text(size: 11pt, fill: rgb("#888888"))[#date],
       v(1.8em),
@@ -238,7 +248,7 @@
       text(size: 14pt, fill: rgb("#444444"))[#course],
       // Push to bottom
       v(1fr),
-      text(size: 12pt)[#author],
+      text(size: 12pt)[#_fmt-authors(author)],
       v(0.3em),
       text(size: 11pt, fill: rgb("#888888"))[#date],
       v(1.8em),
@@ -276,8 +286,8 @@
       text(size: 14pt, fill: rgb("#444444"))[#course],
       // Push to bottom
       v(1fr),
-      text(size: 12pt)[#author],
-      v(0.3em),
+      text(size: 12pt)[#_fmt-authors(author)],
+      v(1.8em),
       text(size: 11pt, fill: rgb("#888888"))[#date],
       v(1.8em),
       image("/assets/image-8.png", width: 15em),
@@ -327,7 +337,44 @@
       // Fill remaining space
       v(1fr),
 
-      // Author info block
+      // Authors — 3/2 centered grid layout
+      {
+        let author-arr = if type(author) == str {
+          ((name: author),)
+        } else if type(author) == array and author.len() > 0 and type(author.at(0)) == str {
+          author.map(n => (name: n))
+        } else if type(author) == array {
+          author
+        } else { ((name: str(author)),) }
+
+        let render-author(a) = align(center, stack(
+          spacing: 0.25em,
+          text(weight: "bold", size: 11pt)[#a.at("name", default: "")],
+          if a.at("email", default: "") != "" {
+            text(size: 8.5pt, fill: rgb("#4a90d9"))[#a.at("email", default: "")]
+          },
+        ))
+
+        let per-row = 3
+        let row-starts = range(0, author-arr.len(), step: per-row)
+        stack(spacing: 1.5em,
+          ..row-starts.map(i => {
+            let row = author-arr.slice(i, calc.min(i + per-row, author-arr.len()))
+            align(center,
+              box(width: (100% * row.len() / per-row),
+                grid(
+                  columns: (1fr,) * row.len(),
+                  column-gutter: 2em,
+                  ..row.map(render-author),
+                )
+              )
+            )
+          })
+        )
+      },
+      v(1.5em),
+
+      // Metadata box (group / supervisor / date)
       block(
         width: 60%,
         stroke: (top: 0.5pt + rgb("#aaaaaa"), bottom: 0.5pt + rgb("#aaaaaa")),
@@ -342,11 +389,6 @@
                 text()[#group],
               )
             },
-            grid(
-              columns: (4cm, 1fr),
-              text(fill: rgb("#777777"))[*Author:*],
-              text()[#author],
-            ),
             if supervisor != none {
               grid(
                 columns: (4cm, 1fr),
@@ -397,8 +439,8 @@
       text(size: 14pt, fill: rgb("#444444"))[#course],
       // Push to bottom
       v(1fr),
-      text(size: 12pt)[#author],
-      v(0.3em),
+      text(size: 12pt)[#_fmt-authors(author)],
+      v(1.8em),
       text(size: 11pt, fill: rgb("#888888"))[#date],
       v(1.8em),
       image("/assets/image-8.png", width: 15em),
@@ -429,7 +471,13 @@
   v(1.5em)
 
   // Authors — accepts either a string or an array of dicts
-  let authors-arr = if type(authors) == str { ((name: authors),) } else { authors }
+  let authors-arr = if type(authors) == str {
+    ((name: authors),)
+  } else if authors.len() > 0 and type(authors.at(0)) == str {
+    authors.map(n => (name: n))
+  } else {
+    authors
+  }
   if authors-arr.len() > 0 {
     let render-author(a) = align(center, stack(
       spacing: 0.3em,
@@ -457,7 +505,7 @@
       if i + 3 < n { v(1.5em) }
     }
 
-    v(0.8em)
+    v(1.8em)
     align(center, text(size: 9pt, fill: rgb("#888888"))[#date])
     v(1em)
   }
