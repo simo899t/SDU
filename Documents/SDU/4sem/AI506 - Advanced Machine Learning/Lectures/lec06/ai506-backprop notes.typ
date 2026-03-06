@@ -180,5 +180,9 @@ activation function") dot sum_(k) w_(k j)overbrace(delta_(k), "output error") $
   caption: [Easy example]
 )
 
+== The Backprop Algorithm
+#pseudo[
+  *Input:* input vector $x_n$
+]
 
 

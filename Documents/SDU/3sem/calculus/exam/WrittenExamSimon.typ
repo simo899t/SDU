@@ -149,9 +149,9 @@
 + Compute the following limit or show that the limit does not exist.
   $ lim_((x,y)->(0,0)) (x+y^2)/(2x+y) $
 
-  #align(center)[#image("/assets/image-43.png",width: 30em)
-  $f(x,y)=(x+y^2)/(2x+y)$ graphed in GeoGebra
-  ]
+  //#align(center)[#image("/assets/image-43.png",width: 30em)
+  //$f(x,y)=(x+y^2)/(2x+y)$ graphed in GeoGebra
+  //]
 
   Then i can constant $y$ and check for x-
 
@@ -212,7 +212,7 @@ Below is a contour diagram of $f(x, y)$. In each of the following cases, list th
 
 
 
-#align(center)[#image("/assets/image-44.png",width: 25em)]
+//#align(center)[#image("/assets/image-44.png",width: 25em)]
 
 Hint: what kind of function $f(x, y)$ would produce a contour plot like the one shown?
 Compute its $f_x, f_y, f_(x x)$ and $f_(y y)$.
@@ -323,7 +323,7 @@ F is differentiable on a point $(x,y)$ if $lim_((x, y) -> (a, b)) f(x, y) - f(a,
 = Problem 8
 Use polar coordinate to evaluate $integral_R sqrt(x^2+y^2)$ where $R$ is given in the following figure.
 
-#align(center)[#image("/assets/image-45.png",width: 25em)]
+// #align(center)[#image("/assets/image-45.png",width: 25em)]
 
 == Solution
 

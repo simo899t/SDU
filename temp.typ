@@ -31,12 +31,15 @@
 #let limm(a) = $lim_(#a)$
 #let pred(a) = $accent(#a,\^)$
 #let QED = [#h(1fr) $square$]
+#let IH = [*_IH_*]
 #let f = [#h(1fr)]
 #let qquad = $quad quad$
 #let qqquad = $quad quad quad$
 #let qqqquad = $quad quad quad quad$
 #let sign(a) = $"sign"(#a)$
-#let superset = $subset.eq$
+#let psubset = $subset.eq$
+#let rang = $chevron.r$
+#let lang = $chevron.l$
 
 // --- Calculus notation ---
 #let dx = $dif x$
@@ -191,7 +194,10 @@
   date: default-date,
   outline: true,
   outline-depth: none,
+  ..args,
 ) = {
+  let body = args.pos().at(0, default: [])
+  set math.mat(delim: "[", gap: 0.3em)
   set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
   align(center,
     stack(
@@ -220,6 +226,7 @@
   )
   pagebreak()
   if outline { std.outline(depth: outline-depth); pagebreak() }
+  body
 }
 
 #let exercise(
@@ -229,7 +236,10 @@
   date: default-date,
   outline: true,
   outline-depth: none,
+  ..args,
 ) = {
+  let body = args.pos().at(0, default: [])
+  set math.mat(delim: "[", gap: 0.3em)
   set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
   align(center,
     stack(
@@ -258,6 +268,7 @@
   )
   pagebreak()
   if outline { std.outline(depth: outline-depth); pagebreak() }
+  body
 }
 
 #let assignment(
@@ -267,7 +278,10 @@
   date: default-date,
   outline: true,
   outline-depth: none,
+  ..args,
 ) = {
+  let body = args.pos().at(0, default: [])
+  set math.mat(delim: "[", gap: 0.3em)
   set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
   align(center,
     stack(
@@ -296,6 +310,7 @@
   )
   pagebreak()
   if outline { std.outline(depth: outline-depth); pagebreak() }
+  body
 }
 
 #let project(
@@ -309,7 +324,10 @@
   university: "University of Southern Denmark",
   outline: true,
   outline-depth: none,
+  ..args,
 ) = {
+  let body = args.pos().at(0, default: [])
+  set math.mat(delim: "[", gap: 0.3em)
   set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
   align(center,
     stack(
@@ -411,37 +429,141 @@
   )
   pagebreak()
   if outline { std.outline(depth: outline-depth); pagebreak() }
+  body
 }
 
 #let exam(
   title: default-title,
+  subtitle: none,
   author: default-author,
   course: default-course,
   date: default-date,
+  student-id: none,
+  username: none,
+  student-number: none,
+  duration: none,
+  allowed-aids: none,
+  university: "University of Southern Denmark",
   outline: true,
   outline-depth: none,
+  ..args,
 ) = {
-  set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
+  let body = args.pos().at(0, default: [])
+  let author-name = if type(author) == str { author }
+    else if type(author) == array and author.len() > 0 {
+      if type(author.at(0)) == str { author.at(0) }
+      else { author.at(0).at("name", default: "") }
+    } else { "" }
+  set math.mat(delim: "[", gap: 0.3em)
+  set page(
+    margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm),
+    header: if username != none or student-number != none {
+      set text(size: 9pt, fill: rgb("#555555"))
+      grid(
+        columns: (1fr, 1fr, 1fr),
+        align(left)[#author-name],
+        align(center)[#if username != none { username }],
+        align(right)[#if student-number != none { student-number }],
+      )
+    },
+  )
   align(center,
     stack(
       spacing: 0pt,
-      v(1.2cm),
-      // Green top bar + label
-      line(length: 100%, stroke: 3pt + rgb("#1a6b3c")),
-      v(1.2em),
+      // Top: university name
+      v(1.5cm),
+      text(size: 13pt, fill: rgb("#555555"))[#university],
+      v(0.6em),
+      line(length: 60%, stroke: 0.5pt + rgb("#aaaaaa")),
+      v(0.5cm),
+
+      // Green label
       text(size: 9.5pt, fill: rgb("#1a6b3c"), tracking: 2.5pt, weight: "bold")[EXAM],
-      v(2.5cm),
-      // Title
-      text(size: 30pt, weight: "bold")[#title],
+      v(4.5cm),
+
+      // Title block
+      text(size: 28pt, weight: "bold")[#title],
+      if subtitle != none {
+        stack(
+          v(1.5em),
+          text(size: 15pt, fill: rgb("#444444"), style: "italic")[#subtitle],
+        )
+      },
+      v(1em),
+      line(length: 40%, stroke: 0.5pt + rgb("#aaaaaa")),
       v(1.3em),
-      line(length: 28%, stroke: 0.5pt + rgb("#bbbbbb")),
-      v(0.7em),
-      text(size: 14pt, fill: rgb("#444444"))[#course],
-      // Push to bottom
+      text(size: 14pt, fill: rgb("#333333"))[#course],
+
+      // Fill remaining space
       v(1fr),
-      text(size: 12pt)[#_fmt-authors(author)],
-      v(1.8em),
-      text(size: 11pt, fill: rgb("#888888"))[#date],
+
+      // Authors
+      {
+        let author-arr = if type(author) == str {
+          ((name: author),)
+        } else if type(author) == array and author.len() > 0 and type(author.at(0)) == str {
+          author.map(n => (name: n))
+        } else if type(author) == array {
+          author
+        } else { ((name: str(author)),) }
+
+        let render-author(a) = align(center, stack(
+          spacing: 0.25em,
+          text(weight: "bold", size: 11pt)[#a.at("name", default: "")],
+          if a.at("id", default: "") != "" {
+            text(size: 9pt, fill: rgb("#555555"))[#a.at("id", default: "")]
+          },
+        ))
+
+        let per-row = 3
+        let row-starts = range(0, author-arr.len(), step: per-row)
+        stack(spacing: 1.5em,
+          ..row-starts.map(i => {
+            let row = author-arr.slice(i, calc.min(i + per-row, author-arr.len()))
+            align(center,
+              box(width: (100% * row.len() / per-row),
+                grid(
+                  columns: (1fr,) * row.len(),
+                  column-gutter: 2em,
+                  ..row.map(render-author),
+                )
+              )
+            )
+          })
+        )
+      },
+      v(1.5em),
+
+      // Metadata box
+      block(
+        width: 60%,
+        stroke: (top: 0.5pt + rgb("#aaaaaa"), bottom: 0.5pt + rgb("#aaaaaa")),
+        inset: (top: 1em, bottom: 1em),
+        align(left,
+          stack(
+            spacing: 0.5em,
+            if duration != none {
+              grid(
+                columns: (4cm, 1fr),
+                text(fill: rgb("#777777"))[*Duration:*],
+                text()[#duration],
+              )
+            },
+            if allowed-aids != none {
+              grid(
+                columns: (4cm, 1fr),
+                text(fill: rgb("#777777"))[*Allowed aids:*],
+                text()[#allowed-aids],
+              )
+            },
+            grid(
+              columns: (4cm, 1fr),
+              text(fill: rgb("#777777"))[*Date:*],
+              text()[#date],
+            ),
+          )
+        )
+      ),
       v(1.8em),
       image("/assets/image-8.png", width: 15em),
       v(1cm),
@@ -449,6 +571,7 @@
   )
   pagebreak()
   if outline { std.outline(depth: outline-depth); pagebreak() }
+  body
 }
 
 
@@ -461,7 +584,10 @@
   ccs: none,
   date: default-date,
   outline: false,
+  ..args,
 ) = {
+  let body = args.pos().at(0, default: [])
+  set math.mat(delim: "[", gap: 0.3em)
   set page(paper: "us-letter", margin: (x: 1.9cm, y: 2.3cm))
   set text(size: 9.5pt)
 
@@ -539,101 +665,159 @@
   line(length: 100%, stroke: 0.5pt + rgb("#888888"))
   v(1em)
   if outline { pagebreak(); std.outline(); pagebreak() }
+  body
 }
 
+/*
+=============================================================
+TEMPLATE CHEATSHEET — copy the block you need into a new file
+=============================================================
 
+── NOTE ──────────────────────────────────────────────────────
+#import "../../temp.typ": *
+#show: note.with(
+  title:         "Lecture Notes",
+  course:        "DM000 — Course Name",
+  author:        "Simon Holm",
+  date:          "February 2026",
+  outline:       true,          // set false to skip TOC
+  outline-depth: 2,             // none = unlimited depth
+)
 
+= First Section
+Content goes here.
 
-// --- Usage in a new Typst file ---
+── EXERCISE ──────────────────────────────────────────────────
+#import "../../temp.typ": *
+#show: exercise.with(
+  title:         "Exercises 1",
+  course:        "DM000 — Course Name",
+  author:        "Simon Holm",
+  date:          "February 2026",
+  outline:       true,
+  outline-depth: 2,
+)
 
-// -- Notes --
-// #import "../../temp.typ": *
-//
-// #note(
-//   title: "Lecture Notes",
-//   course: "DM000 — Course Name",
-//   author: "Simon Holm",
-//   date: "February 2026",
-//   outline-depth: 2,      // optional; none = unlimited
-// )
+= Exercise 1
+// Content goes here.
 
-// -- Exercises --
-// #import "../../temp.typ": *
-//
-// #exercise(
-//   title: "Exercises 1",
-//   course: "DM000 — Course Name",
-//   author: "Simon Holm",
-//   date: "February 2026",
-//   outline-depth: 2,      // optional
-// )
-//
-// -- Assignments --
-// #import "../../temp.typ": *
-//
-// #assignment(
-//   title: "Assignment 1",
-//   course: "DM000 — Course Name",
-//   author: "Simon Holm",
-//   date: "February 2026",
-//   outline-depth: 2,      // optional
-// )
-//
-// -- Exam --
-// #import "../../temp.typ": *
-//
-// #exam(
-//   title: "Exam Prep",
-//   course: "DM000 — Course Name",
-//   author: "Simon Holm",
-//   date: "February 2026",
-//   outline-depth: 2,      // optional
-// )
-//
-// -- CHI Paper --
-// #import "../../temp.typ": *
-//
-// #chi(
-//   title: "Paper Title",
-//   authors: (
-//     (name: "Simon Holm",  institution: "University of Southern Denmark", city: "Odense", country: "Denmark", email: "siho@sdu.dk"),
-//     (name: "Author Two",  institution: "University of Southern Denmark", city: "Odense", country: "Denmark", email: "two@sdu.dk"),
-//     (name: "Author Three",institution: "University of Southern Denmark", city: "Odense", country: "Denmark", email: "three@sdu.dk"),
-//     (name: "Author Four", institution: "University of Southern Denmark", city: "Odense", country: "Denmark", email: "four@sdu.dk"),
-//     (name: "Author Five", institution: "University of Southern Denmark", city: "Odense", country: "Denmark", email: "five@sdu.dk"),
-//   ),
-//   abstract: [Your abstract text here.],
-//   keywords: ("keyword one", "keyword two", "keyword three"),
-//   ccs: [\u{2192} Human-centered computing \u{2192} HCI theory, concepts and models],   // optional
-// )
-// #set page(columns: 2)    // body in two columns (optional)
-//
-// -- Mapping Diagram --
-// #mapdiag(
-//   title: $f: A -> B$,                      // optional title above diagram
-//   a: $A$,                                   // left set label  (default $A$)
-//   b: $B$,                                   // right set label (default $B$)
-//   a-elems: ($1$, $2$, $3$),                 // elements in left set
-//   b-elems: ($a$, $b$, $c$),                 // elements in right set
-//   arrow-color: black,                        // default arrow colour
-//   arrows: (
-//     (0, 0),                                  // plain arrow (uses arrow-color)
-//     (1, 2, red),                             // coloured arrow
-//     (2, 1, blue, $g$),                       // coloured arrow with label
-//   ),
-// )
-//
-// -- Project --
-// #import "../../temp.typ": *
-//
-// #project(
-//   title: "Project Title",
-//   subtitle: "Optional subtitle",       // optional
-//   course: "DM000 — Course Name",
-//   author: "Simon Holm",
-//   date: "February 2026",
-//   group: "Group 4",                    // optional
-//   supervisor: "Prof. Jane Doe",        // optional
-//   university: "University of Southern Denmark",
-//   outline-depth: 2,                    // optional
-// )
+── ASSIGNMENT ────────────────────────────────────────────────
+#import "../../temp.typ": *
+#show: assignment.with(
+  title:         "Assignment 1",
+  course:        "DM000 — Course Name",
+  author:        "Simon Holm",
+  date:          "February 2026",
+  outline:       true,
+  outline-depth: 2,
+)
+
+= Problem 1
+// Content goes here.
+
+── EXAM ──────────────────────────────────────────────────────
+#import "../../temp.typ": *
+#show: exam.with(
+  title:         "Written Exam",
+  subtitle:      "Re-exam",                    // optional
+  course:        "DM000 — Course Name",
+  author:        "Simon Holm",
+  date:          "June 2026",
+  student-id:    "sihol24",                    // optional
+  username:      "sihol24",                    // optional — shown in page header
+  student-number: "215751682",                 // optional — shown in page header
+  duration:      "4 hours",                    // optional
+  allowed-aids:  "All written materials",      // optional
+  university:    "University of Southern Denmark",
+  outline:       false,
+)
+
+= Problem 1
+// Content goes here.
+
+── EXAM (group / multiple students) ─────────────────────────
+#import "../../temp.typ": *
+#show: exam.with(
+  title:        "Written Exam",
+  course:       "DM000 — Course Name",
+  author: (
+    (name: "Simon Holm", id: "sihol24"),
+    (name: "Firstname Lastname",   id: "jado42"),
+  ),
+  date:         "June 2026",
+  duration:     "4 hours",
+  allowed-aids: "None",
+)
+
+= Problem 1
+// Content goes here.
+
+── PROJECT ───────────────────────────────────────────────────
+#import "../../temp.typ": *
+#show: project.with(
+  title:         "Project Title",
+  subtitle:      "Optional subtitle",          // optional
+  course:        "DM000 — Course Name",
+  author:        "Simon Holm",                 // or array of dicts below
+  date:          "February 2026",
+  group:         "Group 4",                    // optional
+  supervisor:    "Prof. Firstname Lastname",             // optional
+  university:    "University of Southern Denmark",
+  outline:       true,
+  outline-depth: 2,
+)
+
+= Introduction
+// Content goes here.
+
+── PROJECT (multiple authors with email) ─────────────────────
+#import "../../temp.typ": *
+#show: project.with(
+  title:  "Project Title",
+  course: "DM000 — Course Name",
+  author: (
+    (name: "Simon Holm", email: "sihol24@student.sdu.dk"),
+    (name: "Firstname Lastname",   email: "jado@student.sdu.dk"),
+  ),
+  date:       "February 2026",
+  group:      "Group 4",
+  supervisor: "Prof. Jane Doe",
+)
+
+= Introduction
+// Content goes here.
+
+── CHI PAPER ─────────────────────────────────────────────────
+#import "../../temp.typ": *
+#show: chi.with(
+  title: "Paper Title",
+  authors: (
+    (name: "Simon Holm", institution: "University of Southern Denmark", city: "Odense", country: "Denmark", email: "sihol24@student.sdu.dk"),
+    (name: "Author Two", institution: "University of Southern Denmark", city: "Odense", country: "Denmark", email: "two@student.sdu.dk"),
+  ),
+  abstract: [Your abstract text here.],
+  keywords: ("keyword one", "keyword two", "keyword three"),
+  ccs:      [\u{2192} Human-centered computing \u{2192} HCI theory, concepts and models], // optional
+  date:     "March 2026",
+  outline:  false,
+)
+#set page(columns: 2)
+
+= Introduction
+// Content goes here.
+
+── MAPPING DIAGRAM (inline, no import needed) ────────────────
+#mapdiag(
+  title:        $f: A -> B$,           // optional label above diagram
+  a:            $A$,                   // left set label  (default $A$)
+  b:            $B$,                   // right set label (default $B$)
+  a-elems:      ($1$, $2$, $3$),
+  b-elems:      ($a$, $b$, $c$),
+  arrow-color:  black,                 // default arrow colour
+  arrows: (
+    (0, 0),                            // plain arrow
+    (1, 2, red),                       // coloured arrow
+    (2, 1, blue, $g$),                 // coloured + label
+  ),
+)
+*/

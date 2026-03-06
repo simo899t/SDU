@@ -1,7 +1,7 @@
 #import "../../../../../../temp.typ": *
 
 #assignment(
-  title: "Problem set 2",
+  title: "Problem set 7",
   course: "AI504 — Knowledge Representation",
   author: ("Simon Holm", "Johannes Rothe", "Shuagib Ibrahim", "Anne Sofie Høj"),
   date: "March, 2026",
