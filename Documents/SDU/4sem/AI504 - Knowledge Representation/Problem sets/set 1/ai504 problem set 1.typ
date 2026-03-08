@@ -29,7 +29,7 @@ $ (a,b)bold(R)(c,d) = a<c<b<d $
 
 $ (c,d)bold(R)(e,f) = c<e<d<f $
 
-we can call these our axioms.
+we can call these our premises.
 
 Now we wish to prove that 
 $ (a,b)bold(R)(e,f) = a<e<b<f. $
@@ -37,7 +37,7 @@ $ (a,b)bold(R)(e,f) = a<e<b<f. $
 For this there is the following requirements
 $ a<c<e<b<d<f $
 
-then by our axioms we can prove the following
+then by our premises we can prove the following
 
 $ a<c "and" c<e => a<e $
 and 
@@ -47,11 +47,11 @@ Since we only know that
 $ c<e<d "and" c<b<d $
 we cannot say anything about whether $e<b$ is true.
 
-Therfore the relation is *not transitive*.
+Therefore, the relation is *not transitive*.
 
 #pagebreak()
 
-Lets do a *counterexmple.*
+Let's do a *counterexample.*
 
 Let $ A = [1,3] quad B = [2,6] quad C =[5,8]. $
 
@@ -63,7 +63,7 @@ This is false because it would imply that $ 1<bold(5<3)<8. $
 
 For this to work we need the relation closure $R^+$.
 
-Lets argue that for the closure, we need
+Let's argue that for the closure, we need
 
 $ (a,b) bold(R) (c,d) "and" (c,d) bold(R) (e,f ) => (a,b)bold(R)(e,f) $
 
@@ -81,8 +81,8 @@ $ R^+ = {(e,b)}. $
 
 = Problem 2
 Let $x$ and $Y$ be sets, let $R$ and $S$ be binary relations of type $X times Y$, and let $P$ and $Q$ be subsets of $X$. 
-Recal that the _forward image_ $R(P)$ is the subset of $Y$ obtained by following all $R$-arrows forwards out of $P$. 
-(And similarly for all the other forwars images in this problem.) 
+Recall that the _forward image_ $R(P)$ is the subset of $Y$ obtained by following all $R$-arrows forwards out of $P$. 
+(And similarly for all the other forward images in this problem.) 
 For each of the following identities, either prove correct or provide a counterexample. 
 _All proofs are short and all counterexamples are tiny_
  
@@ -106,7 +106,7 @@ We wish to show that $ R(P cup Q) = R(P)cup R(Q) $
 We know that
 $ forall y in R(P cup Q), exists x in P cup Q | (x,y) in R $
 
-This just means that for every $y$ in the relation on the union of the 
+This means that for every $y$ in the relation on the union of the 
 subsets $P$ and $Q$, there must be some $x$ where the relation $R$ holds.
 
 Then we can show that the $y$ can either come from $R(P)$ or $R(Q)$, so
@@ -120,7 +120,7 @@ This is the same as $R(P cup Q) = R(P)cup R(Q).$
 
 === (b)
 
-We can apply on $R(P cap Q) = R(P)cap R(Q)$.
+We wish to show that $ R(P cap Q) = R(P)cap R(Q). $
 
 The same applies for
 $ forall y in R(P cap Q), exists x in P cap Q | (x,y) in R $
@@ -132,15 +132,11 @@ But when we do
 $ forall y in R(P) cap R(Q): y in R(P) "and" y in R(Q). $
 
 We realise that for $y$ to exist, $P$ and $Q$ must share an element that both 
-maps to the same $y$ if they dont then *this does not hold*. 
+maps to the same $y$, if they don't then *this does not hold*. 
 
 Let's do a *counterexample* to properly disprove this.
 
-Let set $X$ be a set, and $Y$ be the forward image of relations $R$ and $S$.
-
-Then let $P$ and $Q$ be subsets of $X$.
-
-Lets check if $ R(P cap Q) = R(P) cap R(Q) $
+Let's check if $ R(P cap Q) = R(P) cap R(Q) $
 
 when 
 
@@ -163,14 +159,14 @@ Since $emptyset != {2}$ this *counters* the statement.
 
 === (c)
 
-For $ (R cup S)(P) = R(P) cup S(P) $
+We wish to show that $ (R cup S)(P) = R(P) cup S(P) $
 
-we can say that any $y$ must come from an $x$ in $P$ applied by  $R$  $ S$
-$ forall y in (R cup S)(P), exists x in P | (x,y) in R "or" S $
+we can say that any $y$ must come from an $x$ in $P$ applied by  $R$ or $ S$
+$ forall y in (R cup S)(P), exists x in P | (x,y) in R "or" S. $
 
 Then we can describe $y in R(P) cup S(P)$
 
-$ forall y in R(P) cup S(P), exists x in P| (x,y) in R "or" S $
+$ forall y in R(P) cup S(P), exists x in P| (x,y) in R "or" S. $
 
 Since these both describe the same relation from $x->y$ they are *equal*.
 
@@ -178,38 +174,38 @@ Since these both describe the same relation from $x->y$ they are *equal*.
 
 === (d)
 
-For $ (R cap S)(P) = R(P) cap S(P) $
+We wish to show that $ (R cap S)(P) = R(P) cap S(P) $
 
 any $y$ must have an $x$ from $P$ which is applied by $R cap S$
-$ forall y in (R cap S)(P), exists x in P | (x,y) in R cap S $
+$ forall y in (R cap S)(P), exists x in P | (x,y) in R cap S. $
 
 Then showing that $x$ can only be 
-$ forall y in R(P) cap S(P), exists x in P |(x,y) in R and S $
+$ forall y in R(P) cap S(P), exists x in P |(x,y) in R "and" S. $
 
-Much like in (b) we realise that for $y$ to exist, $R$ and $S$ must share an element that both maps the same $x$ to the same $y$ if they dont then *this does not hold*. 
+Much like in (b) we realise that for $y$ to exist, $R$ and $S$ must share an element that both maps the same $x$ to the same $y$, if they don't then *this does not hold*. 
 
-Let's do a *counterexample* to disprove this
+Let's do a *counterexample* to disprove this.
 
-Let $X$ be a set, and $Y$ be the forward image of relations $R$, $S$, and let $P$ be a subset of $X$
 
-Then i want to see if $ (R cap S)(P) = R(P)) cap S(P) $
 
-$ X={1,2,3} "and" Y={1,2,3} "and" P={1,2} psubset X $
+Let's check if $ (R cap S)(P) = R(P)) cap S(P) $
+
+$ X={1,2,3} "and" Y={1,2,3} "and" P={1,2} psubset X. $
 
 
 Now let
 $ R = {(1,2), (1,3), (3,1)} quad S = {(1,3), (2,1), (2,2), (3,3)} $
 
 then 
-$ R cap S = {(1,3)} $
+$ R cap S = {(1,3)}. $
 
-now we can check
+Now we can check
 $ (R cap S)(P) = {(1,3)}({1,2}) = {3} $
 and
 $ R(P)) cap S(P) = {(1,2), (1,3), (3,1)}({1,2})) cap {(1,3), (2,1), (2,2), (3,3)}({1,2})\ 
-= {1,2,3} cap {1,2,3} = {1,2,3} $
+= {2,3} cap {1,2,3} = {2,3}. $
 
-Since ${3} != {1,2,3}$ this *counters* the statement. #QED
+Since ${3} != {2,3}$ this *counters* the statement. #QED
 
 #pagebreak()
 
@@ -229,7 +225,7 @@ Calculate the value of $dotless.j$ on lots of small examples. Formulate a conjec
 
 == Solution
 
-Lets start of by doing a few examples
+Let's start of by doing a few examples
 
 === Example 1
 $ #tree(
@@ -312,17 +308,17 @@ Here $dotless.j(T) =1+((1+((1+(1+1)/4) + 1)/4)+(1+((1+(1+1)/4)+1)/4))/4 = 1 + (1
 
 From the examples above, it seems that $dotless.j(T_("size "k))->2$ as $k -> oo$.
 
-Therfore for any finite tree $T$, it seems that $dotless.j$ grows infinitely close to 2 but still hold the statement that: $ dotless.j(T) <2 $
+Therefore, for any finite tree $T$, it seems that $dotless.j$ grows infinitely close to 2. Therefore: $ dotless.j(T) <2 $
 
-Lets try and prove that
+Let's try and prove that
 
 #pseudo[
-*Proof by structured induction*
+*Proof by structural induction*
 - We want to prove that $dotless.j(T)<2$
 + *$underline("Base case")$*
   + if $T_0$ is a single leaf (a node with no children) then $dotless.j (T)=1$
   + $ dotless.j (T_0) < 2. $
-+ *$underline("Inductive hypothosis")$*
++ *$underline("Inductive hypothesis")$*
   
  + Assume that 
  + $ dotless.j(T_("subtree 1"))<2 "and" dotless.j(T_("subtree 2"))<2 $
@@ -364,19 +360,20 @@ caption: [$G:$ A strongly connected 12-cycle.]
 
 To say that @fig:12cycle is the _only possible solution_ (up to isomorphism). We need to argue that @fig:12cycle is isomorphic.
 
-*Isomorphic property* between two directed graphs means that they share the same exact same properties. By definition, two directed graphs $G_1=(V_1,E_1)$ and $G_2=(V_2,E_2)$ are isomorphic if and only if there exists a one-to-one and onto function $f:V_1->V_2$ such that any two vertices $(a,b) in V_1$ where $(a,b) in E_1$ and $(f(a),f(b)) in V_2$ where $(f(a),f(b)) in E_2$. @DescMath
+By definition, two directed graphs $G_1=(V_1,E_1)$ and $G_2=(V_2,E_2)$ are *isomorphic* if and only if there exists a one-to-one and onto function $f:V_1->V_2$ such that any two vertices $(a,b) in V_1$ where $(a,b) in E_1$ and $(f(a),f(b)) in V_2$ where $(f(a),f(b)) in E_2$. @DescMath
 
 For a function to be one-to-one and onto on two sets, it is at least required that they have the same amount of elements. For this 12-cycle, any _other solution_ would, by definition, have exactly 12 vertices as well. 
 
 For this 12-cycle, because its vertices have exactly one ingoing and exactly one outgoing edge, the adjacency property of isomorphism *can* be satisfied. Any two vertices in two in a strongly conected cycle like this, will hold this property. The only way this protery would *not* hold, is that a vertex in the graph has either 2 outgoing edges or 2 ingoing edges.
 
+#pagebreak()
 
 This can be showed with an example of 2 isomorphic graphs:
 
 #figure(
   grid(
-    columns: 2,
-    column-gutter: 4em,
+    columns: 3,
+    column-gutter: 1em,
     align: center,
     [
       #dirgraph("
@@ -385,6 +382,16 @@ This can be showed with an example of 2 isomorphic graphs:
 1>3; 2>4; 3>5; 4>6; 5>7; 6>8;
 8>9; 7>10; 9>11; 10>12; 11>1; 12>2;
 ")
+    ],[
+      #align(center + horizon)[
+        #stack(
+          dir: ttb,
+          spacing: 0.4em,
+          $bold(f)$,
+          scale(x: 400%,y:300% , reflow: true)[#sym.arrow
+          ],
+        )
+      ]
     ],
     [
       #dirgraph("
@@ -411,3 +418,4 @@ Because of this, @fig:12cycle depicts the *_only possible_* solution (up to isom
 #pagebreak()
 
 #bibliography("references.bib")
+ 
