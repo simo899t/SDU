@@ -34,7 +34,7 @@ we can call these our premises.
 Now we wish to prove that 
 $ (a,b)bold(R)(e,f) = a<e<b<f. $
 
-For this there is the following requirements
+For this, there are the following requirements
 $ a<c<e<b<d<f $
 
 then by our premises we can prove the following
@@ -225,7 +225,7 @@ Calculate the value of $dotless.j$ on lots of small examples. Formulate a conjec
 
 == Solution
 
-Let's start of by doing a few examples
+Let's start off by doing a few examples
 
 === Example 1
 $ #tree(
@@ -357,14 +357,14 @@ Since each vertex has *at most one* directed edge going out, and $G$ must be str
 caption: [$G:$ A strongly connected 12-cycle.]
 ) <fig:12cycle>
 
-
+ 
 To say that @fig:12cycle is the _only possible solution_ (up to isomorphism). We need to argue that @fig:12cycle is isomorphic.
 
 By definition, two directed graphs $G_1=(V_1,E_1)$ and $G_2=(V_2,E_2)$ are *isomorphic* if and only if there exists a one-to-one and onto function $f:V_1->V_2$ such that any two vertices $(a,b) in V_1$ where $(a,b) in E_1$ and $(f(a),f(b)) in V_2$ where $(f(a),f(b)) in E_2$. @DescMath
 
 For a function to be one-to-one and onto on two sets, it is at least required that they have the same amount of elements. For this 12-cycle, any _other solution_ would, by definition, have exactly 12 vertices as well. 
 
-For this 12-cycle, because its vertices have exactly one ingoing and exactly one outgoing edge, the adjacency property of isomorphism *can* be satisfied. Any two vertices in two in a strongly conected cycle like this, will hold this property. The only way this protery would *not* hold, is that a vertex in the graph has either 2 outgoing edges or 2 ingoing edges.
+For this 12-cycle, because its vertices have exactly one ingoing and exactly one outgoing edge, the adjacency property of isomorphism *can* be satisfied. Any two vertices in two in a strongly connected cycle like this, will hold this property. The only way this protery would *not* hold, is that a vertex in the graph has either 2 outgoing edges or 2 ingoing edges.
 
 #pagebreak()
 
