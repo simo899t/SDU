@@ -31,7 +31,7 @@ somewhat arbitrary cut in analysing communication episodes
   - both the communication itslef and cultural context
 
 == Communication as a process
-$ #image("/assets/image-21.png", width: 35em) $
+$ #image("assets/image-21.png", width: 35em) $
 
 == Multiple levels of communication
 - One-to-many
@@ -76,8 +76,8 @@ Common ground emerges from two sources:
 
 = Processing communication
 == Perception
-$ #image("/assets/image-22.png",width: 30em) $
-$ #image("/assets/image-23.png", width: 30em) $
+$ #image("assets/image-22.png",width: 30em) $
+$ #image("assets/image-23.png", width: 30em) $
 
 == Computer-mediated communication
 Can differ from face-to-face communication

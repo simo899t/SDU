@@ -57,7 +57,7 @@ This includes
 = The social impact compass
 
 #figure(
-  image("/assets/image-56.png"),
+  image("assets/image-56.png"),
   caption: []
 )
 
@@ -88,7 +88,7 @@ Innovation =
 == Acceptance of innovations
 One broad and popular framework:
 #figure(
-  image("/assets/image-58.png"),
+  image("assets/image-58.png"),
   caption: [Technology acceptance model by Fred Davis, Rooted in the theory of planned behaviour (TPB) by *Ajzen & Fishbein*]
 )
 Acceptance as a result of$dots$

@@ -19,7 +19,7 @@
 3. use that location as the next iteration to approach a local minimum.
 
 #figure(
-  image("/assets/image-38.png"),
+  image("assets/image-38.png"),
   caption: [Common causes of error in Newton's method (aproximation is $bluemath("blue")$)]
 )
 
@@ -35,7 +35,7 @@ $ x_(k+1) = x_k - (f'(x_k))/f''(x_k) $
 
 
 #figure(
-  image("/assets/image-37.png"),
+  image("assets/image-37.png"),
   caption: [finding roots of derivative function]
 )
 
@@ -108,7 +108,7 @@ Lipschitzness controls the changes in function value, while smoothness controls 
 )
 
 #figure(
-  image("/assets/image-44.png"),
+  image("assets/image-44.png"),
   caption: [Illustration of Strong Convexity and Smoothness]
 )
 

@@ -114,9 +114,9 @@ Assume a standard mobile phone image with 8 Mega pixels
 Neural networks that use convolution in place of general matrix multiplication in *at least one* of their layers
 
 Convolution can be viewed as multiplication by a matrix
-$ #image("/assets/image.png", width: 25em) $
+$ #image("assets/image.png", width: 25em) $
 
-$ #image("/assets/image-1.png", width: 30em) $
+$ #image("assets/image-1.png", width: 30em) $
 
 #pagebreak()
 
@@ -140,7 +140,7 @@ $ S(i,j) = (K times I)(i,j) = sum_m sum_n I(i+m,j+n)K(m,n) $
 = Pooling
 
 == Max Pooling
-$ #image("/assets/image-2.png") $
+$ #image("assets/image-2.png") $
 This throws away possible crucial information, but it can optimize dimentionality quite a bit.
 
 
@@ -152,7 +152,7 @@ This throws away possible crucial information, but it can optimize dimentionalit
 function (e.g. ReLU)
 - Stage 3 (Pooling):
   - Use a pooling function to modify output of the layer further
-$ #image("/assets/image-3.png") $
+$ #image("assets/image-3.png") $
 
 
 

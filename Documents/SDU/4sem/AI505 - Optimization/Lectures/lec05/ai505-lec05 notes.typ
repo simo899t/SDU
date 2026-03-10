@@ -68,12 +68,12 @@ $ d_k = -r_k + beta_k d_(k-1) $
 We wish to find $ beta_k = (r_k^T A d_(k-1))/(d_(k-1)^T A d_(k-1)) $
 Because of the constraint $d_k^T A d_k = 0$
 
-#image("/assets/image.png")
+#image("assets/image.png")
 
 
 == Conjugate Descent 
 
-#image("/assets/image-36.png")
+#image("assets/image-36.png")
 
 = Momentum
 Use momentum of descent to find better minimum

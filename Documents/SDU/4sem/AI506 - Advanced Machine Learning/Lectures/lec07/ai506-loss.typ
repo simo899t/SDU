@@ -25,7 +25,7 @@ Our main goal is to estimate the probability that the bottle is truly a Barolo. 
 $ p(C_1|x)=(p(x|C_1)p(C_1))/p(x) = (p(x|C_1)p(C_1))/(p(x|C_1)p(C_1) + dots +p(x|C_n)p(C_n))) $
 
 #figure(
-  image("/assets/image-41.png"),
+  image("assets/image-41.png"),
   caption: [Choose a threshhold for decision making]
 )
 
@@ -45,7 +45,7 @@ then to $[0,1]$
 $ sigma(a(x)) = 1/(1+exp(-a)) = e^a/(e^a+1) $
 
 #figure(
-  image("/assets/image-42.png"),
+  image("assets/image-42.png"),
   caption: [sigmoid function contained within range: $[0,1]$]
 )
 

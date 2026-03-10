@@ -19,6 +19,8 @@
 
 // just nice
 #let evaluated(expr, size: 100%) = $lr(#expr|, size: #size)$
+#let u(body) = underline(body)
+
 
 
 // shortcuts
@@ -82,16 +84,37 @@
 // symbols
 #let phi = $phi.alt$
 #let eps = $epsilon$
+#let Eps = $Epsilon$
 #let del = $delta$
+#let Del = $Delta$
 #let gam = $gamma$
+#let Gam = $Gamma$
 #let cap = $inter$
 #let cup = $union$
 #let ent = symbol("⊨", ("not", "⊭"))
 #let prov = symbol("⊢", ("not", "⊬"))
+#let model = $cal(M)$
 
 #let dag = $dagger$
 
-#let tree(body, draw-node: tidy-tree-draws.circle-draw-node, ..args) = tidy-tree-graph(body, draw-node: draw-node, ..args)
+#let tree(body, reverse: false, shape: "circle", draw-node: none, ..args) = {
+  let shape-draw-node = if shape == "circle" {
+    tidy-tree-draws.circle-draw-node
+  } else if shape == "rect" or shape == "rectangle" {
+    ((name, label, pos)) => (shape: rect)
+  } else if shape == "square" {
+    ((name, label, pos)) => (shape: rect, width: 1.6em, height: 1.6em)
+  } else {
+    tidy-tree-draws.circle-draw-node
+  }
+  let effective-draw-node = if draw-node != none { draw-node } else { shape-draw-node }
+  let draw-nodes = if reverse {
+    (effective-draw-node, ((name, label, pos)) => (pos: (pos.x, -pos.y)))
+  } else {
+    effective-draw-node
+  }
+  tidy-tree-graph(body, draw-node: draw-nodes, ..args)
+}
 
 
 #let group-by-pairs(elements) = {

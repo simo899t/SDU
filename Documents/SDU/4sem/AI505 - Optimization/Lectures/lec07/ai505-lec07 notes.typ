@@ -29,7 +29,7 @@ evaluates $f(x)$ anf $f(x plus.minus alpha e_i)$ for a given $alpha$ in every co
 - 2n evaluations for an n-dimensional problem
 
 #figure(
-  image("/assets/image-47.png"),
+  image("assets/image-47.png"),
   caption: []
 )
 = Generalized Pattern Search
@@ -44,24 +44,24 @@ Note that you need $m+1$ directions to span the space
 $ P={x+alpha d "for each" d in cal(D)} $
 
 #figure(
-  image("/assets/image-45.png"),
+  image("assets/image-45.png"),
   caption: [Vizualtion that we need 3 directions to span the space $RR^2$]
 )
 
 #figure(
-  image("/assets/image-46.png"),
+  image("assets/image-46.png"),
   caption: [Example of Generalized Pattern Search]
 )
 = Nelder-Mead Simplex Method
 Uses simple algorithm to traverse search space using set of points defining a simplex
 
 #figure(
-  image("/assets/image-48.png"),
+  image("assets/image-48.png"),
   caption: [Nelder-Mead Simplex Method]
 )
 
 #figure(
-  image("/assets/image-49.png")),
+  image("assets/image-49.png")),
   caption: [Nelder-Mead Simplex Method algorithm]
 )
 
@@ -84,35 +84,35 @@ Uses simple algorithm to traverse search space using set of points defining a si
 = DIRECT - Dividet Rectangles
 
 #figure(
-  image("/assets/image-50.png"),
+  image("assets/image-50.png"),
   caption: []
 )
 
 Since we for blackbox problems we might now know anything about $L$
 #figure(
-  image("/assets/image-51.png"),
+  image("assets/image-51.png"),
   caption: []
 )
 
 #figure(
-  image("/assets/image-55.png"),
+  image("assets/image-55.png"),
   caption: []
 )
 
 Choose the largest
 #figure(
-  image("/assets/image-52.png"),
+  image("assets/image-52.png"),
   caption: []
 )
 
 
 #figure(
-  image("/assets/image-53.png"),
+  image("assets/image-53.png"),
   caption: []
 )
 
 #figure(
-  image("/assets/image-54.png"),
+  image("assets/image-54.png"),
   caption: []
 )
 

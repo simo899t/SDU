@@ -55,7 +55,7 @@ $ "sign"(f'(125)) != "sign"(f'(250)) => sign(124) != sign(249) quad bold("FALSE"
 After three steps the minimum must lie within $[0,125]$
 
 This seems right considering the plot
-$ #image("/assets/image-14.png", width: 13em) $
+$ #image("assets/image-14.png", width: 13em) $
 
 = Exercise $bold(4^+)$
 Suppose we have a function $f(x) = (x + 2)^2$ on the interval $[0, 1]$. Is $2$ a valid Lipschitz constant for f on that interval?
@@ -141,7 +141,7 @@ plt.show()
   ```
 )
 
-$ #image("/assets/image-16.png", width: 23em) $
+$ #image("assets/image-16.png", width: 23em) $
 
 - Defining the line seach problem
 
@@ -247,9 +247,9 @@ Accepted alpha: 1.53125
 #pagebreak()
 - Plotting the iterations of $alpha$
 
-$ #image("/assets/image-17.png", width: 30em) $
+$ #image("assets/image-17.png", width: 30em) $
 
-$ #image("/assets/image-18.png", width: 30em) $
+$ #image("assets/image-18.png", width: 30em) $
 
 #code(
   ```py
@@ -606,4 +606,4 @@ With 1.9, optimal x: 0.000000, f(x): 0.000000
 #pagebreak()
 
 This fits well with the plot of $ f(x)=1/2 x^2 $
-$ #image("/assets/image-20.png") $
+$ #image("assets/image-20.png") $

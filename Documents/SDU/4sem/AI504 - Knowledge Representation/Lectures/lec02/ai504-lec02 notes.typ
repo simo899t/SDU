@@ -10,8 +10,6 @@
   date: date
 )
 
-#pagebreak()
-
 // 13-15 3. marts
 // 9:30-11:30 4. marts
 

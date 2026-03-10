@@ -21,7 +21,7 @@
 Adam with wight decay.
 
 #figure(
-  image("/assets/image-39.png"),
+  image("assets/image-39.png"),
   caption: [This shows how AdamW is better, including warm restarts as well]
 )
 
@@ -32,6 +32,6 @@ Described in AI505-lec05
 A popular current schedule could be a combunation
 
 #figure(
-  image("/assets/image-40.png"),
+  image("assets/image-40.png"),
   caption: [$ "warm up" -> "constant" -> "cooldown" $]
 )

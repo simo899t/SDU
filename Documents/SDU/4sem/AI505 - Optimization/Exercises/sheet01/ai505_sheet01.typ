@@ -125,7 +125,7 @@ So $ (2-lambda)(-4-lambda) = 0 => lambda = 2, -4 $
 
 Since both negative and positive its a saddlepoint
 
-$ #image("/assets/image.png", width: 30em) $
+$ #image("assets/image.png", width: 30em) $
 
 = Exercise $2^+$
 Write the second-order Taylor expansion for the function $cos(1/x)$ around a nonzero point $x$, and the

@@ -1,6 +1,6 @@
 #let title = "RS5 Topic Fair"
 #let author = "Simon Holm"
-#let date = "19/02/2026"
+#let date = "Feburary - 2026"
 
 #import "../../../../../../temp.typ": *
 

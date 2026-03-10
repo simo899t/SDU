@@ -10,7 +10,7 @@
 = The Central Idea
 
 #figure(
-  image("/assets/image-24.png"),
+  image("assets/image-24.png"),
   caption: [Updating the model parameters following the steepest slope]
 )
 
@@ -50,7 +50,7 @@ $ g = 1/(m')nabla_theta summ(i=1,m',L(x_i,y_i,theta)) $
 Using *only* the examples of the minibatch
 
 #figure(
-  image("/assets/image-25.png"),
+  image("assets/image-25.png"),
   caption: [The Gradient Descent is not perfect, but good enough in practice]
 )
 #pagebreak()
@@ -64,7 +64,7 @@ Neural Network training not different from ML models with gradient descent. The 
 The difference lies in the fact that nonlinearity causes non-convex loss
 
 #figure(
-  image("/assets/image-26.png",width: 30em),
+  image("assets/image-26.png",width: 30em),
   caption: [Convex vs. Non-Convex functions]
 )
 
@@ -74,7 +74,7 @@ This introduces a number problems..
 1. We can end-up in local minima
 
 #figure(
-  image("/assets/image-27.png",width: 30em),
+  image("assets/image-27.png",width: 30em),
   caption: [Example of an example finding a local minima (which is not necessarily the minimizer) ]
 )
 
@@ -83,7 +83,7 @@ This introduces a number problems..
 2. Stationary points
 
 #figure(
-  image("/assets/image-28.png",width: 30em),
+  image("assets/image-28.png",width: 30em),
   caption: [Saddle Points where $f'(x)=0$ are neither maxima nor minima]
 )
 3. Cliffs and Exploding Gradients
@@ -91,7 +91,7 @@ Neural networks with many layers have steep regions i.e., cliffs.
 Gradient update step can move parameters extremely far, jumping off cliff altogether.
 
 #figure(
-  image("/assets/image-29.png",width: 30em),
+  image("assets/image-29.png",width: 30em),
   caption: [Example of a dangerous cliff]
 )
 4. Inexact Gradients
@@ -106,21 +106,21 @@ can fail if local surface does not point towards
 the global solution
 
 #figure(
-  image("/assets/image-30.png",width: 30em),
+  image("assets/image-30.png",width: 30em),
   caption: [We need a good inital point to find a good minimum]
 )
 
 5. The Learning Rate
 
 #figure(
-  image("/assets/image-31.png",width: 30em),
+  image("assets/image-31.png",width: 30em),
   caption: [Loss might not converge when learning rate is too big]
 )
 Reduce learning rate if no convergence.
 
 = Backpropagation
 #figure(
-  image("/assets/image-32.png",width: 30em),
+  image("assets/image-32.png",width: 30em),
   caption: [example of backpropagation usage]
 )
 
@@ -153,7 +153,7 @@ Loss function example $E(f(x),y) = 1/2 (f(x)-y)^2$
 Then $ dd(f(x)) = f(x)-y $
 
 #figure(
-  image("/assets/image-34.png",width: 30em),
+  image("assets/image-34.png",width: 30em),
   caption: [Backpropagation: A Simple Example]
 )
 
@@ -176,7 +176,7 @@ $ delta_j = underbrace(h'(a_j), "Derivative of
 activation function") dot sum_(k) w_(k j)overbrace(delta_(k), "output error") $
 
 #figure(
-  image("/assets/image-35.png"),
+  image("assets/image-35.png"),
   caption: [Easy example]
 )
 

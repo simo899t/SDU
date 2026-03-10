@@ -43,12 +43,12 @@ In qualitative we accept much more bias from the researchers themselves, however
   - So we use clear descriptions of the research was perfomed, as well as reflextion.
 
 #figure(
-  image("/assets/image-10.png", width: 25em),
+  image("assets/image-10.png", width: 25em),
   caption: [Cochrane pyramid of evidance - mostly for quantative reseach]
 )
 
 #figure(
-  image("/assets/image-11.png"),
+  image("assets/image-11.png"),
   caption: [Alternative conceptualisations for qualitative research]
 )
 
@@ -110,7 +110,7 @@ international academic organization focused on research about the internet and d
 It provides guidance and best practices, especially for digital and online research contexts.
 
 #figure(
-  image("/assets/image-13.png"),
+  image("assets/image-13.png"),
   caption: [differnt types of research have different pros and cons]
 )
 

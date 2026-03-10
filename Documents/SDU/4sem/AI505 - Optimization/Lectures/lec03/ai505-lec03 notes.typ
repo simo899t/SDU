@@ -89,7 +89,7 @@ $ a<b<c " and "f(a)>f(b)<f(c) $
 The algorithm above describes a way to Iteratively find an certainty-interval where the solution $x^*$ lies within.
 
 Here is an example of a ```py bracket_min``` function at work
-#image("/assets/image-1.png")
+#image("assets/image-1.png")
 
 Note that we can then shrink the interval by making function evaluations and see if they hold the unimodality property. By this we can eliminate parts of the interval that cannot contain the minimum with guarantee.
 #pagebreak()
@@ -115,7 +115,7 @@ places $x$ at the golden ratio $phi = 0.618$ of the interval. Each step shrinks 
 
 = Quadratic Fit Search
 Iteratively fits quadratic function to three bracketing points
-#image("/assets/image-2.png")
+#image("assets/image-2.png")
 
 == Using linear algrebra
 You assume locally that $f(x)$ is quadratic, so you fit:
@@ -142,7 +142,7 @@ Then, using the 3 function values, you solve for $b_0,b_1,b_2$
   ```
 )
 
-$ #image("/assets/image-3.png", width: 25em) $
+$ #image("assets/image-3.png", width: 25em) $
 
 = Lipschitz continuous
 This means that there is a bound for the derivative
@@ -154,7 +154,7 @@ $ |f(x)-f(y)| <= ell(|x-y|), forall x,y in [a,b] $
 = Shubert-Piyavskii Method
 The Shubert-Piyavskii method is guaranteed to find the global minimum of any bounded
 function. Note that it requires that the function be Lipschitz continuous
-#image("/assets/image-4.png")
+#image("assets/image-4.png")
 
 = Bisection Method
 

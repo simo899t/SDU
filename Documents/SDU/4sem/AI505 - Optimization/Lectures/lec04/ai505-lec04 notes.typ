@@ -74,7 +74,7 @@ Where $beta in [0,1], "usually" beta = 1 times 10^(-4)$
 
 This is simply just setting a bound for the a function. This way we can ignore great parts of parts which we know do not hold the minimizer. This is Armijo condition 
 
-$ #image("/assets/IMG_7642.jpeg", width: 30em) $
+$ #image("assets/IMG_7642.jpeg", width: 30em) $
 
 #code(
   ```py
@@ -86,7 +86,7 @@ def backtracking_line_search(f, grad, x, d, alpha_0=1, p=0.5, beta=1e-4):
   ```
 )
 
-#image("/assets/image-6.png")
+#image("assets/image-6.png")
 
 == Wolfe conditions
 
@@ -116,7 +116,7 @@ We can modify the curvature condition to force-excluding proints that are far fr
 It does this by shrinking the interval with exclution each time the step fails Armijo or the curvature condition.
 
 We end up with something like this
-#image("/assets/image-7.png")
+#image("assets/image-7.png")
 
 = Approximate Line Search Goal
 
@@ -314,7 +314,7 @@ We then
 
 $ min_x accent(f,\^)(x') quad s.t quad norm(x-x') <= del $
 
-$ #image("/assets/image-5.png", width: 30em) $
+$ #image("assets/image-5.png", width: 30em) $
 
 This is now a constrained optimization problem. We can solfe this pretty efficiently if $pred(f)$ is quadratic.
 
@@ -327,7 +327,7 @@ $ "If" eta<eta_1 " contract by a factor " gam_k < 1 $
 $ "If" eta>eta_2 " expand by a factor " gam_k > 1 $
 
 #figure(
-  image("/assets/image-9.png", width: 20em),
+  image("assets/image-9.png", width: 20em),
   caption: [In this example the trust regions are circular, but they doesnt have to be]
 )
 
