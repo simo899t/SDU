@@ -120,6 +120,7 @@ Grokking: a model first memorizes the training data, then — long after — sud
 
 #figure(
   image("assets/image-6.png"),
+  
   caption: []
 )
 
