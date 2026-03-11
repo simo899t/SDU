@@ -18,7 +18,7 @@
 
 Use the following figure about $f '(x)$ to answer the questions:
 
-$ #image("/assets/image-66.png") $
+$ #image("assets/image-66.png") $
 
 == Solution
 
@@ -45,7 +45,7 @@ $ lim_((x,y)->(0,0)) (x y)/(x^2+y^2)) = -1/2 .. 1/2 $
 
 No, there are massive jumps
 
-$ #image("/assets/image-60.png", width: 20em) $
+$ #image("assets/image-60.png", width: 20em) $
 
 
 #pagebreak()
@@ -61,7 +61,7 @@ NOT done #emoji.face.sad
 (b) Find a value of a so that the point $(a + 1, a, a - 1)$ lies on the plane.
 $ a - 1 = 5(a + 1) - 2a + 7 => a=-6.5 $
 
-$ #image("/assets/image-64.png",width: 20em) $
+$ #image("assets/image-64.png",width: 20em) $
 
 = Problem 4
 
@@ -90,7 +90,7 @@ $ [3y,2x+2y] $
 = Problem 6
 We want to express the volume of the quarter sphere below as an integral of the spherical coordinate $integral_W f dif V$ where $W$ is the quarter sphere and $dif V = rho 2 sin(ϕ) dif rho dif phi dif theta$.
  
-$ #image("/assets/image-65.png", width: 20em) $
+$ #image("assets/image-65.png", width: 20em) $
 
 == Solution
 
@@ -110,7 +110,7 @@ $ integral_(theta = 0)^(pi/2) integral_(phi=-pi/2)^(pi/2)integral_(rho=-pi/2)^(p
 
 Integrate the function $f (x, y) = x + y$ over the shaded region below.
 
-$ #image("/assets/image-61.png", width: 20em) $
+$ #image("assets/image-61.png", width: 20em) $
 
 == Solution
 
@@ -129,7 +129,7 @@ $ F(1) = int(0,1,sin(pi*t) dif t) = 2/pi $
 
 (b) For what values of $x$ is $F (x)$ positive? negative?
 
-$ #image("/assets/image-62.png", width: 20em) $
+$ #image("assets/image-62.png", width: 20em) $
 Aways $0<=F(x)$
 #pagebreak()
 
@@ -139,7 +139,7 @@ Find the volume of the solid that lies under the paraboloid $z = 4 - x^2 - y^2$ 
 == Solution
 
 Plot it
-$ #image("/assets/image-63.png", width: 18em) $
+$ #image("assets/image-63.png", width: 18em) $
 
 
 Then

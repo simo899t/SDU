@@ -31,8 +31,8 @@ transform = transforms.Compose([
     transforms.Normalize((mean,), (std,))
 ])
 
-train_dataset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
-test_dataset = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
+train_dataset = datasets.MNIST(root='../data', train=True, download=True, transform=transform)
+test_dataset = datasets.MNIST(root='../data', train=False, download=True, transform=transform)
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=128, shuffle=True)
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=128, shuffle=False)
 

@@ -21,7 +21,7 @@ from torchvision import datasets, transforms
 import seaborn as sns
 
 # Download the MNIST dataset (first without transform to compute mean/std)
-raw_train = datasets.MNIST(root='./data', train=True, download=True, transform=transforms.ToTensor())
+raw_train = datasets.MNIST(root='../data', train=True, download=True, transform=transforms.ToTensor())
 mean = raw_train.data.float().mean() / 255
 std = raw_train.data.float().std() / 255
 
@@ -30,8 +30,8 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((mean.item(),), (std.item(),))
 ])
-train_dataset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
-test_dataset = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
+train_dataset = datasets.MNIST(root='../data', train=True, download=True, transform=transform)
+test_dataset = datasets.MNIST(root='../data', train=False, download=True, transform=transform)
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=64, shuffle=True)
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=64, shuffle=False)
 

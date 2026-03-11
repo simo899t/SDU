@@ -257,7 +257,7 @@ $(4, 3)$ in the $x y$ plane.
 = Problem 6
 Use polar coordinate to integrate $f(x,y) = sqrt(1/(x^2 + y^2))$ over the shaded region in
 the figure below.
-$ #image("/assets/image-2.png", width: 15em) $
+$ #image("assets/image-2.png", width: 15em) $
 #pagebreak()
 
 == Solution
@@ -273,7 +273,7 @@ $ integral_(theta = -pi/2)^(pi/2) 1 " "d""theta  = bold(pi) $
 We want to express the volume of the the half cylinder below as an integral of
 the cylindrical coordinate $integral_W f " "d V $ where $W$ is the half cylinder and $d V$ = $r" "d r" "d theta" "d y$.
 
-$ #image("/assets/image-1.png", width: 15em) $
+$ #image("assets/image-1.png", width: 15em) $
 
 + What must the function f be?
 + Write the limits of the integration.

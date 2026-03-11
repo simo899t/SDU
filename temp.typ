@@ -327,7 +327,7 @@
       v(1.8em),
       text(size: 11pt, fill: rgb("#888888"))[#date],
       v(1.8em),
-      image("/assets/image-8.png", width: 15em),
+      image("/SDU/IMADA_en.png", width: 15em),
       v(1cm),
     )
   )
@@ -446,7 +446,7 @@
         )
       ),
       v(1.8em),
-      image("/assets/image-8.png", width: 15em),
+      image("/SDU/IMADA_en.png", width: 15em),
       v(1cm),
     )
   )
@@ -588,7 +588,7 @@
         )
       ),
       v(1.8em),
-      image("/assets/image-8.png", width: 15em),
+      image("/SDU/IMADA_en.png", width: 15em),
       v(1cm),
     )
   )

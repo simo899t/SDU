@@ -1,6 +1,6 @@
 #import "../../../../temp.typ": *
 
-#project(
+#show: project.with(
   title: "Project Title",
   subtitle: "Optional subtitle",       // optional
   course: "course",
