@@ -1,4 +1,4 @@
 {
-    "tinymist.onPaste": "$dir/assets",
+    "tinymist.onPaste": "{ join(root, dir, \"assets\") }",
     "tinymist.rootPath": "/Users/simonholm/GitHub/SDU"
 }
