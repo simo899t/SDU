@@ -131,40 +131,50 @@ I know you understand what you're doing.
 
 = Solution 3
 
-*Inductive Hypothesis* For all proofs $cal(T)$, $Gamma$, and $phi$, if $cal(T)$  is a proof of $phi$ from $Gamma$ , then there exist a proof T, such that $Gamma^dagger prov phi^dagger$. 
-This we can use induction. 
 
-*Goal*  if $cal(T)$ is a proof $phi$  from $Gamma$ then there exist a proof $s.t. Gamma^dagger prov phi^dagger$
 
-*Base Case*: (T is a single leaf)
-Suppose T is a proof of $phi$ from $Gamma$, T is just $phi$, and since all leaves come from $Gamma$, so $phi in Gamma$.
-The dual $phi$ to $phi^dagger$, is a proof tree $cal(T)$ and all leaves are in $Gamma^+$, it follows that $phi^dagger in gamma^dagger$, therefor $Gamma^dagger prov phi^dagger$.
+
+
+*Base Case*: 
 
 
 
 
 *Inductive step:*
 
-Suppose T is not a leaf, decompose T as follows.
-Let's assume that $cal(T)$ is not a single leaf $phi$ and $phi^+$, but $cal(T)$ is decomposed of two trees, left and right trees labeled $cal(T_0) $ and $cal(T_1)$ and its dual:
 
+#pagebreak()
 
-#figure(
+#pseudo[
+  *#u("Proof by induction")*
+
+  *Goal:*  if $cal(T)$ is a proof $phi$  from $Gam$ then there exist a proof $s.t. Gam^dag prov phi^dag$
+  - *#u("Base step")* (T is a single leaf)
+  + Suppose T is a proof of $phi$ from $Gam$, T is just $phi$, and since all leaves come from $Gam$, so $phi in Gamma$.
+  + The dual $phi$ to $phi^dag$, is a proof tree $cal(T)$ and all leaves are in $Gamma^+$, it follows that $phi^dag in Gam^dag$, 
+  + therefor $ Gam^dag prov phi^dag. $
+  - *#u("Inductive hypothesis")*
+  + For all proofs $cal(T)$, $Gam$, and $phi$, if $cal(T)$  is a proof of $phi$ from $Gam$ ,then there exist a proof T, such that $ Gam^dag prov phi^dag. $ 
+This we can use induction. 
+  - *#u("Inductive step")*
+  + Suppose T is not a leaf, decompose T as follows.
+  + Let's assume that $cal(T)$ is not a single leaf $phi$ and $phi^+$, but $cal(T)$ is decomposed of two trees, left and right trees labeled $cal(T_0) $ and $cal(T_1)$ and its dual:
+  + #figure(
   image("assets/image.png", width: 60%),
   caption: [
     1 function
   ],
 )
 
-The proof tree can then be restructued, so it satisfies the $phi^dag$ dual will then satisfy
++ The proof tree can then be restructued, so it satisfies the $phi^dag$ dual will then satisfy
 
-#figure(
++ #figure(
   image("assets/image2.png", width: 60%),
   caption: [
-    Then the duaæ
+    Then the dual...
   ],
 )
-
+]
 
 #pagebreak()
 
