@@ -53,8 +53,4 @@ $ sigma(a(x)) = 1/(1+exp(-a)) = e^a/(e^a+1) $
 $ theta_"MLE" = arg max_theta log(prod(i=1,n,p(x_i|theta))) = arg max_theta summ(i=1,n,log(p(x_i|theta))) $
 
 
-= Discriminative models & logistic regression
 
-= Information theory
-
-= Well behaved gradients

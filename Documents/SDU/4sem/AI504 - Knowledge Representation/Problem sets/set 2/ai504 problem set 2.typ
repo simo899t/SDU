@@ -17,18 +17,14 @@ Write down two different proof trees verifying $Gamma prov$ All $a$ are $d$. Wri
 
 == Solution
 
-#figure(
-  $ #tree(
-  spacing: (40pt, 40pt),
-  node-inset: 12pt
-)[
-   - All $bold(a)$ are $bold(d)$
-    - $underbrace("All "bold(a)" are "bold(b)"","axiom")$
-    - $underbrace("All "bold(b)" are "bold(d)"","axiom")$
-  
-] $,
-caption: [Proof tree 1]
 
+
+#figure(
+  ptree(
+  "all a are c",
+  r($$, "all a are d"),
+  r($$, "all b are c")),
+  caption: [Proof tree 1]
 )<proof-tree-1>
 
 @proof-tree-1 shows one of the two different proof trees verifying that $Gamma prov "All "a" are "d""$ using the 'axioms' "All $a$ are $b$" and" All $b$ are $d$".
@@ -131,31 +127,16 @@ I know you understand what you're doing.
 
 = Solution 3
 
-
-
-
-
-*Base Case*: 
-
-
-
-
-*Inductive step:*
-
-
-#pagebreak()
-
 #pseudo[
   *#u("Proof by induction")*
 
-  *Goal:*  if $cal(T)$ is a proof $phi$  from $Gam$ then there exist a proof $s.t. Gam^dag prov phi^dag$
+  *Goal:*  if $cal(T)$ is a proof $phi$ from $Gam$ then there exist a proof $s.t. Gam^dag prov phi^dag.$
   - *#u("Base step")* (T is a single leaf)
   + Suppose T is a proof of $phi$ from $Gam$, T is just $phi$, and since all leaves come from $Gam$, so $phi in Gamma$.
   + The dual $phi$ to $phi^dag$, is a proof tree $cal(T)$ and all leaves are in $Gamma^+$, it follows that $phi^dag in Gam^dag$, 
   + therefor $ Gam^dag prov phi^dag. $
   - *#u("Inductive hypothesis")*
-  + For all proofs $cal(T)$, $Gam$, and $phi$, if $cal(T)$  is a proof of $phi$ from $Gam$ ,then there exist a proof T, such that $ Gam^dag prov phi^dag. $ 
-This we can use induction. 
+  + For all proofs $cal(T)$, $Gam$, and $phi$, if $cal(T)$  is a proof of $phi$ from $Gam$ ,then there exist a proof T, such that $ Gam^dag prov phi^dag. $
   - *#u("Inductive step")*
   + Suppose T is not a leaf, decompose T as follows.
   + Let's assume that $cal(T)$ is not a single leaf $phi$ and $phi^+$, but $cal(T)$ is decomposed of two trees, left and right trees labeled $cal(T_0) $ and $cal(T_1)$ and its dual:
@@ -166,6 +147,9 @@ This we can use induction.
   ],
 )
 
+
+
+
 + The proof tree can then be restructued, so it satisfies the $phi^dag$ dual will then satisfy
 
 + #figure(
@@ -175,6 +159,20 @@ This we can use induction.
   ],
 )
 ]
+
+#pagebreak()
+
+
+#ptree(
+  $C$,
+  r($T_0$, $phi_1$),
+  r($T_1$, $phi_2$,
+    r($$, $phi_3$),
+    r($$, $phi_4$)),
+)
+
+
+
 
 #pagebreak()
 

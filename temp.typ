@@ -1,6 +1,60 @@
 #import "@preview/lovelace:0.3.0": *
 #import "@preview/tdtr:0.5.2" : *
 #import "@preview/h-graph:0.1.0": *
+// Proof trees
+// r(label, formula)                    — axiom leaf
+// r(label, formula, r(...), r(...))    — sub-derivation (nests automatically)
+// ptree(conclusion, r(...), r(...))    — root inference step
+#let r(name, formula, ..subs) = (name, formula, ..subs.pos())
+
+#let ptree(
+  conclusion,
+  gap: auto,       // horizontal gap between premises
+  above: auto,     // space above the line
+  below: auto,     // space below the line
+  label-gap: auto, // space between label and formula
+  pad: auto,       // extra line width on each side
+  inset: auto,     // bottom padding (pushes caption down in figures)
+  ..args,
+) = context {
+  let em = measure(line(length: 1em)).width
+  let gap       = if gap       == auto { 4 * em  } else { gap }
+  let above     = if above     == auto { 0.5 * em } else { above }
+  let below     = if below     == auto { 0.5 * em } else { below }
+  let label-gap = if label-gap == auto { 0.6 * em } else { label-gap }
+  let pad       = if pad       == auto { 1.5 * em } else { pad }
+  let inset     = if inset     == auto { 1 * em   } else { inset }
+  let prems = args.pos()
+  if prems.len() == 0 { return conclusion }
+
+  let render-prem(p) = if type(p) == array {
+    if p.len() > 2 {
+      // sub-derivation: recurse, then put label above the sub-tree
+      let sub = ptree(p.at(1), gap: gap, above: above, below: below,
+                      label-gap: label-gap, pad: pad, ..p.slice(2))
+      align(center, stack(dir: ttb, spacing: label-gap, p.at(0), sub))
+    } else {
+      align(center, stack(dir: ttb, spacing: label-gap, p.at(0), p.at(1)))
+    }
+  } else { align(center, p) }
+
+  let prem-row = grid(
+    columns: (auto,) * prems.len(),
+    column-gutter: gap,
+    ..prems.map(render-prem)
+  )
+
+  let lw = calc.max(measure(prem-row).width, measure(conclusion).width) + pad
+
+  align(center, stack(dir: ttb, spacing: 0pt,
+    align(center, prem-row),
+    v(above),
+    line(length: lw),
+    v(below),
+    align(center, conclusion),
+    v(inset),
+  ))
+}
 #let dirgraph(src) = h-graph(src, polar-render)
 
 #set page(
@@ -45,18 +99,23 @@
 
 // --- Calculus notation ---
 #let dx = $dif x$
-#let px = $partial x$
+#let dy = $dif y$
+#let dz = $dif z$
 #let dx() = $dif #x$
 #let px() = $partial #x$
 
 // Ordinary derivatives
-#let ddx = $dif/(dif x)$                                        // d/dx  (operator)
-#let dd(x) = $dif/(dif #x)$                                    // d/d(var)  e.g. dd(t)
-#let dv(f, x) = $(dif #f)/(dif #x)$                           // df/dx  e.g. dv(f,x)
-#let dvn(f, x, n) = $(dif^#n #f)/(dif #x^#n)$                // dⁿf/dxⁿ  e.g. dvn(f,x,2)
+#let ddx = $dif/(dif x$                         // d/dx  (operator)
+#let ddy = $dif/(dif y$                         // d/dy  (operator)
+#let ddz = $dif/(dif z$                         // d/dz  (operator)
+#let dd(x) = $dif/(dif #x)$                     // d/d(var)  e.g. dd(t)
+#let dv(f, x) = $(dif #f)/(dif #x)$             // df/dx  e.g. dv(f,x)
+#let dvn(f, x, n) = $(dif^#n #f)/(dif #x^#n)$   // dⁿf/dxⁿ  e.g. dvn(f,x,2)
 
 // Partial derivatives
-#let ppx = $partial/(partial x)$                               // ∂/∂x  (operator)
+#let ppx = $partial/(partial x)$ 
+#let ppy = $partial/(partial y)$    
+#let ppz = $partial/(partial z)$            // ∂/∂x  (operator)
 #let pp(x) = $partial/(partial #x)$                           // ∂/∂(var)  e.g. pp(y)
 #let pv(f, x) = $(partial #f)/(partial #x)$                   // ∂f/∂x  e.g. pv(f,x)
 #let pvn(f, x, n) = $(partial^#n #f)/(partial #x^#n)$        // ∂ⁿf/∂xⁿ  e.g. pvn(f,x,2)
@@ -94,7 +153,7 @@
 #let ent = symbol("⊨", ("not", "⊭"))
 #let prov = symbol("⊢", ("not", "⊬"))
 #let model = $cal(M)$
-
+#let apx = $approx$
 #let dag = $dagger$
 
 #let tree(body, reverse: false, shape: "circle", draw-node: none, ..args) = {
@@ -243,7 +302,7 @@
       v(0.3em),
       text(size: 11pt, fill: rgb("#888888"))[#date],
       v(1.8em),
-      image("/assets/image-8.png", width: 15em),
+      image("IMADA_en.png", width: 15em),
       v(1cm),
     )
   )
@@ -285,7 +344,7 @@
       v(0.3em),
       text(size: 11pt, fill: rgb("#888888"))[#date],
       v(1.8em),
-      image("/assets/image-8.png", width: 15em),
+      image("IMADA_en.png", width: 15em),
       v(1cm),
     )
   )
@@ -327,7 +386,7 @@
       v(1.8em),
       text(size: 11pt, fill: rgb("#888888"))[#date],
       v(1.8em),
-      image("/SDU/IMADA_en.png", width: 15em),
+      image("IMADA_en.png", width: 15em),
       v(1cm),
     )
   )
@@ -446,7 +505,7 @@
         )
       ),
       v(1.8em),
-      image("/SDU/IMADA_en.png", width: 15em),
+      image("IMADA_en.png", width: 15em),
       v(1cm),
     )
   )
@@ -588,7 +647,7 @@
         )
       ),
       v(1.8em),
-      image("/SDU/IMADA_en.png", width: 15em),
+      image("IMADA_en.png", width: 15em),
       v(1cm),
     )
   )
