@@ -1,6 +1,7 @@
 #import "@preview/lovelace:0.3.0": *
 #import "@preview/tdtr:0.5.2" : *
 #import "@preview/h-graph:0.1.0": *
+#import "@preview/cetz:0.3.4": canvas, draw
 // Proof trees
 // r(label, formula)                    — axiom leaf
 // r(label, formula, r(...), r(...))    — sub-derivation (nests automatically)
@@ -74,7 +75,8 @@
 // just nice
 #let evaluated(expr, size: 100%) = $lr(#expr|, size: #size)$
 #let u(body) = underline(body)
-
+#let yes = $checkmark$
+#let no = $crossmark$
 
 
 // shortcuts
@@ -750,6 +752,125 @@
   body
 }
 
+// venn — set diagram: elements placed symmetrically inside P, ovals fitted to subsets
+//
+// Elements are arranged on a ring inside P. Each subset gets a rotated bounding
+// oval oriented along its principal axis, so {p,r} with p at top and r at right
+// produces a diagonal oval — not a circle. Shared elements fall inside all ovals
+// that contain them.
+//
+// Example:
+//   #venn(
+//     domain: $P$,
+//     ($A$, ("p", "q")),
+//     ($B$, ("q", "r", "s")),
+//   )
+#let venn(domain: none, outside: (), scale: 2cm, ..args) = {
+  let sets = args.pos().map(s => {
+    let mem = s.at(1)
+    (s.at(0), if type(mem) == str { (mem,) } else { mem })
+  })
+  let R        = 2.8
+  let er       = R * 0.52
+  let pad      = 0.58   // along major axis (elements sit at tips, need room)
+  let pad-perp = 0.32   // perpendicular (no elements here, stay tight)
+
+  let palette = (
+    red.transparentize(75%), blue.transparentize(75%),
+    green.transparentize(75%), orange.transparentize(75%),
+    purple.transparentize(75%), teal.transparentize(75%),
+  )
+
+  // Collect all unique elements and place on ring
+  let all-elems = ()
+  for s in sets { for m in s.at(1) { if m not in all-elems { all-elems.push(m) } } }
+  for el in outside { if el not in all-elems { all-elems.push(el) } }
+  let ne = all-elems.len()
+
+  let epos = (:)
+  for (j, el) in all-elems.enumerate() {
+    let ang = 90deg - 360deg / ne * j
+    epos.insert(el, (er * calc.cos(ang), er * calc.sin(ang)))
+  }
+
+  // Rotated bounding oval oriented along the principal axis of element positions
+  let oval-for(members) = {
+    let pts = members.map(el => epos.at(el))
+    let n   = pts.len()
+    let cx  = pts.map(p => p.at(0)).sum() / n
+    let cy  = pts.map(p => p.at(1)).sum() / n
+    if n == 1 { return (cx: cx, cy: cy, rx: pad, ry: pad-perp + 0.1, ang: 0deg) }
+    let rel = pts.map(p => (p.at(0) - cx, p.at(1) - cy))
+    // Principal axis = direction of farthest pair of elements
+    let ax = 1.0; let ay = 0.0; let best = 0.0
+    for i in range(n) {
+      for j in range(i + 1, n) {
+        let dx = rel.at(j).at(0) - rel.at(i).at(0)
+        let dy = rel.at(j).at(1) - rel.at(i).at(1)
+        let d2 = dx * dx + dy * dy
+        if d2 > best { best = d2; ax = dx; ay = dy }
+      }
+    }
+    let alen = calc.sqrt(ax * ax + ay * ay)
+    let ux = ax / alen; let uy = ay / alen
+    let along = rel.map(p =>  p.at(0) * ux + p.at(1) * uy)
+    let perp  = rel.map(p => -p.at(0) * uy + p.at(1) * ux)
+    let rx-val = along.map(calc.abs).fold(0.0, calc.max) + pad
+    let ry-val = calc.max(perp.map(calc.abs).fold(0.0, calc.max) + pad-perp, rx-val * 0.38)
+    (cx:  cx, cy: cy,
+     rx:  rx-val,
+     ry:  ry-val,
+     ang: calc.atan2(ax, ay))
+  }
+
+  // Pre-compute all ovals so labels can avoid each other
+  let ovs = sets.map(s => oval-for(s.at(1)))
+
+  canvas(length: scale, {
+    import draw: *
+    circle((0, 0), radius: R, stroke: black + 1.2pt, fill: none)
+    if domain != none { content((-R * 0.8, R * 0.88), domain) }
+
+    // Ovals behind elements
+    for (i, s) in sets.enumerate() {
+      let ov  = ovs.at(i)
+      let col = palette.at(calc.rem(i, palette.len()))
+      group({
+        translate((ov.cx, ov.cy))
+        rotate(ov.ang)
+        circle((0, 0), radius: (ov.rx, ov.ry), fill: col, stroke: black + 0.8pt)
+      })
+      // Pick tip with most clearance from other ovals' centers
+      let ux-v = calc.cos(ov.ang)
+      let uy-v = calc.sin(ov.ang)
+      let tip1 = (ov.cx + ov.rx * ux-v, ov.cy + ov.rx * uy-v)
+      let tip2 = (ov.cx - ov.rx * ux-v, ov.cy - ov.rx * uy-v)
+      let cl1 = 9999.0; let cl2 = 9999.0
+      for (j, ov2) in ovs.enumerate() {
+        if j != i {
+          let dx1 = tip1.at(0) - ov2.cx; let dy1 = tip1.at(1) - ov2.cy
+          let dx2 = tip2.at(0) - ov2.cx; let dy2 = tip2.at(1) - ov2.cy
+          let d1 = calc.sqrt(dx1 * dx1 + dy1 * dy1)
+          let d2 = calc.sqrt(dx2 * dx2 + dy2 * dy2)
+          if d1 < cl1 { cl1 = d1 }
+          if d2 < cl2 { cl2 = d2 }
+        }
+      }
+      let (tx, ty) = if cl1 >= cl2 { tip1 } else { tip2 }
+      let td = calc.sqrt(tx * tx + ty * ty)
+      let lpos = if td > 0.05 {
+        let ld = calc.min(td + 0.45, R - 0.1)
+        (tx / td * ld, ty / td * ld)
+      } else { (0, ov.ry + 0.5) }
+      content(lpos, s.at(0))
+    }
+
+    for (el, pos) in epos {
+      content(pos, text(style: "italic", el))
+    }
+  })
+}
+
 /*
 =============================================================
 TEMPLATE CHEATSHEET — copy the block you need into a new file
@@ -887,6 +1008,15 @@ Content goes here.
 
 = Introduction
 // Content goes here.
+
+── VENN DIAGRAM (3-set) ──────────────────────────────────────
+// Domain P = {p,q,r}, denotations: [|p|]={p,r}, [|q|]={p,q,r}, [|r|]={r}
+#venn3(
+  label-a: $[|p|]$, label-b: $[|q|]$, label-c: $[|r|]$,
+  ab:      ($p$,),    // p ∈ [|p|] ∩ [|q|], not [|r|]
+  abc:     ($r$,),    // r ∈ [|p|] ∩ [|q|] ∩ [|r|]
+  only-b:  ($q$,),    // q ∈ [|q|] only
+)
 
 ── MAPPING DIAGRAM (inline, no import needed) ────────────────
 #mapdiag(
