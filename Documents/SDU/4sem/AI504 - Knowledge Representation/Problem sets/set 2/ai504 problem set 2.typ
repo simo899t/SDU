@@ -17,7 +17,7 @@ Write down two different proof trees verifying $Gamma prov$ All $a$ are $d$. Wri
 
 == Solution
 
-
+$  $
 
 #figure(
   ptree(
