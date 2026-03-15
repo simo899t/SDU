@@ -765,10 +765,11 @@
 //     ($A$, ("p", "q")),
 //     ($B$, ("q", "r", "s")),
 //   )
-#let venn(domain: none, outside: (), scale: 2cm, ..args) = {
+#let venn(domain: none, outside: (), scale: 2cm, universe-fill: none, ..args) = {
   let sets = args.pos().map(s => {
     let mem = s.at(1)
-    (s.at(0), if type(mem) == str { (mem,) } else { mem })
+    let col = s.at(2, default: auto)  // auto = use palette, none = unfilled, color = that color
+    (s.at(0), if type(mem) == str { (mem,) } else { mem }, col)
   })
   let R        = 2.8
   let er       = R * 0.52
@@ -828,13 +829,13 @@
 
   canvas(length: scale, {
     import draw: *
-    circle((0, 0), radius: R, stroke: black + 1.2pt, fill: none)
+    circle((0, 0), radius: R, stroke: black + 1.2pt, fill: universe-fill)
     if domain != none { content((-R * 0.8, R * 0.88), domain) }
 
     // Ovals behind elements
     for (i, s) in sets.enumerate() {
       let ov  = ovs.at(i)
-      let col = palette.at(calc.rem(i, palette.len()))
+      let col = if s.at(2) == auto { palette.at(calc.rem(i, palette.len())) } else { s.at(2) }
       group({
         translate((ov.cx, ov.cy))
         rotate(ov.ang)
