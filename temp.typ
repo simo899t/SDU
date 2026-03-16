@@ -98,6 +98,7 @@
 #let psubset = $subset.eq$
 #let rang = $chevron.r$
 #let lang = $chevron.l$
+#let pow(x) = $cal(P)(#x)$
 
 // --- Calculus notation ---
 #let dx = $dif x$

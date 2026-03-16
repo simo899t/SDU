@@ -1,4 +1,4 @@
-#let title = "Lecture 4: "
+#let title = "Lecture 5: "
 #let course = "AI504 - Knowledge Represntation"
 #let date = "26/02/2026"
 
@@ -98,7 +98,7 @@ if $T$ is a proof of $phi$ from $Gam$ and $cal(M)$ is any model satisfying $Gam$
     + Suppose that $T$ is not a leaf
     + Decompose $T$ as follows. Say that $phi$ is "all $p$ are $q$"
   + Then there exists an $r$ s.t $T$ looks like
-    - $ #tree(
+    - $ #tree(  
   shape: "rectangle",
   reverse: true,
   spacing: (40pt, 40pt),
