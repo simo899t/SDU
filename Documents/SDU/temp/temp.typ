@@ -158,6 +158,7 @@
 #let model = $cal(M)$
 #let apx = $approx$
 #let dag = $dagger$
+#let supremum(x) = $op("supremum", limits: #true)_(#x)$
 
 #let tree(body, reverse: false, shape: "circle", draw-node: none, ..args) = {
   let shape-draw-node = if shape == "circle" {
