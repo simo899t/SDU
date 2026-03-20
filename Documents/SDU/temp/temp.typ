@@ -58,23 +58,25 @@
 }
 #let dirgraph(src) = h-graph(src, polar-render)
 
-#set page(
-  paper: "us-letter",
-  margin: (left: 3cm, right: 3cm, top: 2cm, bottom: 2cm),
-)
-#set text(
-  font: "Times New Roman",
-  size: 11pt,
-  lang: "en",
-)
-#set heading(numbering: "1.")
-#let abc = enum.with(numbering: "(a)", spacing: 1.5em)
-#set math.equation(numbering: none)
-#set math.mat(delim: "[", gap: 0.3em)
+#let base-style(body) = {
+  set text(font: "Times New Roman", size: 11pt, lang: "en")
+  set heading(numbering: "1.")
+  set math.equation(numbering: none)
+  set math.mat(delim: "[", gap: 0.3em)
+  body
+}
+
+// Applied globally so docs without a template also get base styling.
+// Templates call base-style(body) internally and set their own page rules.
+#set page(paper: "us-letter", margin: (left: 3cm, right: 3cm, top: 2cm, bottom: 2cm))
+#show: base-style
 
 // just nice
+#let abc = enum.with(numbering: "(a)", spacing: 1.5em)
 #let evaluated(expr, size: 100%) = $lr(#expr|, size: #size)$
-#let u(body) = underline(body)
+#let u(x) = underline(x)
+#let b(x) = bold(x)
+#let i(x) = emph[x]
 #let yes = $checkmark$
 #let no = $crossmark$
 
@@ -211,16 +213,17 @@
 }
 
 #let code(content) = block(
-  fill: rgb("#282c34"),
-  stroke: 1pt + rgb("#3e4452"),
-  inset: (left: 16pt, right: 16pt, top: 12pt, bottom: 12pt),
-  radius: 4pt,
+  width: 100%,
+  fill: rgb("#f8f9fa"),
+  stroke: (left: 2.5pt + rgb("#4a7fc1"), rest: 0.5pt + rgb("#d8dde6")),
+  inset: (left: 14pt, right: 14pt, top: 10pt, bottom: 10pt),
+  radius: 2pt,
   [
-    #set par(leading: 0.75em)
+    #set par(leading: 0.8em)
     #text(
-      fill: rgb("#b9c3d5"),
+      fill: rgb("#1c1e26"),
       font: "JetBrains Mono",
-      size: 10pt,
+      size: 9.5pt,
       weight: "regular",
     )[#content]
   ]
@@ -283,8 +286,7 @@
   ..args,
 ) = {
   let body = args.pos().at(0, default: [])
-  set math.mat(delim: "[", gap: 0.3em)
-  set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
+  set page(paper: "us-letter", margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
   align(center,
     stack(
       spacing: 0pt,
@@ -312,7 +314,7 @@
   )
   pagebreak()
   if outline { std.outline(depth: outline-depth); pagebreak() }
-  body
+  base-style(body)
 }
 
 #let exercise(
@@ -325,8 +327,7 @@
   ..args,
 ) = {
   let body = args.pos().at(0, default: [])
-  set math.mat(delim: "[", gap: 0.3em)
-  set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
+  set page(paper: "us-letter", margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
   align(center,
     stack(
       spacing: 0pt,
@@ -354,7 +355,7 @@
   )
   pagebreak()
   if outline { std.outline(depth: outline-depth); pagebreak() }
-  body
+  base-style(body)
 }
 
 #let assignment(
@@ -367,8 +368,7 @@
   ..args,
 ) = {
   let body = args.pos().at(0, default: [])
-  set math.mat(delim: "[", gap: 0.3em)
-  set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
+  set page(paper: "us-letter", margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
   align(center,
     stack(
       spacing: 0pt,
@@ -396,7 +396,7 @@
   )
   pagebreak()
   if outline { std.outline(depth: outline-depth); pagebreak() }
-  body
+  base-style(body)
 }
 
 #let project(
@@ -413,8 +413,7 @@
   ..args,
 ) = {
   let body = args.pos().at(0, default: [])
-  set math.mat(delim: "[", gap: 0.3em)
-  set page(margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
+  set page(paper: "us-letter", margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm))
   align(center,
     stack(
       spacing: 0pt,
@@ -515,7 +514,7 @@
   )
   pagebreak()
   if outline { std.outline(depth: outline-depth); pagebreak() }
-  body
+  base-style(body)
 }
 
 #let exam(
@@ -540,8 +539,8 @@
       if type(author.at(0)) == str { author.at(0) }
       else { author.at(0).at("name", default: "") }
     } else { "" }
-  set math.mat(delim: "[", gap: 0.3em)
   set page(
+    paper: "us-letter",
     margin: (left: 3cm, right: 3cm, top: 3cm, bottom: 3cm),
     header: if username != none or student-number != none {
       set text(size: 9pt, fill: rgb("#555555"))
@@ -657,7 +656,7 @@
   )
   pagebreak()
   if outline { std.outline(depth: outline-depth); pagebreak() }
-  body
+  base-style(body)
 }
 
 
@@ -673,7 +672,6 @@
   ..args,
 ) = {
   let body = args.pos().at(0, default: [])
-  set math.mat(delim: "[", gap: 0.3em)
   set page(paper: "us-letter", margin: (x: 1.9cm, y: 2.3cm))
   set text(size: 9.5pt)
 
@@ -751,7 +749,7 @@
   line(length: 100%, stroke: 0.5pt + rgb("#888888"))
   v(1em)
   if outline { pagebreak(); std.outline(); pagebreak() }
-  body
+  base-style(body)
 }
 
 // venn — set diagram: elements placed symmetrically inside P, ovals fitted to subsets

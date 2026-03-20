@@ -1,4 +1,4 @@
-#import "../../../../../temp.typ": *
+#import "../../../../temp/temp.typ": *
 
 #show: exercise.with(
   title: "AI 504 activity: Canonical models",
