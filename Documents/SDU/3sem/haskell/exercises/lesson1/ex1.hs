@@ -54,6 +54,7 @@ timeConvert (days, hours, minutes) = (totalDays, totalHours, totalMinutes, total
     totalDays = days
     totalHours = days * 24 + hours
     totalMinutes = totalHours * 60 + minutes
+    totalSeconds = totalMinutes * 60
 -- 8. Debugging Insertion Sort
 
 -- isSorted
@@ -79,3 +80,6 @@ almostInsert x (y:ys)
 -- ghci> isSorted (almostSort [3,2,1])
 -- False
 
+
+main :: IO ()
+main = return ()

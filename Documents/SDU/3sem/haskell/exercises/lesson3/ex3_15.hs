@@ -8,3 +8,5 @@ digitInNumber d m
   | m == 0         = False
   | m `mod` 10 == d = True
   | otherwise      = digitInNumber d (m `div` 10)
+main :: IO ()
+main = return ()

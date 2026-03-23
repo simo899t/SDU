@@ -33,3 +33,5 @@ prettyLib xs = "[ "
         ++ indent i ++ " , loaned = " ++ show (loaned b) ++ " }\n"
     indent :: Int -> String
     indent n = replicate (n * 2) ' '
+main :: IO ()
+main = return ()

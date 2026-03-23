@@ -1,4 +1,3 @@
-
 second :: [a] -> a
 second xs = head (tail xs)
 
@@ -16,3 +15,5 @@ palindrome xs = reverse xs == xs
 
 twice :: (t -> t) -> t -> t
 twice f x = f (f x)
+main :: IO ()
+main = return ()

@@ -6,3 +6,5 @@ _ `and1` _ = False
 and2 :: Bool -> Bool -> Bool
 True `and2` b = b
 False `and2` _ = False
+main :: IO ()
+main = return ()

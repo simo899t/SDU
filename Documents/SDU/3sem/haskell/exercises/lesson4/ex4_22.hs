@@ -13,3 +13,6 @@ occurs' x (Node l y r) = case compare x y  of
     EQ -> True
     LT -> occurs' x l
     GT -> occurs' x r
+
+main :: IO ()
+main = return ()

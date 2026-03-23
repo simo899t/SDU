@@ -12,3 +12,5 @@ copy arg = (arg, arg)
 
 apply :: (a -> b) -> a -> b
 apply function arg = function arg
+main :: IO ()
+main = return ()

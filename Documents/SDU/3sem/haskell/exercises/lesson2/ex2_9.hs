@@ -6,3 +6,5 @@ subList (x:xs) ys = go x ys
             [] -> False
             (y:ys') | x == y -> subList xs ys'
                     | otherwise -> go x ys'
+main :: IO ()
+main = return ()
