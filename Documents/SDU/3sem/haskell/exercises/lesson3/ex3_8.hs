@@ -3,5 +3,3 @@ euclid a b
   | a == b    = a
   | a < b     = euclid a (b - a)
   | otherwise = euclid (a - b) b
-main :: IO ()
-main = return ()

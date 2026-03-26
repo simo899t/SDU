@@ -34,5 +34,3 @@ slidingAcc window num = do
     nxtNum <- getLine
     let nextNum = read nxtNum :: Int
     slidingAcc newWindow nextNum
-main :: IO ()
-main = return ()

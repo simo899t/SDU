@@ -13,5 +13,3 @@ testMyRead :: Bool
 testMyRead = myRead "True" == Just True
              && myRead "False" == Just False
              && myRead "3.14159" == Just 3.14159
-main :: IO ()
-main = return ()

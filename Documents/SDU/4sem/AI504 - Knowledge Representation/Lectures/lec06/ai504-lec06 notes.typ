@@ -1,4 +1,4 @@
-#import "../../../../../../temp.typ": *
+#import "../../../../temp/temp.typ": *
 #note(
   title: "Lecture 6: ",
   course: "AI504 - Knowledge Represntation",

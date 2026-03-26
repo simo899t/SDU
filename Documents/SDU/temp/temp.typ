@@ -1,3 +1,6 @@
+#import "@preview/wordometer:0.1.5": word-count as _word-count, total-words as totalwords
+#let word-count = _word-count
+#let total-words = totalwords
 #import "@preview/lovelace:0.3.0": *
 #import "@preview/tdtr:0.5.2" : *
 #import "@preview/h-graph:0.1.0": *
@@ -59,17 +62,26 @@
 #let dirgraph(src) = h-graph(src, polar-render)
 
 #let base-style(body) = {
+  show: _word-count
   set text(font: "Times New Roman", size: 11pt, lang: "en")
   set heading(numbering: "1.")
   set math.equation(numbering: none)
   set math.mat(delim: "[", gap: 0.3em)
+  set par(justify: true)
+  set image(width: 30em)
   body
 }
+#let bib = bibliography.with(style: "chicago-author-date")
 
 // Applied globally so docs without a template also get base styling.
 // Templates call base-style(body) internally and set their own page rules.
 #set page(paper: "us-letter", margin: (left: 3cm, right: 3cm, top: 2cm, bottom: 2cm))
 #show: base-style
+
+// syntax formatting
+#let hs(x) = raw(x, lang: "hs")
+#let py(x) = raw(x, lang: "py")
+
 
 // just nice
 #let abc = enum.with(numbering: "(a)", spacing: 1.5em)
@@ -79,8 +91,18 @@
 #let i(x) = emph[x]
 #let yes = $checkmark$
 #let no = $crossmark$
-
-
+#let absurd = $bot$
+#let all(p,q) = $"All" #p "are" #q$
+#let def = $=^"def"$
+#let supremum(x) = $op("supremum", limits: #true)_(#x)$
+#let softmax(x) = $"softmax"(#x)$
+#let wrt = $w.r.t$
+#let bigo(x) = $cal(O)(#x)$
+#let smallo(x) = $cal(o)(#x)$
+#let ie = $i.e.$
+#let eg = $e.g.$
+#let Der = "Der"
+#let ip(x) = $[|#x|]$
 // shortcuts
 #let redmath(x) = text(fill: red, $#x$)
 #let bluemath(x) = text(fill: blue, $#x$)
@@ -160,7 +182,305 @@
 #let model = $cal(M)$
 #let apx = $approx$
 #let dag = $dagger$
-#let supremum(x) = $op("supremum", limits: #true)_(#x)$
+
+
+// --- Subset diagram (Euler / nested-circles) ---
+// Draws a chain of nested circles: outermost set first, innermost last.
+//
+// sets     — array of set specs, each one of:
+//              "key"                    key used in elements dict, displayed as-is
+//              ("key", label)           string key + any content as display label
+//              ("key", label, color)    as above with explicit fill colour
+//            Omit entirely to auto-derive from elements dict keys.
+// elements — dict  key → array of content (any content: strings, math…)
+// gap      — radial distance between consecutive circles (cm)
+//
+// Usage:
+//   #subset-diagram(elements: ("A": ("1","2"), "B": ("3","4","5")))
+//   #subset-diagram(
+//     sets: (("A", $cal(A)$), ("B", $cal(B)$)),
+//     elements: ("A": ($[|a|]$,), "B": ($x^2$, $y$)),
+//   )
+#let subset-diagram(sets: none, elements: (:), gap: 1.0) = {
+  let sets = if sets == none { elements.keys() } else { sets }
+  let defaults = (
+    rgb(214, 234, 248, 180), // sky blue
+    rgb(212, 239, 223, 180), // mint green
+    rgb(253, 235, 208, 180), // peach
+    rgb(245, 215, 215, 180), // rose
+    rgb(235, 218, 255, 180), // lavender
+    rgb(255, 245, 200, 180), // butter yellow
+    rgb(200, 240, 240, 180), // aqua
+    rgb(255, 220, 200, 180), // apricot
+    rgb(220, 220, 255, 180), // periwinkle
+    rgb(210, 245, 210, 180), // sage
+  )
+  canvas({
+    import draw: *
+    let n = sets.len()
+    let base-r = n * gap
+
+    for i in range(n) {
+      let spec = sets.at(i)
+      let (key, lbl, col) = if type(spec) == array and spec.len() >= 3 {
+        (spec.at(0), spec.at(1), spec.at(2))
+      } else if type(spec) == array and spec.len() == 2 {
+        (spec.at(0), spec.at(1), defaults.at(calc.rem(i, defaults.len())))
+      } else {
+        (spec, spec, defaults.at(calc.rem(i, defaults.len())))
+      }
+      let r = base-r - i * gap
+
+      circle((0, 0), radius: r,
+        stroke: 1pt + rgb(80, 100, 140),
+        fill: col,
+        name: "s" + str(i),
+      )
+      content(
+        (-r * 0.72, r * 0.82),
+        text(size: 9pt, weight: "bold", lbl),
+      )
+
+      // elements placed evenly around the mid-radius of this ring
+      if key in elements {
+        let raw     = elements.at(key)
+        let elems   = if type(raw) == array { raw } else { (raw,) }
+        let inner-r = if i + 1 < n { base-r - (i + 1) * gap } else { 0 }
+        let mid-r   = (r + inner-r) / 2 * 0.75
+        let count   = elems.len()
+        for j in range(count) {
+          let angle = 360deg / count * j - 90deg
+          content(
+            (mid-r * calc.cos(angle), mid-r * calc.sin(angle)),
+            text(size: 8pt, elems.at(j)),
+          )
+        }
+      }
+    }
+  })
+}
+
+// --- Euler diagram (general overlapping/nested ellipses) ---
+// Use this when sets are not a simple chain (siblings, overlaps, lattices).
+//
+// sets     — array of (key, label, cx, cy, rx, ry) or (…, color)
+//            listed in any order — drawn largest-area-first automatically
+// elements — array of (display, (key1, key2, …))
+//            each element is placed at the centre of its smallest containing set;
+//            multiple elements sharing the same tightest container are spread out
+//
+// Usage:
+//   #euler-diagram(
+//     sets: (
+//       ("P",  $P$,      0,    0,    3.5, 2.5),
+//       ("b",  $[|b|]$, -2,   0,    1.0, 0.7),
+//       ("d",  $[|d|]$,  0.5,  0.5, 1.5, 1.1),
+//       ("e",  $[|e|]$,  1.2, -0.5, 1.5, 1.1),
+//       ("c",  $[|c|]$,  0.85, 0,   0.85, 0.65),
+//       ("a",  $[|a|]$,  0.85, 0,   0.32, 0.28),
+//     ),
+//     elements: (
+//       ($a$, ("a",)),
+//       ($b$, ("b",)),
+//       ($c$, ("c",)),
+//       ($d$, ("d",)),
+//       ($e$, ("e",)),
+//     ),
+//   )
+// Euler diagram — blobs morph to fit elements.
+// sets:     array of (key, label). First set = universe, auto-contains all elements.
+// elements: array of (display, (key1, key2, ...), (x, y)).
+//           Position (x, y) places the element; the blob for every set it belongs
+//           to automatically expands to encapsulate it.
+// padding:  extra space around elements inside each blob.
+#let euler-diagram(sets, elements: (), padding: 0.8) = {
+  let defaults = (
+    rgb(214, 234, 248, 150), // sky blue
+    rgb(212, 239, 223, 150), // mint green
+    rgb(253, 235, 208, 150), // peach
+    rgb(245, 215, 215, 150), // rose
+    rgb(235, 218, 255, 150), // lavender
+    rgb(255, 245, 200, 150), // butter yellow
+    rgb(200, 240, 240, 150), // aqua
+    rgb(255, 220, 200, 150), // apricot
+    rgb(220, 220, 255, 150), // periwinkle
+    rgb(210, 245, 210, 150), // sage
+  )
+
+  let universe-key = sets.at(0).at(0)
+
+  // Read element positions from the 3rd field if present, else (0,0).
+  let elem-data = elements.map(item => {
+    let (ex, ey) = if item.len() >= 3 {
+      (float(item.at(2).at(0)), float(item.at(2).at(1)))
+    } else { (0.0, 0.0) }
+    (item.at(0), ex, ey, item.at(1))
+    // (display, x, y, keys)
+  })
+
+  // Collect element positions for each set.
+  // Universe always gets all elements; sub-sets get elements that list them.
+  let set-pts = (:)
+  for s in sets { set-pts = set-pts + ((s.at(0)): ()) }
+  for ed in elem-data {
+    let pos = (ed.at(1), ed.at(2))
+    set-pts = set-pts + ((universe-key): set-pts.at(universe-key) + (pos,))
+    for k in ed.at(3) {
+      if k != universe-key and k in set-pts {
+        set-pts = set-pts + ((k): set-pts.at(k) + (pos,))
+      }
+    }
+  }
+
+  // Draw order: most elements first (background → foreground).
+  let ordered = sets.map(s => s.at(0)).sorted(key: k => -set-pts.at(k).len())
+
+  canvas({
+    import draw: *
+
+    for (idx, key) in ordered.enumerate() {
+      let s   = sets.filter(s => s.at(0) == key).at(0)
+      let lbl = s.at(1)
+      let col = defaults.at(calc.rem(idx, defaults.len()))
+      let pts = set-pts.at(key)
+
+      // Centroid of this set's element positions.
+      let (cx, cy) = if pts.len() == 0 { (0.0, 0.0) } else {
+        ( pts.map(p => p.at(0)).sum() / float(pts.len()),
+          pts.map(p => p.at(1)).sum() / float(pts.len()) )
+      }
+
+      // Blob boundary via support function:
+      // r(α) = padding + max projection of any element onto direction α.
+      let n-pts = 60
+      let blob = range(n-pts).map(j => {
+        let alpha = 360deg * float(j) / float(n-pts)
+        let ca = calc.cos(alpha)
+        let sa = calc.sin(alpha)
+        let r = pts.fold(padding, (acc, p) => {
+          let proj = (p.at(0) - cx) * ca + (p.at(1) - cy) * sa
+          if proj > 0 { calc.max(acc, proj + padding) } else { acc }
+        })
+        (cx + r * ca, cy + r * sa)
+      })
+
+      catmull(..blob, close: true, fill: col, stroke: 1pt + rgb(80, 100, 140))
+
+      // Label at upper-left of the blob.
+      let lca = calc.cos(135deg)
+      let lsa = calc.sin(135deg)
+      let lr  = pts.fold(padding + 0.25, (acc, p) => {
+        let proj = (p.at(0) - cx) * lca + (p.at(1) - cy) * lsa
+        if proj > 0 { calc.max(acc, proj + padding + 0.25) } else { acc }
+      })
+      content((cx + lr * lca, cy + lr * lsa),
+        text(size: 9pt, weight: "bold", lbl))
+    }
+
+    // Render elements at their computed positions.
+    for ed in elem-data {
+      content((ed.at(1), ed.at(2)), text(size: 8pt, ed.at(0)))
+    }
+  })
+}
+
+// --- Venn / automatic Euler diagram ---
+// Pass set specs as positional args: (label, (elem1, elem2, ...))
+// Elements are strings used for layout; labels are any content.
+// domain: optional label for the universe ellipse.
+// scale:  spacing between elements (cm).
+// pad:    extra padding around each ellipse.
+//
+// Usage:
+//   #venn(
+//     domain: $P$,
+//     ($[|a|]$, ("a",)),
+//     ($[|b|]$, ("a","b")),
+//     ($[|c|]$, ("a","c")),
+//     ($[|d|]$, ("a","c","d")),
+//     ($[|e|]$, ("a","c","e")),
+//   )
+#let venn(domain: none, scale: 1.4, pad: 0.6, ..args) = {
+  let sets = args.pos()
+  let defaults = (
+    rgb(214, 234, 248, 150),
+    rgb(212, 239, 223, 150),
+    rgb(253, 235, 208, 150),
+    rgb(245, 215, 215, 150),
+    rgb(235, 218, 255, 150),
+    rgb(255, 245, 200, 150),
+    rgb(200, 240, 240, 150),
+    rgb(255, 220, 200, 150),
+    rgb(220, 220, 255, 150),
+    rgb(210, 245, 210, 150),
+  )
+
+  // Count how many sets each element appears in
+  let freq = (:)
+  for (_, elems) in sets {
+    for e in elems {
+      freq = freq + ((e): (if e in freq { freq.at(e) } else { 0 }) + 1)
+    }
+  }
+
+  // Place elements on a golden-angle spiral: most frequent = closest to centre
+  let sorted-elems = freq.keys().sorted(key: e => -freq.at(e))
+  let pos = (:)
+  for (i, e) in sorted-elems.enumerate() {
+    let r     = if i == 0 { 0.0 } else { scale * calc.sqrt(float(i)) }
+    let angle = float(i) * 2.3999632rad
+    pos.insert(e, (r * calc.cos(angle), r * calc.sin(angle)))
+  }
+
+  // Compute bounding ellipse (cx, cy, rx, ry) for a list of element keys
+  let bbox(elems) = {
+    let xs = elems.map(e => pos.at(e).at(0))
+    let ys = elems.map(e => pos.at(e).at(1))
+    let xmin = xs.fold(xs.at(0), calc.min)
+    let xmax = xs.fold(xs.at(0), calc.max)
+    let ymin = ys.fold(ys.at(0), calc.min)
+    let ymax = ys.fold(ys.at(0), calc.max)
+    let cx = (xmin + xmax) / 2
+    let cy = (ymin + ymax) / 2
+    let rx = calc.max((xmax - xmin) / 2 + pad, pad * 0.7)
+    let ry = calc.max((ymax - ymin) / 2 + pad, pad * 0.7)
+    (cx, cy, rx, ry)
+  }
+
+  canvas({
+    import draw: *
+
+    // Domain ellipse (outermost)
+    if domain != none {
+      let all-keys = freq.keys()
+      let (cx, cy, rx, ry) = bbox(all-keys)
+      let rx2 = rx + pad * 0.6
+      let ry2 = ry + pad * 0.6
+      circle((cx, cy), radius: (rx2, ry2),
+        fill: rgb(230, 230, 230, 100), stroke: 1pt + rgb(80, 100, 140))
+      content((cx - rx2 * 0.78, cy + ry2 * 0.84),
+        text(size: 9pt, weight: "bold", domain))
+    }
+
+    // Draw set ellipses, largest first so smaller ones appear on top
+    let order = range(sets.len()).sorted(key: i => -sets.at(i).at(1).len())
+    for i in order {
+      let (lbl, elems) = (sets.at(i).at(0), sets.at(i).at(1))
+      if elems.len() == 0 { continue }
+      let (cx, cy, rx, ry) = bbox(elems)
+      let col = defaults.at(calc.rem(i, defaults.len()))
+      circle((cx, cy), radius: (rx, ry),
+        fill: col, stroke: 1pt + rgb(80, 100, 140))
+      content((cx - rx * 0.72, cy + ry * 0.82),
+        text(size: 9pt, weight: "bold", lbl))
+    }
+
+    // Element labels at their computed positions
+    for (e, p) in pos {
+      content(p, text(size: 8pt, e))
+    }
+  })
+}
 
 #let tree(body, reverse: false, shape: "circle", draw-node: none, ..args) = {
   let shape-draw-node = if shape == "circle" {
@@ -408,6 +728,8 @@
   group: none,
   supervisor: none,
   university: "University of Southern Denmark",
+  abstract: none,
+  keywords: none,
   outline: true,
   outline-depth: none,
   ..args,
@@ -507,6 +829,47 @@
           )
         )
       ),
+
+      // Abstract block
+      if abstract != none {
+        stack(
+          spacing: 0pt,
+          v(1.5em),
+          block(
+            width: 80%,
+            stroke: none,
+            inset: (top: 0em, bottom: 0em),
+            align(left, stack(
+              spacing: 0.5em,
+              text(weight: "bold", size: 10pt, fill: rgb("#333333"))[Abstract],
+              line(length: 100%, stroke: 0.4pt + rgb("#cccccc")),
+              v(0.3em),
+              text(size: 9.5pt, fill: rgb("#444444"))[#abstract],
+            ))
+          ),
+        )
+      },
+
+      // Keywords
+      if keywords != none {
+        stack(
+          spacing: 0pt,
+          v(0.8em),
+          block(
+            width: 80%,
+            inset: 0pt,
+            align(left,
+              text(size: 9.5pt)[
+                #text(weight: "bold", fill: rgb("#333333"))[Keywords: ]
+                #text(fill: rgb("#555555"))[
+                  #if type(keywords) == array { keywords.join(", ") } else { keywords }
+                ]
+              ]
+            )
+          ),
+        )
+      },
+
       v(1.8em),
       image("IMADA_en.png", width: 15em),
       v(1cm),

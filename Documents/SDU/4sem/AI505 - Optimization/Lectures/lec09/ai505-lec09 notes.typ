@@ -1,4 +1,4 @@
-#import "../../../../../../temp.typ": *
+#import "../../../../temp/temp.typ": *
 #show: note.with(
   title: "Lecture 9: Population Based Methods",
   author: "Simon Holm",

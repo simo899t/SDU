@@ -3,5 +3,3 @@ keepAfter _ [] = []
 keepAfter x (y:ys)
  | x == y = ys
  | otherwise = keepAfter x ys
-main :: IO ()
-main = return ()

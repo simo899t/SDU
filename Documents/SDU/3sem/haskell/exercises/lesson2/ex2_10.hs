@@ -9,5 +9,3 @@ luhn first second third fourth =
       + luhnDouble third 
       + luhnDouble fourth) `mod` 10) == 0
     
-main :: IO ()
-main = return ()

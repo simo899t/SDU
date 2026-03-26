@@ -1,14 +1,14 @@
 #import "../../../../temp/temp.typ": *
 
-#assignment(
+#show: assignment.with(
   title: "Problem set 3 - A decider for truth in a model for " + $cal(A)$,
   course: "AI504 — Knowledge Representation",
-  author: ("Simon Holm", "Johannes Rothe", "Shuagib Ibrahim", "Anne Sofie Høj"),
+  author: ("Simon Holm", "Johannes Rothe", "Shuagib Ibrahim", "Anne Sofie Høj", "Daniel Nissen"),
   date: "March, 2026",
   outline-depth: 1
 )
 
-= Problem 1: The type of sentences
+= Problem 1: The type of sentences <sec1>
 Define a unary type constructor Sentence following Definition 1.1. If $p$ is a type, then Sentence $p$ must be a type representing all possible sentences of logic $cal(A)$ using p as a signature. In particular, if `a :: p ` and ` b :: p`, then there should be some expression `AllAre a b :: p`. Only expressions 
 constructed using such a rule should have type Sentence p.1
 
@@ -25,21 +25,33 @@ phi AllAre 'p' 'q'
 ```
 )
 == Solution 
+We want to make a type constructor. That is `data typeName type = arguments`
+
+#code(
+```hs
+data Sentence p = AllAre p p
+```
+)
+
+We define `Sentence` taking the type `p`, and argues that `AllAre p p` (All p are p, where p is just a placeholder). 
+This type constructors ensures that if there exists ```hs a :: p``` and ```hs b :: p```, 
+then \ ```hs AllAre a b :: Sentence p```
+
 #pagebreak()
 
 = Problem 2: The type of models
-Define a binary type constructor Model following Definition 1.3. If p and m are types, then `Model p m` must be a type representing all possible models for logic $cal(A)$ with signature p and universe m. Let f be  a function whose domain is p and whose codomain is the type of all finite2 sets of terms in m, then  there should be some expression `Mod f :: Model p m`. Only expressions constructed using such a  rule should have type `Model p m`. Search the imported library for the “type of finite sets of  expressions of a certain type”.
+Define a binary type constructor `Model` following Definition 1.3. If `p` and `m` are types, then `Model p m` must be a type representing all possible models for logic $cal(A)$ with signature p and universe m. Let f be  a function whose domain is p and whose codomain is the type of all finite2 sets of terms in m, then  there should be some expression `Mod f :: Model p m`. Only expressions constructed using such a  rule should have type `Model p m`. Search the imported library for the “type of finite sets of  expressions of a certain type”.
 
 Note that terms of Model p m only need to specify the interpretation function $[||]$ (named f above) from the pair $model = [M, [| |]$ as described in Definition 1.3. This is because the universe $M$ is already  present in the type as `Model p m` as `m`.
 
 _Example 2.1_:  Let Bool and String be the set of all boolean values and countable Unicode  strings respectively. We use Bool as signature. Then:
 
-$ 
-model_0 := ("String", [| |]_0: "Bool" -> pow("String"))\
-forall b in "Bool".quad [|b|]_0 := emptyset\
-model_1 = (ZZ, [| |]_1: ZZ -> pow(ZZ))\
-forall z in ZZ. quad [|z|]_1 := {-abs(z), dots abs(z)}
-$
+#align($ 
+model_0 &:= ("String", [| |]_0: "Bool" -> pow("String"))\
+forall b &in "Bool".quad [|b|]_0 := emptyset\
+model_1 &= (ZZ, [| |]_1: ZZ -> pow(ZZ))\
+forall z &in ZZ. quad [|z|]_1 := {-abs(z), dots abs(z)}
+$)
 
 #code(
 ```hs
@@ -47,13 +59,23 @@ m0 :: Model Bool String
 m0 = Mod (const empty)
 
 m1 :: Model Integer Integer
-m1 = Mod (\ z -> fromList
-         [- abs z .. abs z])
+m1 = Mod (\ z -> fromList [- abs z .. abs z])
 ```
 )
 
 
 == Solution
+We want to make another type constructor much like in @sec1. This time it should define the $model$ as $ model = (P, [||]:P->pow(M)) $
+
+For a Haskell implementation wee need a constructor tha takes both a signature #hs("p") and a univere (domain) #hs("m"). It should then use the #hs("Mod f"), to map the signatures to a some set (usually a subset of the domain)
+
+#code(
+```hs
+data Model p m = Mod (p -> Set m)
+```
+)
+
+
 #pagebreak()
 
 = Problem 3: A decider for $ent$
@@ -95,4 +117,45 @@ The first statement holds, but the second does not.
 
 Note that implementing a decider means implementing a function that returns a truth value. This is very different from an implementation of the truth predicate in Definition 1.4, which would return  an object representing the mathematical statement $model ent phi$, rather than its mere truth value.
 
+
 == Solution
+#code(
+  ```hs
+(|=) :: (Ord m) => Model p m -> Sentence p -> Bool
+Mod f |= AllAre p q = f p `isSubsetOf` f q
+  ```
+)
+Definign that $ model ent all(a,b) => [|a|] psubset [|b|] $
+
+= Appendix
+#code(
+  ```hs
+import Data.Set
+
+-- Problem 1: A decider for
+
+data Sentence p = AllAre p p
+
+-- Problem 2: The type of models
+
+data Model p m = Mod (p -> Set m)
+
+-- Problem 3: A decider for 'entails'
+
+(|=) :: (Ord m) => Model p m -> Sentence p -> Bool
+Mod f |= AllAre p q = f p `isSubsetOf` f q
+
+m0 :: Model Bool String
+m0 = Mod (const empty)
+
+m1 :: Model Integer Integer
+m1 = Mod (\z -> fromList [-abs z .. abs z])
+
+-- >>> m1 |= AllAre (-3) 2
+-- False
+
+-- >>> m0 |= AllAre True False
+-- True
+
+  ```
+)
