@@ -1,7 +1,7 @@
-#import "../../../../../../temp.typ": *
+#import "../../../../temp/temp.typ": *
 
 
-#assignment(
+#show: assignment.with(
   title: "Problem set 2",
   course: "AI504 — Knowledge Representation",
   author: ("Simon Holm", "Johannes Rothe", "Shuagib Ibrahim", "Anne Sofie Høj", "Daniel Egedal Nissen"),

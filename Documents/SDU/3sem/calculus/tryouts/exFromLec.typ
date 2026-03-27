@@ -42,13 +42,13 @@ Draw the following polynomials
 === Solution
 
 + $y = x^2 - x + 2$
-  #image("assets/image-3.png", width: 25em)
+  #image("../assets/image-3.png", width: 25em)
 + $y = x^3+x^2-2x-6 $
-  #image("assets/image-4.png", width: 25em)
+  #image("../assets/image-4.png", width: 25em)
 + $y = x^4 - x^3 - 7x^2 - 2x - 6$
-  #image("assets/image-5.png", width: 25em)
+  #image("../assets/image-5.png", width: 25em)
 + $y = x^5 - x^4 - 5x^3 + 2x - 6$
-  #image("assets/image-6.png", width: 25em)
+  #image("../assets/image-6.png", width: 25em)
 
 #pagebreak()
 
@@ -63,9 +63,9 @@ What changes about the behavior of the tails of the graph if its leading coeffic
 
 === Solution
 + $y = (x + 1)(x - 1)^2$
-  #image("assets/image-7.png", width: 20em)
+  #image("../assets/image-7.png", width: 20em)
 + $y = -x^2 (x - 1)$
-  #image("assets/image-8.png", width: 20em)
+  #image("../assets/image-8.png", width: 20em)
 
 Both are still polynomials. Any power function is a polynomials
 
@@ -160,7 +160,7 @@ The true value is $sqrt(4.1) approx 2.0249$, so the tangent line gives a good ap
 The image below shows $f(x)$, its derivative $f'(x)$, and the tangent line at $x=4$:
 
 
-#image("assets/image-10.png")
+#image("../assets/image-10.png")
 // graphed using GeoGebra
 
 
@@ -180,7 +180,7 @@ $
 )
 
 #align(center)[
-  #image("assets/image-11.png", width: 20em)
+  #image("../assets/image-11.png", width: 20em)
 ]
 
 $f'(x) = 0$ gives 2 extremas, $-1$ and $1$, this makes sence given the graph.
@@ -372,7 +372,7 @@ and $f''(-1)<0 => bold("Local maximum")$
 Consider the function below:
 - Identify the local minima and maxima. 
 - Identify the global minimum and maximum.
-#image("assets/image-13.png",width: 15em)
+#image("../assets/image-13.png",width: 15em)
 
 === Solution
 *Local minima* at $x approx 0.8$ with $f(0.8) approx 2$
@@ -388,11 +388,11 @@ Consider the function below:
 
 == Problem 7
 Draw the vector $(2, 4, 4)$ on the following graph and compute its length.
-#image("assets/image-14.png", width: 20em)
+#image("../assets/image-14.png", width: 20em)
 
 === Solution
 
-#image("assets/image-15.png", width:  20em)
+#image("../assets/image-15.png", width:  20em)
 $ norm((2, 4, 4)) = sqrt(2^2+4^2+4^2)=sqrt(68) $
 #pagebreak()
 
@@ -401,7 +401,7 @@ Let $a = vec(1, 1)$.
 - Draw $a$, $2a$, and $-a$.
 - How can $-a$ be normalized to a unit vector?
 === Solution
-  - #image("assets/image-16.png")
+  - #image("../assets/image-16.png")
   
   - Normalized to a unit vector $(-a)_u = (-a)/norm(-a) =(-1,-1)/sqrt((-1)^2+(-1)^2) =vec(-1/sqrt(2),-1/sqrt(2))  $
 #pagebreak()
@@ -410,7 +410,7 @@ Let $a = vec(1, 1)$.
 Draw $bold(b) - bold(a)$
 
 === Solution
-#image("assets/image-17.png")
+#image("../assets/image-17.png")
 
 #pagebreak()
 
@@ -425,7 +425,7 @@ Let $ bold(v)=(3,4) quad bold(w)=(-4,3) $
 - When dot product $=0$, angle is between them is 90
   $ cos(90) norm(bold(v))norm(bold(w))= 0 = bold(v) dot bold(w) $
   Since neither $norm(bold(v))$ or $norm(bold(w))$ is 0 $cos(theta) = 0$, so $theta = 90$
-- #image("assets/image-18.png")
+- #image("../assets/image-18.png")
 - 
 
 == Problem 11
@@ -468,18 +468,18 @@ Can you describe in words the graphs of the following functions?
 - $g (x, y ) = x^2 + y^2 + 5$
   
   upward circular paraboloid (bowl) that is shifted up by 5
-  #image("assets/image-19.png", width: 20em)
+  #image("../assets/image-19.png", width: 20em)
 
 - $h(x, y ) = -x^2 - y^2 $
   
   downward circular paraboloid (bowl)
-  #image("assets/image-20.png", width: 20em)
+  #image("../assets/image-20.png", width: 20em)
 #pagebreak()
 
 - $q(x, z) = x^2 + (z - 1)^2$
   
   upward circular paraboloid (bowl) that is shifted + 1 in the direction of z
-  #image("assets/image-21.png", width: 20em)
+  #image("../assets/image-21.png", width: 20em)
 
 == Problem 2
 Describe the cross-sections of the function $g (x,y)=x^2-y^2$ with $y$ fixed and then with $x$ fixed. Use these cross-sections to describe the shape of the graph of $g$.
@@ -503,10 +503,10 @@ Describe the level sets of the functions
   Level sets $x^2+y^2+z^2=c$
     
   For $c = 0$ a single point at $(0,0,0)$
-  #image("assets/image-23.png", width: 20em)
+  #image("../assets/image-23.png", width: 20em)
 
   For $c > 0$ a 3D-sphere with $r=c$
-  #image("assets/image-24.png", width: 20em)
+  #image("../assets/image-24.png", width: 20em)
 
   For $c > 0$ a single point at $(0,0,0)$
   
@@ -517,12 +517,12 @@ Describe the level sets of the functions
 -  $f (x, y , z) = x^2 + y^2 - z^2$
   
   For $c = 0$ a double cone with center at $(0,0,0)$
-  #image("assets/image-25.png", width: 20em)
+  #image("../assets/image-25.png", width: 20em)
 
   For $c < 0$ a hyperboloid of one sheet
-  #image("assets/image-26.png", width: 20em)
+  #image("../assets/image-26.png", width: 20em)
   For $c > 0$ a hyperboloid of one sheets
-  #image("assets/image-27.png", width: 20em)
+  #image("../assets/image-27.png", width: 20em)
 
 #pagebreak()
 
@@ -647,7 +647,7 @@ Is the function continuous in the given region?
 Imagine an unevenly heated thin rectangular metal plate lying in the $x y$-plane. Temperature at $(x, y )$ is $T (x, y)$ 
 
 #align(center)[
-  #image("assets/image-29.png",width: 35em)
+  #image("../assets/image-29.png",width: 35em)
 ]
 How does T vary near the point (2, 1)?
 
@@ -658,7 +658,7 @@ Also its increasing towards $y=0$ and decreasing towards $y=2$
 #pagebreak()
 
 == Problem 11
-#align(center)[#image("assets/image-30.png",width: 20em)]
+#align(center)[#image("../assets/image-30.png",width: 20em)]
 - What is the sign of $f_x (0, 5)$?
 
 - What is the sign of $f_x (0, 5)$?
@@ -911,11 +911,11 @@ As long as $norm(f) != 0$
 == Problem 2
 In the following picture, mark the gradient vector of f at (a, b).
 #align(center)[
-  #image("assets/image-31.png",width: 30em)
+  #image("../assets/image-31.png",width: 30em)
 ]
 === Solution
 #align(center)[
-  #image("assets/image-32.png",width: 29em)
+  #image("../assets/image-32.png",width: 29em)
 ]
 #pagebreak()
 
@@ -1070,7 +1070,7 @@ So $ (2-lambda)(2-lambda)-0 dot 0 = 0 => lambda = 2 $
 
 So local mimimum
 
-#align(center)[#image("assets/image-35.png",width: 30em)]
+#align(center)[#image("../assets/image-35.png",width: 30em)]
 
 As shown here, the critical point is also the global min
 
@@ -1092,7 +1092,7 @@ $ f_x (0,0) = 0/0 = "DNE", quad f_y (0,0) = 0/0 = "DNE" $
 
 f is a cone though, where its global maximum is $f(0,0) = 0$
 
-#align(center)[#image("assets/image-33.png",width: 30em)]
+#align(center)[#image("../assets/image-33.png",width: 30em)]
 #pagebreak()
 
 
@@ -1109,7 +1109,7 @@ So $ (2-lambda)(2-lambda)-0 dot 0 = 0 => lambda = 2 $
 
 So local mimimum
 
-#align(center)[#image("assets/image-34.png",width: 30em)]
+#align(center)[#image("../assets/image-34.png",width: 30em)]
 
 The minimum must also be the global min
 
@@ -1134,7 +1134,7 @@ So $ (12x^2-lambda)(12y^2-lambda) = 0 => lambda = 2 $
 
 Because of $lambda_1,lambda_2 < 0$, this indicates local mimimum
 
-#align(center)[#image("assets/image-36.png",width: 30em)]
+#align(center)[#image("../assets/image-36.png",width: 30em)]
 
 The local minimum must also be the global min
 
@@ -1160,7 +1160,7 @@ For a hessian $det(mat(-12x^2-lambda,0;0,-12y^2-lambda)) = 0$
 So $ (12x^2-lambda)(12y^2-lambda) = 0 => lambda = -12*x^2 $
 Since $lambda_1, lambda_2 <=0$, I cannot directly conclude anything, only based on the eigenvalues from the hessian matrix. But since for $x,y !=0$, all eigenvaleus are strictly negative, this is most likely a local maximum
 
-#align(center)[#image("assets/image-37.png",width: 30em)]
+#align(center)[#image("../assets/image-37.png",width: 30em)]
 
 
 The local max is clearly shown above.
@@ -1188,7 +1188,7 @@ So $ (12x^2-lambda)(12y^2-lambda) = 0 => lambda = -12x^2, 12y^2 $
 
 Since $lambda <=0>=lambda$ and , I cannot directly conclude anything, only based on the eigenvalues from the hessian matrix. But since for $x,y !=0$, the eigenvaleus have mixed signs, this is most likely a sadle point
 
-#align(center)[#image("assets/image-38.png",width: 30em)]
+#align(center)[#image("../assets/image-38.png",width: 30em)]
 
 The saddlepoint can be seen above.
 
@@ -1214,7 +1214,7 @@ Does the function $ f(x,y)=1/(x^2+y^2) $ have global maxima and minima on the re
 === Solution
 
 First inspect $f$
-#align(center)[#image("assets/image-39.png",width: 30em)]
+#align(center)[#image("../assets/image-39.png",width: 30em)]
 
 Since $R$ is $(0,1]$, $R$ is not closed, therfore $f$ does not have a global max
 
@@ -1610,7 +1610,7 @@ Then
 
 $ integral_R g dif  A = "Areal of "R $
 
-#align(center)[#image("assets/image-40.png",width: 30em)]
+#align(center)[#image("../assets/image-40.png",width: 30em)]
 
 == Problem 10
 How do we compute the average value of $f$ over $R$?
@@ -1690,7 +1690,7 @@ Volume of the building is *$1280 " m"^3$*
 
 == Problem 14
 The density at $(x, y )$ of a triangular metal plate is $delta (x, y )$. Express its mass as an iterated integral.
-#align(center)[#image("assets/image-41.png",width: 15em)]
+#align(center)[#image("../assets/image-41.png",width: 15em)]
 
 === Solution
 
@@ -1779,7 +1779,7 @@ Set up an iterated integral for the mass of a solid cone bounded by $z = sqrt(x^
 === Solution
 
 The cone is given by $z = sqrt(x^2+y^2)$ and is cut of by the plane $z = 3$ meaning $z<=3$
-#align(center)[#image("assets/image-42.png",width: 25em)
+#align(center)[#image("../assets/image-42.png",width: 25em)
 $z=sqrt(x^2+y^2), quad "where" z<=3$]
 
 
