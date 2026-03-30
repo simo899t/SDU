@@ -1,4 +1,5 @@
 import numpy as np
+
 def nelder_mead(f, S, eps, max_iterations, alpha=1.0, beta=2.0, gamma=0.5):
     delta = float("inf")
     y_arr = np.array([f(x) for x in S])
@@ -40,3 +41,6 @@ def nelder_mead(f, S, eps, max_iterations, alpha=1.0, beta=2.0, gamma=0.5):
         simplex_history.append(S.copy())
         delta = np.std(y_arr, ddof=0)
     return S[np.argmin(y_arr)], simplex_history
+
+if __name__ == "__main__":
+    pass
