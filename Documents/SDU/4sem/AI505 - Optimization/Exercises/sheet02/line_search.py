@@ -23,7 +23,7 @@ x0 = anp.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0])
 
 d = -nabla_f(x0)
 
-def strong_backtracking(f, nabla, x, d, alpha=1, beta=1e-4, sigma=0.1):
+def strong_bracketing(f, nabla, x, d, alpha=1, beta=1e-4, sigma=0.1):
     y0, g0, y_prev, alpha_prev = f(x), nabla(x) @ d, None, 0
     alpha_lo, alpha_hi = None, None
 
@@ -62,19 +62,19 @@ def strong_backtracking(f, nabla, x, d, alpha=1, beta=1e-4, sigma=0.1):
     return alpha_lo
 
 
-def solve(f, nabla_f, x, d, max_iter=10000):
+def strong_bracketing_solve(f, nabla_f, x, d, max_iter=10000):
     for k in range(max_iter):
         g = nabla_f(x)
         if np.linalg.norm(g) < 1e-6:   # convergence check
             print(f"Converged at iteration {k}")
             break
         d = -g
-        alpha = strong_backtracking(f, nabla_f, x, d)
+        alpha = strong_bracketing(f, nabla_f, x, d)
         print(f"iter {k}: alpha = {alpha:.6f},  f(x) = {f(x):.6f}")
         x = x + alpha * d
     return x
 
-sol = solve(f,nabla_f,x0,d)
+sol = strong_bracketing_solve(f,nabla_f,x0,d)
 print(sol)
 
 
