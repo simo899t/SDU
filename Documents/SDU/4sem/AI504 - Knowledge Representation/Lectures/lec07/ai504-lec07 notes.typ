@@ -10,7 +10,7 @@
 /*
 office hours:
 Thursday afternoon
-Chech itsLearning
+Check itsLearning
 */
 
 = Verbs

@@ -19,6 +19,7 @@
   label-gap: auto, // space between label and formula
   pad: auto,       // extra line width on each side
   inset: auto,     // bottom padding (pushes caption down in figures)
+  reverse: false,  // if true, conclusion on top, premises below
   ..args,
 ) = context {
   let em = measure(line(length: 1em)).width
@@ -50,14 +51,25 @@
 
   let lw = calc.max(measure(prem-row).width, measure(conclusion).width) + pad
 
-  align(center, stack(dir: ttb, spacing: 0pt,
-    align(center, prem-row),
-    v(above),
-    line(length: lw),
-    v(below),
-    align(center, conclusion),
-    v(inset),
-  ))
+  if reverse {
+    align(center, stack(dir: ttb, spacing: 0pt,
+      align(center, conclusion),
+      v(above),
+      line(length: lw),
+      v(below),
+      align(center, prem-row),
+      v(inset),
+    ))
+  } else {
+    align(center, stack(dir: ttb, spacing: 0pt,
+      align(center, prem-row),
+      v(above),
+      line(length: lw),
+      v(below),
+      align(center, conclusion),
+      v(inset),
+    ))
+  }
 }
 #let dirgraph(src) = h-graph(src, polar-render)
 
@@ -92,7 +104,9 @@
 #let yes = $checkmark$
 #let no = $crossmark$
 #let absurd = $bot$
-#let all(p,q) = $"All" #p "are" #q$
+#let term(p,q) = $#p "all" #q$
+#let sent(p, q, mid: none) = if mid == none { $"all" #p #h(0.4em) #q$ } else { $"all" #p #mid #q$ }
+#let allare(p,q) = $"All" #p "are" #q$
 #let def = $=^"def"$
 #let supremum(x) = $op("supremum", limits: #true)_(#x)$
 #let softmax(x) = $"softmax"(#x)$

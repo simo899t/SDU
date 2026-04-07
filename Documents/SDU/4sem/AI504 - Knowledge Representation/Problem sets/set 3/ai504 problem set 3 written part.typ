@@ -11,14 +11,14 @@
 = Exercise 1.8
 Here is a set $Gam$:
 
-$ Gam = {all(a,b), all(c,d), all(a,c), all(a,e), all(c,e)} $
+$ Gam = {allare(a,b), allare(c,d), allare(a,c), allare(a,e), allare(c,e)} $
 
-Then $Gam ent.not all(d,b)$. The point of this problem is to give two models of Γ where All d are b is false.
-+ Find the canonical model of $Gam$, and check that $all(d,b)$ is false in that model.
-+ Find a model $model$ with just one element such that $model ent Gam$ but $model ent all(d,b)$ [Hint: You can do this by modifying the model in Exercise $1.8$. That is, you use a model $model$ with $M = {*}$, and with the interpretation function given by something like $(1.8)$. The only difference is that we don't want $y$ on the right, we want $dots$. You can also get a one-point model this by using Exercise $1.9$ just below. On the other hand, some people might find Exercise 1.9 easier to think about after working on this exercise.]
+Then $Gam ent.not allare(d,b)$. The point of this problem is to give two models of Γ where All d are b is false.
++ Find the canonical model of $Gam$, and check that $allare(d,b)$ is false in that model.
++ Find a model $model$ with just one element such that $model ent Gam$ but $model ent allare(d,b)$ [Hint: You can do this by modifying the model in Exercise $1.8$. That is, you use a model $model$ with $M = {*}$, and with the interpretation function given by something like $(1.8)$. The only difference is that we don't want $y$ on the right, we want $dots$. You can also get a one-point model this by using Exercise $1.9$ just below. On the other hand, some people might find Exercise 1.9 easier to think about after working on this exercise.]
 
 == Solution
-1. Let $M ={a,b,c,d,e}, "and" Gam = {all(a,b), all(c,d), all(a,c), all(a,e), all(c,e)} $
+1. Let $M ={a,b,c,d,e}, "and" Gam = {allare(a,b), allare(c,d), allare(a,c), allare(a,e), allare(c,e)} $
   
   
   Then $model = (M,[||]:M->cal(P)(M))$
@@ -72,30 +72,19 @@ Then $Gam ent.not all(d,b)$. The point of this problem is to give two models of 
 #pagebreak()
 
 
-  $ model ent all(a,a) quad yes qquad model ent all(b,a) quad no $
+  $ model ent allare(a,a) quad yes qquad model ent allare(b,a) quad no $
+  $ model ent allare(c,a) quad no qquad model ent allare(d,a) quad no $
+  $ model ent allare(e,a) quad no qquad model ent allare(a,b) quad yes $
+  $ model ent allare(b,b) quad yes qquad model ent allare(c,b) quad no $
+  $ underline(model ent allare(d,b) quad no) qquad model ent allare(e,b) quad no $
 
-  $ model ent all(c,a) quad no qquad model ent all(d,a) quad no $
-
-  $ model ent all(e,a) quad no qquad model ent all(a,b) quad yes $
-
-  $ model ent all(b,b) quad yes qquad model ent all(c,b) quad no $
-
-  $ underline(model ent all(d,b) quad no) qquad model ent all(e,b) quad no $
-
-  $ model ent all(a,c) quad yes qquad model ent all(b,c) quad no $
-
-  $ model ent all(c,c) quad yes qquad model ent all(d,c) quad no $
-
-  $ model ent all(e,c) quad no qquad model ent all(a,d) quad yes $
-
-  $ model ent all(b,d) quad no qquad model ent all(c,d) quad yes $
-
-  $ model ent all(d,d) quad yes qquad model ent all(e,d) quad no $
-
-  $ model ent all(a,e) quad yes qquad model ent all(b,e) quad no $
-
-  $ model ent all(c,e) quad yes qquad model ent all(d,e) quad yes $
-
-  $ model ent all(e,e) quad yes $
+  $ model ent allare(a,c) quad yes qquad model ent allare(b,c) quad no $
+  $ model ent allare(c,c) quad yes qquad model ent allare(d,c) quad no $
+  $ model ent allare(e,c) quad no qquad model ent allare(a,d) quad yes $
+  $ model ent allare(b,d) quad no qquad model ent allare(c,d) quad yes $
+  $ model ent allare(d,d) quad yes qquad model ent allare(e,d) quad no $
+  $ model ent allare(a,e) quad yes qquad model ent allare(b,e) quad no $
+  $ model ent allare(c,e) quad yes qquad model ent allare(d,e) quad yes $
+  $ model ent allare(e,e) quad yes $
 
 2. 

@@ -47,6 +47,7 @@ training data.
 #link("https://playground.tensorflow.org/#activation=tanh&batchSize=10&dataset=circle&regDataset=reg-plane&learningRate=0.03&regularizationRate=0&noise=0&networkShape=4,2&seed=0.37877&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=false")[playground in tensorflow link]
 
 
+#pagebreak()
 
 
 = Fundamentals 
@@ -104,13 +105,14 @@ $ w_(k+1) <- w_k - alpha_k nabla R_n (w_k) = w_k - (alpha_k)/n summ(i=1,n,nf_i (
 
 == Stochastic Gradient
 #figure(
-  image("assets/image-1.png", width: 30em),
+  image("assets/image-1.png", width: 20em),
   caption: [the fast initial improvement achieved by SG, followed by a drastic slowdown after 1 or 2 epochs, is common in practice. \
 SG more sensitive to $alpha_k$ and starting point. If more epochs, batch may become better]
 )
 
+
 == Beyond SG: Noise Reduction and Second-Order Methods
-$ w_(k+1) <- w_k - (alpha_k)/abs(cal(S)_k) sum_(i in cal(S)) nf_i_k (w_k) $#pagebreak()
+$ w_(k+1) <- w_k - (alpha_k)/abs(cal(S)_k) sum_(i in cal(S)) nf_i_k (w_k) $
 
 $ F ) mycases(
   R(w) = EE_xi [f(w;xi)], "Emperical Risk"
@@ -124,6 +126,69 @@ $ g(w_k, xi_k) = cases(
 ) $
 
 #figure(
-  image("assets/image-2.png"),
+  image("assets/image-2.png", width: 30em),
   caption: [on horizontal axis methods that try to improve rate of convergence\ on vertical axis, methods that try to overcome non-linearity and ill-conditioning]
 )
+
+= Dynamic sample size methods
+Mini-batch stochastic gradient:
+
+$ w_(k+1) <- w_k - bar(alpha) g(w_k,Xi_k) $
+
+where the stochastic directions are computed for some $tau > 1$ as
+
+$ g(w_k,Xi_k) def 1/n_k sum nf(w_k\;Xi_(k,i)) quad "with" n_k def abs(cal(S)_k)=ceil(tau^(k-1)) $
+
+Note that batch algorithm might be linearly convergent, and therfore faster than the regular gradient descent. It is Computationally slower.
+
+== Guidelines
+- if the optimization method has a sublinear rate of convergence, then there is no sampling rate that makes the algorithm “efficient”;
+- if the optimization algorithm is linearly convergent, then the sampling rate must be geometric (with restrictions on the constant in the rate) for the algorithm to be “efficient”
+- for superlinearly convergent methods, increasing the sample size at a rate that is slightly faster than geometric will yield an “efficient” method.
+
+= Gradient Aggregation
+
+Rather than compute increasingly more *new* stochastic gradient information in each iteration, achieve a lower variance by *reusing and/or revising* previously computed information
+
+This works on finite sums like $R_n$
+
+SVRG: Method for Minimizing an Empirical Risk Rn
+#pseudo[
+  *Procudure SVRG*
+  
+  - Choose an initial iterate $w_1 in RR^d$, setsize $alpha > 0$ and a positive interger $m$;
+  + *for* $k=1,2,dots$ *do*
+    + Compute the batch graidetn $nabla R_n (w_k)$
+    + Initialize $accent(w,tilde)_1 <- w_k$
+    + *for* $j = 1, dots , m$ *do*
+      + $accent(g,tilde)_j <- nf_i_j (accent(g,tilde)_j) - (nf_i_j (w_k)-nabla R_n (w_k))$;
+      + $accent(w,tilde)_(j+1) <- accent(w,tilde)_j - alpha accent(g,tilde)_j $
+    + Option (a): Set $w_(k+1) = accent(w,tilde)_(m+1)$
+    + Option (b): Set $w_(k+1) = 1/m summ(j=1,m,accent(w,tilde)_(j+1))$
+    + Option (c): Choose $j$ uniformly from ${1,dots,m}$ and set $w_(k+1) = accent(w,tilde)_(j+1)$ 
+]
+
+SAGA: Method for Minimizing an Empirical Risk Rn
+- Same per-iteration costs as basic SG
+
+#pseudo[
+  *Procudure SAGA*
+  
+  - Choose an initial iterate $w_1 in RR^d$, setsize $alpha > 0$;
+  + *for* $i=1,2,dots,n$ *do*
+    + Compute $nabla f_n (w_1)$
+    + Store $nf_i (w_[i]) <- nf_i (w_1)$
+  + *for* $k = 1,2 dots$ *do*
+    + Choose $j$ uniformly in ${1,dots,n}$
+    + Compute $nf_j (w_k)$;
+    + Set $g_k <- nf_j (w_k)-nf_j (w_[j]) + 1/n summ(i=1,n,nf_i (w_[i]))$
+    + Store $nf_j (w_[j]) <- nf_j (w_[k]))$
+    + Set $w_(k+1) <- w_k - alpha g_k$
+]
+
+== iterated Averaging Methods
+$ w_(k+1) <- w_k - alpha g(w_k, Xi_k) \ 
+  accent(w, tilde)_(k+1) <- 1/(k+1) summ(i=1, k+1, w_i)
+$
+
+For this $accent(w, tilde)_k$ has no effect in the computation of the SG iterate sequence
