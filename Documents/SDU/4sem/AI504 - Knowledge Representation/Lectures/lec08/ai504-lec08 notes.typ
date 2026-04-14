@@ -75,7 +75,7 @@ $ ip(#[see all turtles]) = {m in M: forall n in {1,2,3,4,5,6} quad (m,n) in {3,5
 
 $ ip(#[see all (see all hawks)]) = {m in M: forall n in {2,3,4,5,7} quad (m,n) in {1}} = {3,5} $
 == Sentences
-A *sentence* is an expression $ sent("term", "term", mid: "are") $
+A *sentence* is an expression $ sent("term", "term") $
 #pagebreak()
 
 == Fundemental Lemma
@@ -100,43 +100,3 @@ Now because of $forall n in ip(s) quad (m,n) in ip(s)$ and $n in ip(t)$
 
 We know that $(m,n) in ip(r)$
 #QED
-
-
-== Proof rule
-For any model $model$, if $model ent sent(s,t), "then" model ent sent(term(r,t),term(r,s))$
-
-This suggessts a proof rule (ANTI)
-#figure(
-  grid(
-    columns: 2,
-    align: horizon, 
-    gutter: 1mm, 
-    ptree(
-      sent($lr((#term("r","t")))$, $lr((#term("r","s")))$),
-      r($$, sent("s","t")),
-    ),
-    [ANTI]
-  ),
-   caption: [ANTI - proof ruleP]   
-)
-
-Also DOWN
-
-This suggessts a proof rule (ANTI)
-#figure(
-  grid(
-    columns: 2,
-    align: horizon, 
-    gutter: 1mm, 
-    ptree(
-      sent("x", $lr((#term("r","y")))$),
-      r($$, sent("x", $lr((#term("r","z")))$)),
-      r($$, sent("y","z")),
-      reverse: true
-    ),
-    [DOWN]
-  ),
-   caption: [DOWN - proof ruleP]   
-)
-
-These two rules are interderivable. (shown in lecture)

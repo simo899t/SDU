@@ -1,6 +1,6 @@
 #import "../../../../temp/temp.typ": *
 #show: note.with(
-  title: "Lecture 10: Population Based Methods",
+  title: "Lecture 11: Optimization in Machine Learning",
   author: "Simon Holm",
   date: "March - 2026"
 )

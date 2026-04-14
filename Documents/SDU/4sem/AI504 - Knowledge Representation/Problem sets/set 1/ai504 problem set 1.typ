@@ -1,4 +1,4 @@
-#import "../../../../../../temp.typ": *
+#import "../../../../temp/temp.typ": *
 
 #assignment(
   title: "Problem set 1",

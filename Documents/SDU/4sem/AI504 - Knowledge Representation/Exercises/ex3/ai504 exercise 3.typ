@@ -21,17 +21,17 @@ See describtion from book (logic_from_language)
 
 1. Show that $cal(N) ent Gam$
 
-$ H_1: Gam ent all(p,q) = cal(N) ent Gam prov forall (all(r,s)) in Gam. cal(N) ent all(r,s) $
-Let $all(r,s) in Gam (k)$. We show $cal(N) ent all(r,s), ie [|r|] psubset [|s|], ie forall x in [|r|], x in [|s|]$
+$ H_1: Gam ent term(p,q) = cal(N) ent Gam prov forall (term(r,s)) in Gam. cal(N) ent term(r,s) $
+Let $term(r,s) in Gam (k)$. We show $cal(N) ent term(r,s), ie [|r|] psubset [|s|], ie forall x in [|r|], x in [|s|]$
 
-$ H_2: Gam ent all(p,q), K = all(r,s) in Gam prov forall x in ip(r). x in ip(s) $
+$ H_2: Gam ent term(p,q), K = term(r,s) in Gam prov forall x in ip(r). x in ip(s) $
 
-Let $x in [|r|], ie [|r|] = {*}, ie Gam prov all(p,r), ie exists cal(D) in Der_(Gam, all(p,r)) (L)$. 
+Let $x in [|r|], ie [|r|] = {*}, ie Gam prov term(p,r), ie exists cal(D) in Der_(Gam, term(p,r)) (L)$. 
 
-We show $x in ip(s), ie ip(s) = {*}, ie Gam prov all(p,s), ie exists cal(D)' in Der_(Gam, all(q,s)) $
+We show $x in ip(s), ie ip(s) = {*}, ie Gam prov term(p,s), ie exists cal(D)' in Der_(Gam, term(q,s)) $
 
 
-$ H_3: Gam ent all(p,q), K: all(r,s) in Gam, L: exists cal(D) in Der_(Gam,all(p,r)) prov exists cal(D)' in Der_(Gam, all(p,s)) $
+$ H_3: Gam ent term(p,q), K: term(r,s) in Gam, L: exists cal(D) in Der_(Gam,term(p,r)) prov exists cal(D)' in Der_(Gam, term(p,s)) $
 $"We choose" cal(D)':= #figure(
   grid(
     columns: 2,
@@ -57,26 +57,26 @@ $#figure(
     ),
     [BARBARA.]
   )
-) in Der_(Gam,all(p,s)),\ ie all(p,r) in Der_(Gam, all(p,r)) "and" all(r,s) in Der_(Gam,all(r,s)).$
+) in Der_(Gam,term(p,s)),\ ie term(p,r) in Der_(Gam, term(p,r)) "and" term(r,s) in Der_(Gam,term(r,s)).$
 
 Obvious by $K$ and $L$.
 
-2. Show that $cal(N) ent all(p,q)$ [Hint: Use part (1).]
+2. Show that $cal(N) ent term(p,q)$ [Hint: Use part (1).]
 
-We want to show that $cal(N) ent Gam => cal(N) ent all(p,q) $
+We want to show that $cal(N) ent Gam => cal(N) ent term(p,q) $
 
-$ H_4: Gam ent all(p,q) prov cal(N) ent Gam => cal(N) ent all(p,q) $
+$ H_4: Gam ent term(p,q) prov cal(N) ent Gam => cal(N) ent term(p,q) $
 
-To prove $cal(N) ent Gam -> cal(N) ent all(p,q)$, we show that $cal(N) in "Models and" forall model in "Models"$.
+To prove $cal(N) ent Gam -> cal(N) ent term(p,q)$, we show that $cal(N) in "Models and" forall model in "Models"$.
 
-$cal(N) ent Gam -> cal(N) ent all(p,q).$ Obvious by H
+$cal(N) ent Gam -> cal(N) ent term(p,q).$ Obvious by H
 #pagebreak()
 
-3. Use part (2) to show that $Gam prov all(p,q)$
+3. Use part (2) to show that $Gam prov term(p,q)$
 
-$ H_5: Gam ent all(p,q) prov cal(N) prov all(p,q) \ =Gam ent all(p,q) prov ip(q) = {*} $
+$ H_5: Gam ent term(p,q) prov cal(N) prov term(p,q) \ =Gam ent term(p,q) prov ip(q) = {*} $
 We prove that $ip(p) psubset ip(q) and ip(p) = {*}$:
 - $ip(p) psubset ip(q)$, we know this by definition of satifiability
-- $ip(p) = {*},ie Gam prov all(p,p)$ This is obvious by AXIOM.
+- $ip(p) = {*},ie Gam prov term(p,p)$ This is obvious by AXIOM.
 
 

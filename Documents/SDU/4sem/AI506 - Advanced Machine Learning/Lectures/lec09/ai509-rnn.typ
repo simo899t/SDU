@@ -1,6 +1,6 @@
 #import "../../../../temp/temp.typ": *
 #note(
-  title: "Lecture 8 - Loss Functions cont.",
+  title: "Lecture 9 - RNNs",
   course: "AI506 — Advanced Machine Learning",
   author: "Simon Holm",
   date: "March, 2026",
@@ -141,7 +141,6 @@ LSTMs are explicitly designed to avoid the long-term dependency problem
   caption: [RNNs have the form of a repeating chain structure
 ]
 )
-
 
 #figure(
   image("assets/image-8.png"),

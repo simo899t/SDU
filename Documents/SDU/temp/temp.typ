@@ -5,78 +5,13 @@
 #import "@preview/tdtr:0.5.2" : *
 #import "@preview/h-graph:0.1.0": *
 #import "@preview/cetz:0.3.4": canvas, draw
-// Proof trees
-// r(label, formula)                    — axiom leaf
-// r(label, formula, r(...), r(...))    — sub-derivation (nests automatically)
-// ptree(conclusion, r(...), r(...))    — root inference step
-#let r(name, formula, ..subs) = (name, formula, ..subs.pos())
-
-#let ptree(
-  conclusion,
-  gap: auto,       // horizontal gap between premises
-  above: auto,     // space above the line
-  below: auto,     // space below the line
-  label-gap: auto, // space between label and formula
-  pad: auto,       // extra line width on each side
-  inset: auto,     // bottom padding (pushes caption down in figures)
-  reverse: false,  // if true, conclusion on top, premises below
-  ..args,
-) = context {
-  let em = measure(line(length: 1em)).width
-  let gap       = if gap       == auto { 4 * em  } else { gap }
-  let above     = if above     == auto { 0.5 * em } else { above }
-  let below     = if below     == auto { 0.5 * em } else { below }
-  let label-gap = if label-gap == auto { 0.6 * em } else { label-gap }
-  let pad       = if pad       == auto { 1.5 * em } else { pad }
-  let inset     = if inset     == auto { 1 * em   } else { inset }
-  let prems = args.pos()
-  if prems.len() == 0 { return conclusion }
-
-  let render-prem(p) = if type(p) == array {
-    if p.len() > 2 {
-      // sub-derivation: recurse, then put label above the sub-tree
-      let sub = ptree(p.at(1), gap: gap, above: above, below: below,
-                      label-gap: label-gap, pad: pad, ..p.slice(2))
-      align(center, stack(dir: ttb, spacing: label-gap, p.at(0), sub))
-    } else {
-      align(center, stack(dir: ttb, spacing: label-gap, p.at(0), p.at(1)))
-    }
-  } else { align(center, p) }
-
-  let prem-row = grid(
-    columns: (auto,) * prems.len(),
-    column-gutter: gap,
-    ..prems.map(render-prem)
-  )
-
-  let lw = calc.max(measure(prem-row).width, measure(conclusion).width) + pad
-
-  if reverse {
-    align(center, stack(dir: ttb, spacing: 0pt,
-      align(center, conclusion),
-      v(above),
-      line(length: lw),
-      v(below),
-      align(center, prem-row),
-      v(inset),
-    ))
-  } else {
-    align(center, stack(dir: ttb, spacing: 0pt,
-      align(center, prem-row),
-      v(above),
-      line(length: lw),
-      v(below),
-      align(center, conclusion),
-      v(inset),
-    ))
-  }
-}
 #let dirgraph(src) = h-graph(src, polar-render)
 
 #let base-style(body) = {
   show: _word-count
   set text(font: "Times New Roman", size: 11pt, lang: "en")
-  set heading(numbering: "1.")
+  set heading(numbering: "1.1")
+  set enum(numbering: "(a)")
   set math.equation(numbering: none)
   set math.mat(delim: "[", gap: 0.3em)
   set par(justify: true)
@@ -110,6 +45,8 @@
 #let def = $=^"def"$
 #let supremum(x) = $op("supremum", limits: #true)_(#x)$
 #let softmax(x) = $"softmax"(#x)$
+#let ReLU(x) = $"ReLU"(#x)$
+#let GeLU(x) = $"GeLU"(#x)$
 #let wrt = $w.r.t$
 #let bigo(x) = $cal(O)(#x)$
 #let smallo(x) = $cal(o)(#x)$
@@ -137,6 +74,7 @@
 #let rang = $chevron.r$
 #let lang = $chevron.l$
 #let pow(x) = $cal(P)(#x)$
+
 
 // --- Calculus notation ---
 #let dx = $dif x$
@@ -197,6 +135,46 @@
 #let apx = $approx$
 #let dag = $dagger$
 
+
+// --- Proof trees ---
+#let ptree(..args, conclusion: none, rule: none, titles: none) = {
+  let premises = args.pos()
+  let n = premises.len()
+  let premise-row = {
+    for i in range(n) {
+      if i > 0 { h(1.5em) }
+      let p = box(premises.at(i))
+      if titles != none and i < titles.len() [
+        #box(align(center, stack(dir: ttb, spacing: 3pt, emph(titles.at(i)), p)))
+      ] else [#p]
+    }
+  }
+  context {
+    let pw = measure(premise-row).width
+    let cw = measure(conclusion).width
+    let w = calc.max(pw, cw) + 8pt
+    let rule-content = if rule != none { pad(left: 4pt, text(size: 0.85em, rule)) } else { none }
+    let line-row = if rule != none {
+      grid(
+        columns: (w, auto),
+        align: horizon + left,
+        line(length: 100%),
+        rule-content,
+      )
+    } else {
+      line(length: w)
+    }
+    box(stack(
+      dir: ttb,
+      spacing: 4pt,
+      box(width: w, align(center, premise-row)),
+      line-row,
+      box(width: w, align(center, conclusion)),
+    ))
+  }
+}
+
+// --- draw prooftrees ---
 
 // --- Subset diagram (Euler / nested-circles) ---
 // Draws a chain of nested circles: outermost set first, innermost last.

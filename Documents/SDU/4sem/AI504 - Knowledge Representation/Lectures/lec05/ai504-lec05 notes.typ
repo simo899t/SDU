@@ -76,7 +76,7 @@ For all $Gam, phi$ if there is exists a proof $phi$ from $Gam$, then for every m
   If $T$ is a proof of $phi$ from $Gam$ then for every model $cal(M)$, 
   
   if $M ent Gam$ then $Gam ent phi$],
-  title: [Massage]
+  title: [Message]
 )
 
 Now we can do induction to prove this, where #u("goal")
