@@ -1,0 +1,1 @@
+Note that not all notes from 1st and 2nd semester are collected here as it was made in other formats, and dificult to convert
