@@ -18,20 +18,16 @@ $ phi := "All" 'p' "are" 'q' $
 is a sentence over signature Char.
 
 
-#code(
 ```hs
 phi :: Sentence Char
 phi AllAre 'p' 'q'
 ```
-)
 == Solution 
 We want to make a type constructor. That is `data typeName type = arguments`
 
-#code(
 ```hs
 data Sentence p = AllAre p p
 ```
-)
 
 We define `Sentence` taking the type `p`, and argues that `AllAre p p` (All p are p, where p is just a placeholder). 
 This type constructors ensures that if there exists ```hs a :: p``` and ```hs b :: p```, 
@@ -53,7 +49,6 @@ model_1 &= (ZZ, [| |]_1: ZZ -> pow(ZZ))\
 forall z &in ZZ. quad [|z|]_1 := {-abs(z), dots abs(z)}
 $)
 
-#code(
 ```hs
 m0 :: Model Bool String
 m0 = Mod (const empty)
@@ -61,7 +56,6 @@ m0 = Mod (const empty)
 m1 :: Model Integer Integer
 m1 = Mod (\ z -> fromList [- abs z .. abs z])
 ```
-)
 
 
 == Solution
@@ -69,11 +63,9 @@ We want to make another type constructor much like in @sec1. This time it should
 
 For a Haskell implementation wee need a constructor tha takes both a signature #hs("p") and a univere (domain) #hs("m"). It should then use the #hs("Mod f"), to map the signatures to a some set (usually a subset of the domain)
 
-#code(
 ```hs
 data Model p m = Mod (p -> Set m)
 ```
-)
 
 
 #pagebreak()
@@ -106,29 +98,24 @@ $)
 
 The first statement holds, but the second does not.
 
-#code(
 ```hs
 -- >>> m0 |= AllAre True False
 -- True
 -- >>> m1 |= AllAre (-3) 2
 -- False
 ```
-)
 
 Note that implementing a decider means implementing a function that returns a truth value. This is very different from an implementation of the truth predicate in Definition 1.4, which would return  an object representing the mathematical statement $model ent phi$, rather than its mere truth value.
 
 
 == Solution
-#code(
   ```hs
 (|=) :: (Ord m) => Model p m -> Sentence p -> Bool
 Mod f |= AllAre p q = f p `isSubsetOf` f q
   ```
-)
 Definign that $ model ent all(a,b) => [|a|] psubset [|b|] $
 
 = Appendix
-#code(
   ```hs
 import Data.Set
 
@@ -158,4 +145,3 @@ m1 = Mod (\z -> fromList [-abs z .. abs z])
 -- True
 
   ```
-)

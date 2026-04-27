@@ -44,7 +44,6 @@ From previous classes we now different techniques to $min_(alpha>=0) phi(alpha)$
 
 By assuming that $p_k$ is a descent direction, that is, $phi'(0) < 0$, we can confine our search values to positive values of $alpha$
 
-#code(
   ```py
     def line_search(f, x, d)
       objective = lambda alpha: f(x + alpha * d)
@@ -52,7 +51,6 @@ By assuming that $p_k$ is a descent direction, that is, $phi'(0) < 0$, we can co
       alpha = minimize(objective, a, b)
       return x + alpha * d
   ```
-)
 
 Often computationally costly, so approximate line search is used instead
 
@@ -76,7 +74,6 @@ This is simply just setting a bound for the a function. This way we can ignore g
 
 $ #image("assets/IMG_7642.jpeg", width: 30em) $
 
-#code(
   ```py
 def backtracking_line_search(f, grad, x, d, alpha_0=1, p=0.5, beta=1e-4):
   y, g, alpha = f(x), grad(x), alpha_0
@@ -84,7 +81,6 @@ def backtracking_line_search(f, grad, x, d, alpha_0=1, p=0.5, beta=1e-4):
     alpha *= p
   return alpha
   ```
-)
 
 #image("assets/image-6.png")
 

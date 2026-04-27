@@ -122,7 +122,7 @@ Since the given code deal with functions by constructing them in `Syntax.hs` and
 
 The `combine` function is just an alias for the `Seq` constructor, making it easier and clearer to compose programs in sequence.
 
-#code(```hs
+```hs
   -- Sequential composition
   | Seq (SProg ()) (SProg a)
 
@@ -130,7 +130,7 @@ The `combine` function is just an alias for the `Seq` constructor, making it eas
 
   combine :: SProg () -> SProg () -> SProg ()
   combine = Seq
-```)
+```
 
 
 
@@ -147,21 +147,21 @@ The interpreter mainy uses two patterns to continue execution after an action: `
 
 *rest* is used for actions that perform an action on the world and then continues with the remaining program (`runProg`). It represents the "rest of the program". For example, in event handlers:
 
-#code(```hs
+```hs
 go (OnTargetReached ptr handler rest) world =
       go rest world { trHdlrs = (ptr, handler) : trHdlrs world }
-```)
+```
 
 Note that, if gamelogic wants `rest` to do nothingit can pass `pure()` as `rest`.
 #pagebreak()
 
 *cont* is a continuation function @HuttonHaskell (Section 17.4: Adding a continuation) that takes a function from `SProg` to `SProg` as an additional argument. For example, in `InspectCell`:
 
-#code(```hs
+```hs
 go (InspectCell cell cont) world =
       let result = ... -- compute HasBarrier, HasSprite, or IsFree
       in go (cont result) world
-```)
+```
 
 Here, `cont` is called with the inspection result to obtain the next program. This allows the game code to decide what to do based on the computed value. This pattern appears throughout the DSL in actions like `GetTarget`, `NewSprite`, and `InspectCell`, where computed values (target cells, sprite indices, or inspection results) must be passed to continuation code.
 
@@ -169,10 +169,10 @@ Here, `cont` is called with the inspection result to obtain the next program. Th
 
 === OnBarrierHit
 
-#code(```hs
+```hs
 go (OnBarrierHit ptr handler rest) world =
       go rest world { bhHdlrs = (ptr, handler) : bhHdlrs world }
-```)
+```
 
 This case registers a barrier hit handler for a specific sprite. The pattern match extracts the sprite `ptr`, the handlerfunction `handler`, and the continuation program (`rest`).
 
@@ -184,7 +184,7 @@ This creates a new updated world state without modifying the original state.
 The `InspectCell` case demonstrates the use of the `let` expressions @HaskellDoc (Section 3.12: Let Expressions), which are used throughout the interpreter. A `let` expression allows defining local variables that are only visible within its scope (the part after `in`). 
 
 The syntax is: "`let bindings in expression`", where the bindings define variables that can be used in the expression.
-#code(```hs
+```hs
 go (InspectCell cell next) world =
       let hasSprite = spriteExistsAt cell (sprites world) /= Nothing
           hasBarrier = not (inBounds cell) 
@@ -193,7 +193,7 @@ go (InspectCell cell next) world =
             | hasSprite  = HasSprite
             | otherwise  = IsFree
       in go (next result) world
-```)
+```
 
 In this case, the `let` block defines three local bindings:
 - `hasSprite`: Checks if a sprite exists at the cell using the `spriteExistsAt` helper function
@@ -223,7 +223,7 @@ All of the snakey-game's game logic is located in the `MyGame.hs` file. To run t
 
 
 == The snakes creation and structure
-#code(```hs
+```hs
   NewSprite (10,15) (Color green (circleSolid (cellSize * 0.6))) (\headG ->
   NewSprite (9,15)  (Color green (rectangleSolid cellSize cellSize)) (\tailG1 ->
   NewSprite (8,15)  (Color green (rectangleSolid cellSize cellSize)) (\tailG2 ->
@@ -246,7 +246,7 @@ All of the snakey-game's game logic is located in the `MyGame.hs` file. To run t
   -- controls 
   ))))))))))))))
 
-```)
+```
 The code block above creates two snakes, each with 1 head and 7 links (tails)@Descr2 using nested continuation functions. The constructor `NewSprite` takes a cell `Cell`, a picture `Picture`, and a continuation function that receives the newly created sprite's pointer `SpritePtr`.
 Each `NewSprite` call follows this pattern:
 ```hs
@@ -256,13 +256,13 @@ NewSprite position picture (\spritePointer -> nextSnakeSegment)
 The lambda function `\spritePointer ->` is a continuation that receives the sprite's index and defines what happens next. The nesting serves a crucial purpose: it keeps all sprite pointers in scope so they can all be used at the deepest level when setting up the game controls.
 When the interpreter processes these nested calls, it will then assigns sequential indices: `headG = 0`, `tailG1 = 1`, through `tailB6 = 15`. The nested structure is purely for keeping all 16 sprite pointers accessible when calling for controls:
 
-#code(```hs
+```hs
   -- Controls - these will set up the head movement and tail following
 player1SnakeControls headG [tailG1, tailG2, tailG3, tailG4, tailG5, tailG6, tailG7]
    `combine`
   player2SnakeControls headB [tailB1, tailB2, tailB3, tailB4, tailB5, tailB6, tailB7]))))))))))))))))
 
-```) 
+``` 
 
 
 #pagebreak()
@@ -272,9 +272,9 @@ The game uses `combine` to register controls for both players, ensuring responsi
 
 Each control is registered using the `OnKeyEvent` constructor, which takes a key, an action to perform, and the rest of the program to continue with:
 
-#code(```hs 
+```hs 
 OnKeyEvent key (moveInDirection head tails dir) (nextOnKeyEvent)
-```)
+```
 
 This pattern ensures that when we detect one key (e.g., 'w' for up), we still continue checking for the remaining keys. After key detection, the function calls `moveInDirection` with the appropriate head sprite, tail sprites list, and direction according to the pressed key.
 
@@ -291,7 +291,7 @@ This is how the movement works:
 
 The basic structure of `moveInDirection` is:
 
-#code(```hs
+```hs
 moveInDirection :: SpritePtr -> [SpritePtr] -> Dir -> SProg ()
 moveInDirection headPos tails dir =
   case tails of
@@ -302,7 +302,7 @@ moveInDirection headPos tails dir =
         -- Inspect next cell and handle collision
         (SetTarget firstTail curPos (moveInDirection headPos tails dir))
       ) (Pure ())
-```)
+```
 
 The `setupTailChain` function ensures each tail segment follows the segment in front of it. The `OnTargetReached` handler checks whether the head can move forward, and if so, updates both the head and the first tail segment to ensure that the first tail follows the head. Both of these functions are explained further in the following sections.
 
@@ -314,13 +314,13 @@ Since `OnTargetReached` already ensures that the first tail segment follows the 
 
 The tail movement is controlled by the recursive function `setupTailChain`, shown below:
 
-#code(```hs
+```hs
 setupTailChain :: [SpritePtr] -> SProg ()
 setupTailChain [] = Pure ()
 setupTailChain [_] = Pure ()
 setupTailChain (leader:follower:rest) =
   followTail leader follower `combine` setupTailChain (follower:rest)
-```)
+```
 
 This function takes the list of tail segments and does the following:
 1. If there are *0 tails* (`[]`), do nothing (`Pure ()`).
@@ -331,13 +331,13 @@ This function takes the list of tail segments and does the following:
 
 The helper function `followTail` registers an event handler using `OnTargetReached`. When the `leader` reaches its target cell, the handler sets that cell as the new target for the `follower`:
 
-#code(```hs
+```hs
 followTail :: SpritePtr -> SpritePtr -> SProg ()
 followTail leader follower =
   OnTargetReached leader (\leaderPos ->
     SetTarget follower leaderPos (Pure ())
   ) (Pure ())
-```)
+```
 
 This ensures that each tail segment moves to the cell that the segment in front of it just left, creating a smooth following chain.
 
@@ -352,7 +352,7 @@ From my experience programming a Pacman-like game last semester, handling collis
 
 This approach integrates naturally with the DSL's `InspectCell` action. In the `moveInDirection` function, collision detection happens before movement:
 
-#code(```hs
+```hs
 OnTargetReached head (\curPos ->
   let nextPos = nextCell dir curPos in -- finding the adjacent cell (the next one)
   InspectCell nextPos (\cellResult ->
@@ -363,7 +363,7 @@ OnTargetReached head (\curPos ->
         (SetTarget head nextPos
           (SetTarget firstTail curPos (moveInDirection head tails dir))))
 ) (Pure ()) 
-```)
+```
 
 When the snake head reaches its target, the next cell in the movement direction is inspected before moving. If the cell contains a barrier or another sprite, the movement is prevented and visual feedback is provided by the background ganging color (red for barriers, black for sprite collisions). Only when the cell is free does the actual movement occur via `SetTarget` and the background stays/becomes white.
 

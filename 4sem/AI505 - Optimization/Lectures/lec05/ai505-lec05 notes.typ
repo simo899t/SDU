@@ -34,7 +34,6 @@ $ -nabla f(x_k) $
 This is normalised steepest descent
 $ d_k= -(nabla f(x_k))/norm(nabla f(x_k)) $
 
-#code(
   ```py 
   class DescentMethod:
     alpha: float
@@ -45,7 +44,6 @@ $ d_k= -(nabla f(x_k))/norm(nabla f(x_k)) $
       alpha, g = self.alpha, grad(x) 
       return x - alpha * g
   ```
-)
 
 == Conjugate Direction
 Def.: $A$ set of nonzero vectors ${d_0, d_1, dots , d_ell}$ is said to be conjugate with respect to the symmetric positive definite matrix $A$ if

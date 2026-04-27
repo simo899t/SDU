@@ -31,53 +31,30 @@ allGraph = S.map (\(AllAre p q) -> (p, q))
 
 -- PROBLEM 4: REFLEXIVE-TRANSITIVE CLOSURE
 
-
 -- 4.1
-isPrependable :: Eq v => ((v,v), NonEmpty v) -> Bool
-isPrependable ((_, v), w :| _) = v == w
+isPrependable :: Eq v => (v,v) -> NonEmpty v -> Bool
+isPrependable (_, v) (w :| _) = v == w
 
 -- 4.2
-prepend :: ((v,v), NonEmpty v) -> NonEmpty v
-prepend ((a,_), w:| rest) = a :| (w : rest)
+prepend :: (v,v) -> NonEmpty v -> NonEmpty v
+prepend (a,_) (w:| rest) = a :| (w : rest)
 
 -- 4.3
-prependables :: Ord v => Set (v,v) -> Set (NonEmpty v) -> Set ((v,v), NonEmpty v)
-prependables edges paths = foldMap (\edge -> concIf edge paths) edges
-
-{-
-result = []
-for edge in edges:
-    result += concIf(edge, paths)
-return result
--}
-
-concIf :: Ord v => (v,v) -> Set (NonEmpty v) -> Set ((v,v), NonEmpty v)
-concIf edge paths = S.map (\path -> (edge, path)) (S.filter (\path -> isPrependable (edge, path)) paths)
-
-{- 
-kept = []
-for path in paths:
-    if isPrependable(edge, path):
-        kept += path
-
-result = []
-for path in kept:
-    result += [(edge, paths)]
-return result
--}
+prependables :: Eq v => Set (v,v) -> Set (NonEmpty v) -> Set ((v,v), NonEmpty v)
+prependables edges paths = S.filter (uncurry isPrependable) (S.cartesianProduct edges paths)
 
 -- 4.4
 addPrependResults :: Ord v => Main.Graph v -> Set (NonEmpty v) -> Set (NonEmpty v)
-addPrependResults g s = s `S.union` S.map prepend (prependables g s)
+addPrependResults g s = s `S.union` S.map (uncurry prepend) (prependables g s)
 
 -- 4.5
 iterateN :: Int -> (a -> a) -> a -> a 
 iterateN 0 _ b = b
 iterateN n f z = f (iterateN (n-1) f z)
 
-
-
-
+-- 4.6
+pathsTo :: Ord v => Main.Graph v -> v -> Set (NonEmpty v)
+pathsTo g b = iterateN (S.size g) (addPrependResults g) (S.singleton (b:|[]))
 
 
 -- TESTING
@@ -92,20 +69,22 @@ d = Barbara
 
 g :: Main.Graph Char
 g = S.fromList [
-        ('w', 'x'),
-        ('w', 'y'),
-        ('y', 'w'),
-        ('y', 'y')
+        ('1', '2'),
+        ('2', '3'),
+        ('1', '3')
     ]
 
--- >>> allGraph (S.fromList [AllAre 'w' 'x', AllAre 'w' 'y', AllAre 'y' 'w', AllAre 'y' 'y']) == g
--- True
+-- >>> allGraph (S.fromList [AllAre 'w' 'x', AllAre 'w' 'y', AllAre 'y' 'w', AllAre 'y' 'y'])
+-- fromList [('w','x'),('w','y'),('y','w'),('y','y')]
 
 -- >>> prependables (S.fromList [(0,1), (2,2)]) (S.fromList [1:|[3,5], 5:|[4,5], 1:|[4], 2:|[9]])
 -- fromList [((0,1),1 :| [3,5]),((0,1),1 :| [4]),((2,2),2 :| [9])]
 
--- >>> addPrependResults g (S.fromList ['y':|"wx"])
--- fromList ['w' :| "ywx",'y' :| "wx",'y' :| "ywx"]
+-- >>> addPrependResults g (S.fromList ['c':|"ab"])
+-- fromList ['c' :| "ab"]
 
--- >>> iterateN 3 (2 *) 1
--- 8
+-- >>> iterateN (S.size g) (addPrependResults g) (S.singleton ('w':|[]))
+-- fromList ['w' :| ""]
+
+-- >>> pathsTo (S.fromList [(1,2),(1,3),(2,3)]) 3
+-- fromList [1 :| [2,3],1 :| [3],2 :| [3],3 :| []]

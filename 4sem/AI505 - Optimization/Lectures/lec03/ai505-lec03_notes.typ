@@ -1,11 +1,10 @@
+#import "../../../../temp/temp.typ": *
 
 #let title = "Lecture 3: Bracketing"
 #let author = "Simon Holm"
-#let date = "15/02/2026"
+#let date = "February - 2026"
 
-#import "../../../../../../temp.typ": *
-
- #note(
+#show: note.with(
    title: title,
    author: author,
    date: date
@@ -56,7 +55,7 @@ Two main strategies for finding local minima of smooth functions
 - Line Search methods, such as gradients descent etc.
 - Truest regionm
 
-== Unimodality
+== Unmorality
 There exists a point $in [a,b]$ such that:
 
 
@@ -68,8 +67,8 @@ $ f(x) "is decreasing for" x<x^* "and increasing for"x>x^*  $
 We know that the global minimum is $in[a,c]$ when
 $ a<b<c " and "f(a)>f(b)<f(c) $
 
-#code(
-  ```py
+
+```py
   def bracket_min(f,x=0,s=1e-2,2=2.0)
     a, ya=x, f(x)
     b, yb=a+s, f(a+s)
@@ -84,8 +83,7 @@ $ a<b<c " and "f(a)>f(b)<f(c) $
         return a < c ? (a, c) : (c, a)
       a, ya, b, yb = b, yb, c, yc
       s *= k
-  ```
-)
+```
 The algorithm above describes a way to Iteratively find an certainty-interval where the solution $x^*$ lies within.
 
 Here is an example of a ```py bracket_min``` function at work
@@ -122,7 +120,6 @@ You assume locally that $f(x)$ is quadratic, so you fit:
 $ f(x) approx b_0 + b_1x+b_2x^2 $
 Then, using the 3 function values, you solve for $b_0,b_1,b_2$
 
-#code(
   ```py
   A = np.vander(x,4)
   
@@ -140,7 +137,6 @@ Then, using the 3 function values, you solve for $b_0,b_1,b_2$
   plt.legend()
   plt.show()
   ```
-)
 
 $ #image("assets/image-3.png", width: 25em) $
 

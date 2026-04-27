@@ -36,6 +36,44 @@ Binary programming works better. So if you had to choose an amount of each item,
 Many problems can be converted into linear programs that have the same solution.
 $ #image("assets/image-2.png") $
 
+== Forms
+Two canonical ways to write an LP. Start from the general form and convert to one of these to hand it to an algorithm.
+
+=== Standard form
+All constraints are inequalities, variables non-negative:
+#align($ min_x c^T x \
+s.t quad A x &<= b\
+x &>= 0
+$)
+
+Conversion rules:
+- A $>=$ constraint is flipped by multiplying by $-1$
+- An equality $F x = g$ becomes two inequalities: $F x <= g$ and $-F x <= -g$
+- A free variable $x_i in RR$ is split: $x_i = x_i^(+) - x_i^(-)$ with $x_i^(+), x_i^(-) >= 0$
+
+Nice for geometric intuition — the feasible set is a polytope defined by half-spaces.
+
+=== Equality form
+Also called _standard equality form_ or _slack form_. The *main constraints* are equalities; $x >= 0$ is a separate sign restriction (non-negativity bound), not counted among the "constraints" in this naming:
+#align($ min_x c^T x \
+s.t quad A x &= b quad &#text[(main constraints — equalities)]\
+x &>= 0 quad &#text[(sign restriction)]
+$)
+
+Conversion rules:
+- $A x <= b$ becomes $A x + s = b$ with slack $s >= 0$
+- $A x >= b$ becomes $A x - s = b$ with surplus $s >= 0$
+- Free variables split the same way as above
+
+This is the form the *simplex algorithm* operates on — it needs equalities so it can pick a basis $A_B$ (an $m times m$ invertible submatrix) and solve $x_B = (A_B)^(-1) b$ at each vertex. That is why the dimension grows to $2n + m$: $n$ originals $+ n$ for splitting free vars $+ m$ slacks.
+
+=== Quick example
+Original problem:
+$ min quad x_1 + x_2 quad s.t. quad 2 x_1 + x_2 <= 4, quad x_1, x_2 >= 0 $
+
+Equality form — add slack $s >= 0$:
+$ min quad x_1 + x_2 quad s.t. quad 2 x_1 + x_2 + s = 4, quad x_1, x_2, s >= 0 $
+
 = Simplex Algorithm
 Different kinds of problems may lead to different kinds of solutions
 $ #image("assets/image-3.png") $

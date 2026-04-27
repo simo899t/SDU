@@ -112,7 +112,6 @@ Note, you find the algorithm in Python in the slides. The focus of this exercise
 == Solution
 
 - Plotting $f(x_1,x_2)$
-#code(
   ```py
 import matplotlib.pyplot as plt
 import numpy as np
@@ -139,7 +138,6 @@ plt.tick_params(labelsize=11)
 plt.show()
 
   ```
-)
 
 $ #image("assets/image-16.png", width: 23em) $
 
@@ -165,7 +163,6 @@ We wish to solve the line search problem using the Strong Bracketing Line Search
 
 We can do this with the following code snippet, from lecture slides.
 
-#code(
   ```py
 import autograd as ag
 import autograd.numpy as np
@@ -227,10 +224,8 @@ alpha = strong_backtracking(f, nabla_f, x0, d)
 
 print(alpha)
   ```
-)
 
 The output:
-#code(
   ```typ
 start
 low: 1.000000  high:2.000000
@@ -243,7 +238,6 @@ starting zoom phase
 Zoom done: lo=1.562500  hi=1.500000
 Accepted alpha: 1.53125
   ``` 
-)
 #pagebreak()
 - Plotting the iterations of $alpha$
 
@@ -251,7 +245,6 @@ $ #image("assets/image-17.png", width: 30em) $
 
 $ #image("assets/image-18.png", width: 30em) $
 
-#code(
   ```py
 import autograd as ag
 import autograd.numpy as anp
@@ -366,7 +359,6 @@ plt.tight_layout()
 plt.show()
 
   ```
-)
 
 
 #pagebreak()
@@ -384,7 +376,6 @@ gradient.
 
 - First with point $x_0 = [1.2,1.2]$
 
-#code(
   ```py
 import autograd as auto
 import autograd.numpy as np
@@ -415,7 +406,6 @@ print(alpha)
 
 print("done!") 
   ```
-)
 $ alpha = 0.0009765625 $
 
 starting from $[-1.2,1]$ gives the same value for $alpha$
@@ -547,7 +537,6 @@ So we wish to compute $ limm(k->oo) abs(1-(-3))^k dot e_0 $
 
 We can test differet $alpha$'a using gradient descent
 
-#code(
     ```py
 import autograd as auto
 import autograd.numpy as np
@@ -585,11 +574,9 @@ print(f"With alpha: {alpha4}, optimal x: {x_opt:.6f}, f(x): {f(x_opt):.6f}")
 alpha5, x_opt = gradient_descent(f, nabla_f, x0, 1.9)
 print(f"With alpha: {alpha5}, optimal x: {x_opt:.6f}, f(x): {f(x_opt):.6f}")
     ```
-)
 
 Output:
 
-#code(
     ```
 Converged at iteration 111
 With 0.1, optimal x: 0.000009, f(x): 0.000000
@@ -602,7 +589,6 @@ With 1.5, optimal x: -0.000000, f(x): 0.000000
 Converged at iteration 139
 With 1.9, optimal x: 0.000000, f(x): 0.000000
     ```
-)
 #pagebreak()
 
 This fits well with the plot of $ f(x)=1/2 x^2 $

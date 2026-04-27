@@ -100,7 +100,7 @@ Many differnt ways of embedding the positions of tokens in the data. We add anot
 == Attention/self-attention
 The input sequence is used to create queries, keys, and values!
 As an example, the formular $ "Attention"(Q,K,V) = softmax((Q K^T)/sqrt(d_k)) dot V $
-#code(```py
+```py
 class SelfAttention(nn.Module):
     def __init__(self, d_model, d_key):
         super().__init__()
@@ -117,14 +117,14 @@ class SelfAttention(nn.Module):
             return F.softmax((Q @ torch.transpose(K, -2, -1))/sqrt(K.size(dim=-1)), dim=-1) @ V
         
         return attention(q,k,v)
-```) 
+``` 
 #pagebreak()
 
 == Multi-headed
 More heads = more attention between parameter / more complexity
 
 Example:
-#code(```py
+```py
 class MultiHeadSelfAttention(nn.Module):
     def __init__(self, d_model, d_key, n_heads):
         super().__init__()
@@ -137,7 +137,7 @@ class MultiHeadSelfAttention(nn.Module):
             result.append(head.forward(x))
         result = torch.cat(result,dim=-1)
         return self.w_o(result)
-```) 
+``` 
 
 == Point-wise MLP
 A simple MLP applied to each token individually:
@@ -152,7 +152,7 @@ For each module, we add the input afterwards, to make shortcuts for the gradient
 $ z_i = "Module"(x_i) + x_i $
 
 Example of both MLP and Risidual connection:
-#code(```py
+```py
 class TransformerBlock(nn.Module):
     def __init__(self, d_model, d_key, n_heads, mlp_factor=4):
         super().__init__()
@@ -175,7 +175,7 @@ class TransformerBlock(nn.Module):
         # x = self.ln1(self.attn() + x)
         # x = self.ln2(self.mlp() + x)
         return x
-```) 
+``` 
 
 == Residual connections
 For each module, we add the input afterwards, to make shortcuts for the gradient.
@@ -190,7 +190,7 @@ $ z_i = "LN"("Module"(x_i)+x_i) $
 $ z_i = "Module"("LN"(x_i))+x_i) $
 
 Example:
-#code(```py
+```py
 class TransformerClassifier(nn.Module):
     def __init__(self, n_embeds, n_classes, d_model=256, d_key=64, n_heads=4, mlp_factor=4, n_layers=2):
         super().__init__()
@@ -206,7 +206,7 @@ class TransformerClassifier(nn.Module):
         x = self.final_layer_norm(x)
         x = self.classifier(x)
         return x
-```) 
+``` 
 
 == At training time: Masked self-attention
 This is regular self-attention as in the encoder, to process what's been decoded so far
