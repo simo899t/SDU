@@ -1,25 +1,10 @@
 #import "../../../../temp/temp.typ": *
 #show: note.with(
   title: "Lecture 10: Tableau-style proofs",
-  course: "AI504 - Knowledge Represntation",
+  course: "AI504 - Knowledge Representation",
   date: "April/2026"
 )
 // content starts here
-
-
-/*
-Come by Siddarth's office or via email
-*/
-
-
-#import "../../../../temp/temp.typ": *
-#show: note.with(
-  title: "Lecture 10: Tableau-style proofs",
-  course: "AI504 - Knowledge Represntation",
-  date: "April/2026"
-)
-// content starts here
-
 
 /*
 Come by Siddarth's office or via email
@@ -181,3 +166,39 @@ To check if a formula $x$ is satisfiable, we can start with the root node as $T:
 == Falsifiability or tautology
 
 Note that for $x$ to be satisfiable, does not mean that $x$ is not falsifiable. If there exists no falsifying model for $x$, then $x$ is a tautology.
+#pagebreak()
+
+= Recall the inference problem
+Given a set of sentences $Gam$ and a single sentence $phi$, either produce a proof of $phi$ from $Gam$ (whatever that might be), #underline("or") a model satisfying $Gam$ but falsifying $phi$
+
+To determine weather $Gam ent phi:$
+
+Look for a model (via the method of tableaux) on the form $ T:Gam\ F:phi \ dots.v $
+
+If we #underline("find") such a model in a leaf, we have our counter-model, & this means that $Gam ent.not phi$
+
+If on the other hand every one of our leaves ends up in a contradiction, this counts as a proof that $Gam ent phi$.
+
+Correctness of tableau method gives us a decision procedure for inference problem of propositional logic.
+
+= Example
+Let $Gam = {p or q, p or r}$ and $phi = p or (q and r)$
+
+Does $Gam ent phi$
+
+#figure(
+  tree(
+  spacing: (20pt, 20pt),
+  node-inset: 7pt,
+  shape: "rectangle"
+)[
+  - $T: p or q, p or r \ F: p or (q and r)$
+    - $T:p or q, p or r \ F: p, q and r $
+      - $T: p, p or r \ F: p, q and r $
+      - $T: q, p or r \ F: p,q and r$  
+        - $T:q,r \ F:p,q and r$
+          - $T:q,r \ F: p,q$
+          - $T:p,r \ F:p,r$ 
+]
+)
+Since all leaves are contradictions, this counts as a proof of $ {p or q, p or r} prov p or (q and r) $

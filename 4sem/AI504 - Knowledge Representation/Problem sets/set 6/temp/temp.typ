@@ -5,7 +5,6 @@
 #import "@preview/tdtr:0.5.2" : *
 #import "@preview/h-graph:0.1.0": *
 #import "@preview/cetz:0.3.4": canvas, draw
-#import "@preview/curryst:0.6.0": rule as _curryst-rule, prooftree as _curryst-prooftree
 #let dirgraph(src) = h-graph(src, polar-render)
 
 #let base-style(body) = {
@@ -17,28 +16,6 @@
   set math.mat(delim: "[", gap: 0.3em)
   set par(justify: true)
   set image(width: 30em)
-  show grid: it => {
-    set image(width: auto)
-    it
-  }
-  show raw.where(block: true): it => std.block(
-    width: 100%,
-    fill: rgb("#eeeeee"),
-    inset: (left: 14pt, right: 14pt, top: 10pt, bottom: 10pt),
-    radius: 2pt,
-    {
-      set par(leading: 0.8em)
-      set text(fill: rgb("#1c1e26"), font: ("Menlo", "DejaVu Sans Mono"), size: 9.5pt)
-      it
-    },
-  )
-  show raw.where(block: false): it => box(
-    fill: rgb("#eeeeee"),
-    inset: (x: 3pt, y: 0pt),
-    outset: (y: 3pt),
-    radius: 2pt,
-    text(fill: rgb("#1c1e26"), font: ("Menlo", "DejaVu Sans Mono"), size: 9pt, it),
-  )
   body
 }
 #let bib = bibliography.with(style: "chicago-author-date")
@@ -77,18 +54,6 @@
 #let eg = $e.g.$
 #let Der = "Der"
 #let ip(x) = $[|#x|]$
-#let maxi(..args) = if args.pos().len() == 0 {
-  $op("maximize")$
-} else {
-  $limits(op("maximize"))_(#args.pos().first())$
-}
-#let mini(..args) = if args.pos().len() == 0 {
-  $op("minimize")$
-} else {
-  $limits(op("minimize"))_(#args.pos().first())$
-}
-#let adj(x) = $"adj"(#x)$
-
 // shortcuts
 #let redmath(x) = text(fill: red, $#x$)
 #let bluemath(x) = text(fill: blue, $#x$)
@@ -98,7 +63,6 @@
 #let summ(a,b,c) = $sum_(#a)^(#b) #c$ 
 #let limm(a) = $lim_(#a)$
 #let pred(a) = $accent(#a,\^)$
-#let ubar(a) = $accent(#a, \u{0331})$
 #let QED = [#h(1fr) $square$]
 #let IH = [*_IH_*]
 #let f = [#h(1fr)]
@@ -106,32 +70,25 @@
 #let qqquad = $quad quad quad$
 #let qqqquad = $quad quad quad quad$
 #let sign(a) = $"sign"(#a)$
-#let psubset = $subset$
-#let subset = $subset.eq$
+#let psubset = $subset.eq$
 #let rang = $chevron.r$
 #let lang = $chevron.l$
 #let pow(x) = $cal(P)(#x)$
 #let imp = $=>$
-#let iimp = $==>$
-#let bi = $<==>$
-#let bishort = $<=>$
+#let bi = $<=>$
 
-#let st = $s.t quad$
 
 // --- Calculus notation ---
 #let dx = $dif x$
 #let dy = $dif y$
 #let dz = $dif z$
-#let dvar(x) = $dif #x$
-#let px = $partial x$
-#let py = $partial y$
-#let pz = $partial z$
-#let pvar(x) = $partial #x$
+#let dx() = $dif #x$
+#let px() = $partial #x$
 
 // Ordinary derivatives
-#let ddx = $dif/(dif x)$                         // d/dx  (operator)
-#let ddy = $dif/(dif y)$                         // d/dy  (operator)
-#let ddz = $dif/(dif z)$                         // d/dz  (operator)
+#let ddx = $dif/(dif x$                         // d/dx  (operator)
+#let ddy = $dif/(dif y$                         // d/dy  (operator)
+#let ddz = $dif/(dif z$                         // d/dz  (operator)
 #let dd(x) = $dif/(dif #x)$                     // d/d(var)  e.g. dd(t)
 #let dv(f, x) = $(dif #f)/(dif #x)$             // df/dx  e.g. dv(f,x)
 #let dvn(f, x, n) = $(dif^#n #f)/(dif #x^#n)$   // dⁿf/dxⁿ  e.g. dvn(f,x,2)
@@ -183,16 +140,43 @@
 #let Gamd = $Gam^dag$
 
 
-// --- Proof trees (curryst-backed) ---
-#import "@preview/curryst:0.6.0": rule, prooftree, rule-set
-#let tree = rule(
-  label: [Label],
-  name: [Rule name],
-  [Premise 1],
-  [Premise 2],
-  [Premise 3],
-  [Conclusion],
-)
+// --- Proof trees ---
+#let ptree(..args, conclusion: none, rule: none, titles: none) = {
+  let premises = args.pos()
+  let n = premises.len()
+  let premise-row = {
+    for i in range(n) {
+      if i > 0 { h(1.5em) }
+      let p = box(premises.at(i))
+      if titles != none and i < titles.len() [
+        #box(align(center, stack(dir: ttb, spacing: 3pt, emph(titles.at(i)), p)))
+      ] else [#p]
+    }
+  }
+  context {
+    let pw = measure(premise-row).width
+    let cw = measure(conclusion).width
+    let w = calc.max(pw, cw) + 8pt
+    let rule-content = if rule != none { pad(left: 4pt, text(size: 0.85em, rule)) } else { none }
+    let line-row = if rule != none {
+      grid(
+        columns: (w, auto),
+        align: horizon + left,
+        line(length: 100%),
+        rule-content,
+      )
+    } else {
+      line(length: w)
+    }
+    box(stack(
+      dir: ttb,
+      spacing: 10pt,
+      box(width: w, align(center, premise-row)),
+      line-row,
+      box(width: w, align(center, conclusion)),
+    ))
+  }
+}
 
 // --- draw prooftrees ---
 
@@ -544,86 +528,59 @@
   else { author.join(" · ") }
 }
 
-// Internal: card with optional dark header bar and tinted body. No left accent.
-#let _titled-card(
-  title: none,
-  header-fill: rgb("#334155"),
-  body-fill: rgb("#f8fafc"),
-  border: rgb("#d8dde6"),
-  body-text-fill: rgb("#1c1e26"),
-  body-font: auto,
-  body-size: 10.5pt,
-  body-leading: 0.65em,
-  content,
-) = std.block(
+#let code(content) = block(
   width: 100%,
-  stroke: 0.5pt + border,
+  fill: rgb("#f8f9fa"),
+  stroke: (left: 2.5pt + rgb("#4a7fc1"), rest: 0.5pt + rgb("#d8dde6")),
+  inset: (left: 14pt, right: 14pt, top: 10pt, bottom: 10pt),
   radius: 2pt,
-  clip: true,
-  {
-    if title != none {
-      std.block(
-        width: 100%,
-        above: 0pt,
-        below: 0pt,
-        fill: header-fill,
-        inset: (left: 14pt, right: 14pt, top: 8pt, bottom: 8pt),
-        text(fill: white, weight: "bold", size: 10.5pt, title),
-      )
-    }
-    std.block(
-      width: 100%,
-      above: 0pt,
-      below: 0pt,
-      fill: body-fill,
-      inset: (left: 14pt, right: 14pt, top: 10pt, bottom: 10pt),
-      {
-        set par(leading: body-leading)
-        let body = text(fill: body-text-fill, size: body-size, content)
-        if body-font == auto { body } else { text(font: body-font, body) }
-      },
-    )
-  },
+  [
+    #set par(leading: 0.8em)
+    #text(
+      fill: rgb("#1c1e26"),
+      font: "JetBrains Mono",
+      size: 9.5pt,
+      weight: "regular",
+    )[#content]
+  ]
 )
 
-// Block: neutral gray header, pale gray body.
-#let block(title: none, content) = _titled-card(
-  title: title,
-  header-fill: rgb("#6b7280"),
-  body-fill: rgb("#f3f4f6"),
-  border: rgb("#d1d5db"),
-  body-text-fill: rgb("#1f2937"),
-  content,
+#let theorem(title: "Theorem", content) = block(
+  fill: gradient.linear(
+    rgb("#fafbfc"), 
+    rgb("#f1f3f4"), 
+    angle: 135deg
+  ),
+  stroke: (
+    left: 3pt + rgb("#2c5aa0"),
+    rest: 0.5pt + rgb("#e1e5e9")
+  ),
+  inset: (left: 18pt, right: 14pt, top: 14pt, bottom: 14pt),
+  radius: 8pt,
+  [
+    #text(weight: "bold", fill: rgb("#1a365d"), size: 12.5pt)[#title]
+    #v(0.5em)
+    #text(fill: rgb("#2d3748"), size: 10.5pt)[#content]
+  ]
 )
 
-// Theorem: cerulean blue header, pale blue body.
-#let theorem(title: "Theorem", content) = _titled-card(
-  title: title,
-  header-fill: rgb("#1565c0"),
-  body-fill: rgb("#ecf3fc"),
-  border: rgb("#b3cdeb"),
-  body-text-fill: rgb("#0d2e57"),
-  content,
-)
-
-// Definition: forest green header, pale green body.
-#let definition(title: "Definition", content) = _titled-card(
-  title: title,
-  header-fill: rgb("#2e7d32"),
-  body-fill: rgb("#ecfdf5"),
-  border: rgb("#a7f3d0"),
-  body-text-fill: rgb("#14532d"),
-  content,
-)
-
-// Example: fire red header, pale pink body.
-#let example(title: "Example", content) = _titled-card(
-  title: title,
-  header-fill: rgb("#c62828"),
-  body-fill: rgb("#fdeced"),
-  border: rgb("#f2b9bc"),
-  body-text-fill: rgb("#5a1212"),
-  content,
+#let definition(title: "Definition", content) = block(
+  fill: gradient.linear(
+    rgb("#fffef7"), 
+    rgb("#fef9e7"), 
+    angle: 135deg
+  ),
+  stroke: (
+    left: 3pt + rgb("#d69e2e"),
+    rest: 0.5pt + rgb("#f7d794")
+  ),
+  inset: (left: 18pt, right: 14pt, top: 14pt, bottom: 14pt),
+  radius: 8pt,
+  [
+    #text(weight: "bold", fill: rgb("#744210"), size: 12.5pt)[#title]
+    #v(0.5em)
+    #text(fill: rgb("#553c0f"), size: 10.5pt)[#content]
+  ]
 )
 
 // --- Document metadata (override in your file) ---
@@ -839,7 +796,7 @@
       v(1.5em),
 
       // Metadata box (group / supervisor / date)
-      std.block(
+      block(
         width: 60%,
         stroke: (top: 0.5pt + rgb("#aaaaaa"), bottom: 0.5pt + rgb("#aaaaaa")),
         inset: (top: 1em, bottom: 1em),
@@ -874,7 +831,7 @@
         stack(
           spacing: 0pt,
           v(1.5em),
-          std.block(
+          block(
             width: 80%,
             stroke: none,
             inset: (top: 0em, bottom: 0em),
@@ -894,7 +851,7 @@
         stack(
           spacing: 0pt,
           v(0.8em),
-          std.block(
+          block(
             width: 80%,
             inset: 0pt,
             align(left,
@@ -1022,7 +979,7 @@
       v(1.5em),
 
       // Metadata box
-      std.block(
+      block(
         width: 60%,
         stroke: (top: 0.5pt + rgb("#aaaaaa"), bottom: 0.5pt + rgb("#aaaaaa")),
         inset: (top: 1em, bottom: 1em),

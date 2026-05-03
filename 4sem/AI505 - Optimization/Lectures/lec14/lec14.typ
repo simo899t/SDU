@@ -146,12 +146,87 @@ Since $x_B = 0$ $ A x = A_B x_B = b quad ==> quad x_B = A_B^(-1) b $
 
 
 Lagrangian function:
-$ cal(L)(x,mu>=0,lambda) = c^T x - mu^T x - lambda^T (A x - b) $
+$ cal(L)(x,mu>=0,lambda) = c^top x - mu^top x - lambda^top (A x - b) $
 The necessary conditions for optimality (KKT) are also sufficient for linear programs
+
+- feasibility $ A x = b, x >= 0 $
+- dual feasibility $ mu >= 0 $
+- complementary slackness $ mu dot x = 0 $
+- stationarity $ A^top lambda + mu = 0 $
 
 
 
 
 = Duality
+Linear programs have a simple dual form:
+
+#figure(grid(columns: 2,column-gutter: 6em,
+align($ min_x c^top x \ st A x &= b \x>= 0 $), align($ max_lambda b^top lambda \ st quad A^top lambda <= c $))
+)
+
+Let solution to the primal be $p^*$ and solution to the dual be $d^*$. Then, $p^* = d^*$ guarantees to be the unique optimal value because the duality gap is zero.
+
+This is due to:
+#align($
+min_x max_lambda c^top x + lambda^top (A x - b)\
+st A x = b
+$)
+
+For the case of $A x >= b$ then we search for $lambda <= 0$
+
+#theorem(title: [Theorem (Strong Duality Theorem)], [
+  Given:
+  $ (P) qquad min{c^top x | A x = b, x >= 0} $
+  $ (D) qquad max{b^top lambda | A^top lambda <= c}. $
+  
+  Exactly one of the following occurs:
+  1. Both (P) and (D) are feasible, and $p^* = d^*$.
+  2. (P) is unbounded below and (D) is infeasible.
+  3. (P) is infeasible and (D) is unbounded above.
+  4. (P) has feasible solution, then let an optimal be: $x^* = [x_1^*, dots, x_n^*]$. Then, (D) is feasible and has an optimal solution $lambda^*$ such that $lambda^* = [lambda_1^*, dots, lambda_m^*]$.
+  Then $ p^* = c^top x^* = b^top lambda^* = d^* $
+])
+
+#pagebreak()
 
 = Primal-Dual Hybrid Gradient (PDHG) Method for LP
+
+== First-order methods for LP
+
+
+For the standard form of the linear program
+#align($ min_x c^top x \ st A x = b, x >= 0 $)
+we can write the Lagrangian as
+$ cal(L)(x, mu >= 0) = c^top x + mu^top (A x - b) $
+
+#figure(
+  image("assets/image-1.png", width: 20em),
+  caption: [Lagrangian function for LP]
+)
+
+Then we can do gradient ascent on the dual variables $mu$ and gradient descent on the primal variables $x$:
+#align($
+x^(k+1) = "Projection"_(x>=0) (x^k - alpha_k (c + A^top y^k) = (x^k - alpha (c-A^top y^k))^+\
+y^(k+1) = y^k + alpha_k (b- A x^k)
+$)
+
+Gradient Descent Ascent may not converge to the saddle point. 
+
+== Example:
+
+$ max_x min_y x y $
+
+we have closed form of each iteration:
+
+$ mat(x_k;y_k) = mat(1,aleph;-alpha,1)^k dot mat(x^0;y^0) $
+
+The determinant of $mat(1,aleph;-alpha,1)$ is $1+alpha^2 < 1$ no matter how small α is, which means this approach never converges.
+
+We can fix this issue by updating $y^(k+1)$
+
+For the original LP problem, usually we use the following metrics for termination:
+- Primal feasibility: $||A x - b|| <= epsilon$
+- Dual feasibility: $||c- A^top lambda|| <= epsilon$
+- Duality gap: $|c^top x - b^top lambda| <= epsilon$
+
+Use `method = "heights"` from `scipy.minimize.linprog`

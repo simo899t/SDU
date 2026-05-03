@@ -1,97 +1,58 @@
-#import "../../../../../../temp.typ": *
+#import "temp/temp.typ": *
 
-#assignment(
+#show: assignment.with(
   title: "Problem set 6",
   course: "AI504 — Knowledge Representation",
-  author: ("Simon Holm", "Johannes Rothe", "Shuagib Ibrahim", "Anne Sofie Høj"),
+  author: ("Simon Holm", "Johannes Rothe", "Shuagib Ibrahim", "Anne Sofie Høj", "Daniel Nissen"),
   date: "March, 2026",
   outline-depth: 1
 )
+#set par(
+  justify: true,
+  leading: 0.52em,
+)
+
+#let see = `see`
+#let love = `love`
+#let dogs = `dogs`
+#let birds = `birds`
+
 
 = Problem 1
-Work over the set ${a, b, c, d}$ of nouns. Consider the set of sentences
+We are going to describe a translation from the syntax of $cal(A(R C))$ to the syntax of propositional logic.
+First of all, if $(P, R)$ is a signature of $cal(A(R C))$ then just map it to the propositional logic signature $P cup R$. (In other words, either a noun or a verb in my source signature can be used as a sentence letter in my target signature.)
 
-$ Gamma = {"All" a "are" b, "All" a "are" c, "All" b "are" d, "All" c "are" d}. $
+Now map terms $t$ of $cal(A(R C))$ to formulas $t^*$ of propositional logic as follows. Each noun $p$ becomes the propositional formula $p$. Then “$term(r,(dots))$" becomes “$(dots) -> r$,” so that, e.g., the term see $term(love,dogs)$ becomes $(dogs → love) -> see$. In the latter formula $see$, $love$, $dogs$ are just boolean-valued sentence letters; we have forgotten the noun/verb distinction.
 
-Write down two different proof trees verifying $Gamma prov$ All $a$ are $d$. Write your proof trees carefully and as legibly as possible.
+Finally, the translation of the sentence “$term(t,s)$” is $t^* -> s^*$, where $t^*$ and $s^*$ is the mapping on terms defined above. (Call this map $phi |-> phi^dag$, reusing the symbol $*$.) So, for example
+$ (sent((term(see, term(love,dogs))), (term(love,birds))))^* $
+
++ Suppose that $Gam$ is a set of sentences and $phi$ is a sentence in $cal(A(R C))$,  and suppose that $Gam ent phi$. Prove that $Gam^* ent phi^*$, as a formulas of propositional logic.
++ Show that the converse is not true. In other words, come up with a concrete sentences $Gam, phi$ of $cal(A(R C))$ such that $Gam^* ent phi^*$ in propositional logic but $Gam ent.not phi$ in $cal(A(R C))$.
 
 == Solution
 
-#figure(
-  $ #tree(
-  spacing: (40pt, 40pt),
-  node-inset: 4pt
-)[
-   - All $bold(a)$ are $bold(d)$
-    - $underbrace("All "bold(a)" are "bold(b)"","axiom")$
-    - $underbrace("All "bold(b)" are "bold(d)"","axiom")$
-  
-] $,
-caption: [Proof tree 1]
-
-)<proof-tree-1>
-
-@proof-tree-1 shows one of the two different proof trees verifying that $Gamma prov "All "a" are "d""$ using the 'axioms' "All $a$ are $b$" and" All $b$ are $d$".
-
-#figure($ #tree(
-  spacing: (40pt, 40pt),
-  node-inset: 4pt
-)[
-   - All $bold(a)$ are $bold(d)$
-    - $underbrace("All "bold(a)" are "bold(c)"","axiom")$
-    - $underbrace("All "bold(c)" are "bold(d)"","axiom")$
-  
-] $,
-caption: [Proof tree 1]
-)<proof-tree-2>
-@proof-tree-2 shows the second of the two different proof trees verifying that $Gamma prov "All "a" are "d""$ using the 'axioms' "All $a$ are $c$" and" All $c$ are $d$".
-
-
-#pagebreak()
 
 = Problem 2
+If $phi$ is a sentence in propositional logic, let $phid$ be obtained from $phi$ by negating all of the sentence letters. For example,
 
-Work over the set ${a, b, c, d}$ of nouns. In this question I want you to find *two different models of the same size*. Each of your models should satisfy all of the following sentences
+$ ((p or (q imp r)) bi not (r and p))^dag = (not p or (not q imp not r)) bi not (not r and not p) $
 
-$ "All"a "are" b, "All" a "are" c, "All" b "are" d, "All" c "are" d $
++ For any satisfiable propositional formula $phi$, must $phid$ also be satisfiable? Either prove or give a counterexample.
 
-and falsify both of the following sentences
-
-$ "All" b "are" c, "All" c "are" b. $
-
-_Note_. We have to be a little careful in saying what it means for two models to be different. But basically
-if you label the elements of your model $1, 2, dots, n$ you should not be able to relabel (i.e., permute) the elements of one of your models to get the other one.
++ Can you find a formula $phi$ such that $phi$ is neither a tautology nor a contradiction and $phi$ and $phid$ are logically equivalent? Find one or prove that none exists.
 
 == Solution
 
 
-
-#pagebreak()
-
 = Problem 3
-The _dual_ of a sentence is obtained by switching its two nouns. For example the dual of All $p$ are $q$ is All $q$ are $p$. We denote the dual of a sentence $phi$ by $phi^dag$. If $Gamma$ is a set of sentences, by $Gamma^dag$ we mean the
-obvious thing, i.e., “take the dual of each sentence in $Gamma$.”
+Work in the signature that has sentence letters $p_(i,j)$ for $0 <= i, j <= 9$ (one hundred letters in all). Consider the formula $Phi$ which is the conjunction of all of the following clauses:
 
-Suppose $Gamma prov phi$. Prove that $Gamma^dag prov.not phi^dag$ by induction on proof trees. Be very careful and deliberate, so that
-I know you understand what you're doing.
-#pagebreak()
+- $p_(0,9) and p_(9,0)$,
+- $p_(i,j) imp p_(i-1,j)$ for each $1<=i<=9$ and $0<=j<=9$, and
+- $p_(i,j) imp p_(i,j-1)$ for each $0<=i<=9$ and $1<=j<=9$.
 
-= Problem 4
-Continuing the previous problem, there is also a notion of a dual model. So the idea is that given a
-model $cal(M)$, we should be able to define its “dual” $cal(M)^dag$, which has the property that $cal(M)^dag ent phi^dag$ if and only if $cal(M) ent phi$, for each sentence $phi$. Define the dual and prove that it enjoys this property.
+How many models satisfy $Phi$? (_Hint_. If this seems too daunting, replace 9 with something smaller.)
 
-(Hint. Start out with some explicit small models, see if you can find their duals by trial and error, and
-then see what the common pattern is.)
-#pagebreak()
+== Solution
 
-= Problem 5
-The point of this exercise is to show you that models can be built out of anything, as long as they
-have the correct type. Work over the set $N = {0, 1, 2, 3}$ of nouns. Now this set of nouns makes for
-weird-looking sentences like All $3$ are $1$. But once we construct an $N$-model, it makes perfect sense to
-say that such sentences are satisfied or falsified.
-
-Define the $N$-model $cal(R)$ as follows. Its domain is $RR$, the set of real numbers, and for each $b in N$, define
-
-$ [|b|] = {x in RR: x^b-x < 0} $
-
-List all of the $N$-sentences that $cal(R)$ satisfies, and argue that your answer is correct. (For the purposes of this exercise, assume $0^0 = 1$.)

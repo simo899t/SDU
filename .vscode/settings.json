@@ -1,4 +1,8 @@
 {
     "tinymist.onPaste": "{ join(root, dir, \"assets\") }",
-    "tinymist.rootPath": "/Users/simonholm/GitHub/SDU"
+    "tinymist.rootPath": "/Users/simonholm/GitHub/SDU",
+    "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+    "chat.instructionsFilesLocations": {
+        ".github/instructions": true
+    }
 }
