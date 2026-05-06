@@ -1,6 +1,6 @@
 #import "../../../../temp/temp.typ": *
 #show: note.with(
-  title: "Lecture 10: Tableau-style proofs",
+  title: "Lecture 11: Tableau-style proofs",
   course: "AI504 - Knowledge Representation",
   date: "April/2026"
 )

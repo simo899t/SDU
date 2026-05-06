@@ -74,5 +74,6 @@ A CSP is a finite set of variables $X$ with domain extension $D = D(x_1) times d
 ])
 
 #definition(title: [Definition: Constraint Optimization Problem (COP)],[
-A COP is a CSP $cal(P)$ defined on the variables $x_1, dots, x_n$, together with an objective function $f : D(x_1) times dots times D(x_n) -> Q$ that assigns a value to each assignment of values to the variables. An optimal solution to a minimization (maximization) COP is a solution d to P that minimizes (maximizes) the value of $f(d)$.
+A COP is a CSP $cal(P)$ defined on the variables $x_1, dots, x_n$, together with an objective function $f : D(x_1) times dots times D(x_n) -> Q$ that assigns a value to each assignment of values to the variables. An optimal solution to a minimization (maximization) COP is a solution $d$ to $P$ that minimizes (maximizes) the value of $f(d)$.
 ])
+

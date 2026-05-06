@@ -115,9 +115,11 @@
 #let iimp = $==>$
 #let bi = $<==>$
 #let bishort = $<=>$
-
+#let fx = $f(x)$
+#let gx = $g(x)$
+#let hx = $h(x)$
 #let st = $s.t quad$
-
+#let Astar = $A^star$
 // --- Calculus notation ---
 #let dx = $dif x$
 #let dy = $dif y$
@@ -132,9 +134,9 @@
 #let ddx = $dif/(dif x)$                         // d/dx  (operator)
 #let ddy = $dif/(dif y)$                         // d/dy  (operator)
 #let ddz = $dif/(dif z)$                         // d/dz  (operator)
-#let dd(x) = $dif/(dif #x)$                     // d/d(var)  e.g. dd(t)
-#let dv(f, x) = $(dif #f)/(dif #x)$             // df/dx  e.g. dv(f,x)
-#let dvn(f, x, n) = $(dif^#n #f)/(dif #x^#n)$   // dⁿf/dxⁿ  e.g. dvn(f,x,2)
+#let dd(x) = $dif/(dif #x)$                      // d/d(var)  e.g. dd(t)
+#let dv(f, x) = $(dif #f)/(dif #x)$              // df/dx  e.g. dv(f,x)
+#let dvn(f, x, n) = $(dif^#n #f)/(dif #x^#n)$    // dⁿf/dxⁿ  e.g. dvn(f,x,2)
 
 // Partial derivatives
 #let ppx = $partial/(partial x)$ 

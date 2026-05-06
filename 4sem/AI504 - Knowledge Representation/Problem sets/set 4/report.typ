@@ -52,44 +52,63 @@ For this problem nouns will be addressed as abbreviations for simplicity and spa
 
 a)
 #figure(
-  ptree(
-  $sent((term(see,(term(see,hawks)))), turtles)$,
-  ptree($sent(t,(term(see,birds)))$, $sent(hawks,birds)$, conclusion: $sent(t, term(see,hawks))$, rule: [DOWN]),
-  conclusion: $sent((term(see,(term(see,hawks)))), (term(see,hawks)))$,
-  rule: [BARB],
-  
-),  caption: [proof tree of $(a)$]
-, gap: 2em
+  $prooftree(
+    rule(
+      name: "BARB",
+      sent((term(see,(term(see,hawks)))), turtles),
+      rule(
+        name: "DOWN",
+        sent(t, (term(see,birds))),
+        sent(hawks, birds),
+        sent(t, term(see,hawks)),
+      ),
+      sent((term(see,(term(see,hawks)))), (term(see,hawks))),
+    )
+  )$,
+  caption: [proof tree of $(a)$],
+  gap: 2em,
 )
-// #image("a.png")
 
 
 b)
 #figure(
-  ptree(
-  $sent((term(see,turtles)), term(see,(term(see,hawks))))$,
-  ptree(
-    ptree($term(hawks,birds)$, conclusion: $sent((term(see,birds)),(term(see,hawks)))$, rule: [ANTI]), conclusion: $sent((term(see,(term(see,hawks)))),(term(see,(term(see,birds)))))$, rule: [ANTI]),
-  conclusion: $sent((term(see,turtles)), (term(see,(term(see,birds)))))$,
-  rule: [BARB],
-  
-),  caption: [proof tree of $(b)$]
-, gap: 2em
+  $prooftree(
+    rule(
+      name: "BARB",
+      sent((term(see,turtles)), term(see,(term(see,hawks)))),
+      rule(
+        name: "ANTI",
+        rule(
+          name: "ANTI",
+          term(hawks,birds),
+          sent((term(see,birds)), (term(see,hawks))),
+        ),
+        sent((term(see,(term(see,hawks)))), (term(see,(term(see,birds))))),
+      ),
+      sent((term(see,turtles)), (term(see,(term(see,birds))))),
+    )
+  )$,
+  caption: [proof tree of $(b)$],
+  gap: 2em,
 )
-
-
-
 
 
 c)
 #figure(
-  ptree(
-  ptree($sent((term(see,turtles)),(term(see,(term(see,hawks)))))$,$sent((term(see,(term(see,hawks)))),turtles)$, conclusion: $sent((term(see,turtles)),turtles)$, rule: [BARBARA]),
-  conclusion: $sent((term(see,turtles)), (term(see,(term(see,turtles)))))$,
-  rule: [ANTI]
-  
-),  caption: [proof tree of $(c)$]
-, gap: 2em
+  $prooftree(
+    rule(
+      name: "ANTI",
+      rule(
+        name: "BARBARA",
+        sent((term(see,turtles)), (term(see,(term(see,hawks))))),
+        sent((term(see,(term(see,hawks)))), turtles),
+        sent((term(see,turtles)), turtles),
+      ),
+      sent((term(see,turtles)), (term(see,(term(see,turtles))))),
+    )
+  )$,
+  caption: [proof tree of $(c)$],
+  gap: 2em,
 )
 
 #pagebreak()
@@ -169,10 +188,19 @@ Let $Gam = {sent(p,q)}$. For each of the following two sentences give _either_ a
 
 a) One can show that $Gam prov phi$ by using the (Anti) twice, while treating the sentence (a) as a leaf and building up the tree
 #figure(
-  ptree(
-    ptree($sent(p,q)$, conclusion: $sent((term(love,q)),(term(love,p)))$, rule: [ANTI]), conclusion: $sent((term(hate,(term(love,p)))),(term(hate,(term(love,q)))))$, rule: [ANTI]),
-    caption: [proof tree],
-    gap: 1.5em
+  $prooftree(
+    rule(
+      name: "ANTI",
+      rule(
+        name: "ANTI",
+        sent(p,q),
+        sent((term(love,q)), (term(love,p))),
+      ),
+      sent((term(hate,(term(love,p)))), (term(hate,(term(love,q))))),
+    )
+  )$,
+  caption: [proof tree],
+  gap: 1.5em,
 )
 
 // #image("Anti (3).png")
