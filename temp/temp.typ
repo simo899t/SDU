@@ -6,6 +6,8 @@
 #import "@preview/h-graph:0.1.0": *
 #import "@preview/cetz:0.3.4": canvas, draw
 #import "@preview/curryst:0.6.0": rule as _curryst-rule, prooftree as _curryst-prooftree
+#import "@preview/codly:1.3.0": codly, codly-init
+#import "@preview/codly-languages:0.1.10": codly-languages
 #let dirgraph(src) = h-graph(src, polar-render)
 
 #let base-style(body) = {
@@ -21,16 +23,40 @@
     set image(width: auto)
     it
   }
-  show raw.where(block: true): it => std.block(
-    width: 100%,
-    fill: rgb("#eeeeee"),
-    inset: (left: 14pt, right: 14pt, top: 10pt, bottom: 10pt),
+  show raw.where(block: true): it => {
+    set text(font: ("Menlo", "DejaVu Sans Mono"), size: 9.5pt)
+    let lang = it.lang
+    std.block(
+      breakable: false,
+      width: 100%,
+      {
+        it
+        if lang != none and lang != "" {
+          place(
+            top + right,
+            dx: -4pt,
+            dy: 4pt,
+            box(
+              fill: rgb("#4a5568"),
+              inset: (x: 5pt, y: 2pt),
+              radius: 2pt,
+              text(size: 7pt, weight: "bold", fill: white, font: "Times New Roman", upper(lang)),
+            ),
+          )
+        }
+      },
+    )
+  }
+  show: codly-init
+  codly(
+    languages: codly-languages,
+    zebra-fill: none,
+    display-name: false,
+    display-icon: false,
     radius: 2pt,
-    {
-      set par(leading: 0.8em)
-      set text(fill: rgb("#1c1e26"), font: ("Menlo", "DejaVu Sans Mono"), size: 9.5pt)
-      it
-    },
+    inset: (left: 6pt, right: 6pt, top: 4pt, bottom: 4pt),
+    stroke: 0.5pt + rgb("#cccccc"),
+    fill: rgb("#fafafa"),
   )
   show raw.where(block: false): it => box(
     fill: rgb("#eeeeee"),
@@ -119,6 +145,9 @@
 #let gx = $g(x)$
 #let hx = $h(x)$
 #let st = $s.t quad$
+#let to = $->$
+#let bool = [Bool]
+#let tran(x) = $#x^sans(T)$
 #let Astar = $A^star$
 // --- Calculus notation ---
 #let dx = $dif x$
@@ -581,8 +610,8 @@
       inset: (left: 14pt, right: 14pt, top: 10pt, bottom: 10pt),
       {
         set par(leading: body-leading)
-        let body = text(fill: body-text-fill, size: body-size, content)
-        if body-font == auto { body } else { text(font: body-font, body) }
+        set text(fill: body-text-fill, size: body-size, ..(if body-font == auto { (:) } else { (font: body-font) }))
+        content
       },
     )
   },

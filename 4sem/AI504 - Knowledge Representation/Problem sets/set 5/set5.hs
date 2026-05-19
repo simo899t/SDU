@@ -88,3 +88,7 @@ g = S.fromList [
 
 -- >>> pathsTo (S.fromList [(1,2),(1,3),(2,3)]) 3
 -- fromList [1 :| [2,3],1 :| [3],2 :| [3],3 :| []]
+
+f :: (Ord a1, Num a2, Num a1, Eq a2) => a2 -> Set (NonEmpty a1)
+f 2 = S.fromList [1 :| [2], 2 :| [] ]
+
