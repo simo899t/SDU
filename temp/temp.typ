@@ -125,6 +125,9 @@
 #let limm(a) = $lim_(#a)$
 #let pred(a) = $accent(#a,\^)$
 #let ubar(a) = $accent(#a, \u{0331})$
+#let where = $quad "where"$
+#let iff = $quad"if" $
+#let otherwise = $quad "otherwise"$
 #let QED = [#h(1fr) $square$]
 #let IH = [*_IH_*]
 #let f = [#h(1fr)]
