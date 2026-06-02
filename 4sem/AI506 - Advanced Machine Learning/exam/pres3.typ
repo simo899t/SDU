@@ -1,59 +1,46 @@
-#import "@preview/slydst:0.1.5": *
-
-#show: slides.with(
-  title: "Presentation Title",
-  subtitle: "AI506 — Advanced Machine Learning",
-  date: "May 2026",
-  authors: ("Simon Holm",),
-  layout: "medium",
-  ratio: 16/9,
-  title-color: rgb("#1a1a2e"),
+#import "@preview/typslides:1.3.3": *
+#import "../../../temp/temp.typ": *
+#show: typslides.with(
+  ratio: "16-9",
+  theme: "bluey",
 )
 
-== Transformers
+#front-slide(
+  title: "Transformers",
+  subtitle: "AI506 — Advanced Machine Learning",
+  authors: "Simon Holm",
+  info: "May 2026",
+)
 
-The transformer architecture: 
-Multi-head self-attention, cross-attention, attention masks
-Language modeling objective(s), position embeddings
-
-
-== Topic 1
-
-Some content here.
-
-#v(1em)
-
-#align(center)[
-  $ f(x) = sigma(W x + b) $
+#slide(title: "Overview")[
+  - The *transformer architecture*
+  - *Multi-head self-attention*, *cross-attention*, *attention masks*
+  - Language modeling *objective(s)*, *position embeddings*
 ]
 
-== Topic 2
+#slide(title: "The Transformer Architecture")[
 
-More content here.
+  
+]
 
-- Point A
-- Point B
-- Point C
+#slide(title: "Multi-head self-attention")[
 
-== Topic 3
+  
+]
 
-#grid(
-  columns: (1fr, 1fr),
-  gutter: 2em,
-  [
-    *Left column*
+#slide(title: "Cross-attention")[
 
-    Some text or diagram.
-  ],
-  [
-    *Right column*
+]
+    
 
-    Some text or diagram.
-  ]
-)
+#slide(title: "Attention masks")[
+  
+]
 
-== Conclusion
+#slide(title: "Language modeling objectives")[
+  
+] 
 
-- Key takeaway 1
-- Key takeaway 2
-- Key takeaway 3
+#slide(title: "Position embeddings")[
+  
+]

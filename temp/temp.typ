@@ -12,7 +12,8 @@
 
 #let base-style(body) = {
   show: _word-count
-  set text(font: "Times New Roman", size: 11pt, lang: "en")
+  show math.equation: set text(font: "OldStandard-Math")
+  set text(font: "Computer Modern", size: 12pt)
   set heading(numbering: "1.1")
   set enum(numbering: "(a)")
   set math.equation(numbering: none)
@@ -89,7 +90,7 @@
 #let no = $crossmark$
 #let absurd = $bot$
 #let term(p,q) = $#p "all" #q$
-#let sent(p, q, mid: none) = if mid == none { $"all" #p #h(0.4em) #q$ } else { $"all" #p #mid #q$ }
+#let sent(p, q, mid: none) = if mid == none { $"All" #p #h(0.4em) #q$ } else { $"All" #p #mid #q$ }
 #let allare(p,q) = $"All" #p "are" #q$
 #let def = $=^"def"$
 #let supremum(x) = $op("supremum", limits: #true)_(#x)$
@@ -581,6 +582,7 @@
 // Internal: card with optional dark header bar and tinted body. No left accent.
 #let _titled-card(
   title: none,
+  width: 100%,
   header-fill: rgb("#334155"),
   body-fill: rgb("#f8fafc"),
   border: rgb("#d8dde6"),
@@ -590,7 +592,7 @@
   body-leading: 0.65em,
   content,
 ) = std.block(
-  width: 100%,
+  width: width,
   stroke: 0.5pt + border,
   radius: 2pt,
   clip: true,
@@ -621,8 +623,9 @@
 )
 
 // Block: neutral gray header, pale gray body.
-#let block(title: none, content) = _titled-card(
+#let block(title: none, width: 100%, content) = _titled-card(
   title: title,
+  width: width,
   header-fill: rgb("#6b7280"),
   body-fill: rgb("#f3f4f6"),
   border: rgb("#d1d5db"),
@@ -631,8 +634,9 @@
 )
 
 // Theorem: cerulean blue header, pale blue body.
-#let theorem(title: "Theorem", content) = _titled-card(
+#let theorem(title: "Theorem", width: 100%, content) = _titled-card(
   title: title,
+  width: width,
   header-fill: rgb("#1565c0"),
   body-fill: rgb("#ecf3fc"),
   border: rgb("#b3cdeb"),
@@ -641,8 +645,9 @@
 )
 
 // Definition: forest green header, pale green body.
-#let definition(title: "Definition", content) = _titled-card(
+#let definition(title: "Definition", width: 100%, content) = _titled-card(
   title: title,
+  width: width,
   header-fill: rgb("#2e7d32"),
   body-fill: rgb("#ecfdf5"),
   border: rgb("#a7f3d0"),
@@ -651,8 +656,9 @@
 )
 
 // Example: fire red header, pale pink body.
-#let example(title: "Example", content) = _titled-card(
+#let example(title: "Example", width: 100%, content) = _titled-card(
   title: title,
+  width: width,
   header-fill: rgb("#c62828"),
   body-fill: rgb("#fdeced"),
   border: rgb("#f2b9bc"),

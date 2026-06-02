@@ -1,61 +1,54 @@
-#import "@preview/slydst:0.1.5": *
-
-#show: slides.with(
-  title: "Presentation Title",
-  subtitle: "AI506 — Advanced Machine Learning",
-  date: "May 2026",
-  authors: ("Simon Holm",),
-  layout: "medium",
-  ratio: 16/9,
-  title-color: rgb("#1a1a2e"),
+#import "@preview/typslides:1.3.3": *
+#import "../../../temp/temp.typ": *
+#show: typslides.with(
+  ratio: "16-9",
+  theme: "bluey",
 )
 
-== Graph Neural Networks
+#front-slide(
+  title: "Graph Neural Networks",
+  subtitle: "AI506 — Advanced Machine Learning",
+  authors: "Simon Holm",
+  info: "May 2026",
+)
 
-
-Graphs as a data structure: nodes, edges, neighborhoods, permutation invariance
-Message passing framework
-Graph convolution and graph attention
-Practical considerations: over-smoothing, jumping knowledge, depth
-
-
-== Topic 1
-
-Some content here.
-
-#v(1em)
-
-#align(center)[
-  $ f(x) = sigma(W x + b) $
+#slide(title: "Overview")[
+  - *Graphs* as a data structure: *nodes*, *edges*, *neighborhoods*, *permutation invariance*
+  - Message passing framework
+  - Graph convolution and graph attention
+  - Practical considerations: over-smoothing, jumping knowledge, depth
 ]
 
-== Topic 2
+#slide(title: "GNN (Graph neural networks)")[
+  #figure($#[`nodes`] = {upright(A), upright(B), upright(C), upright(D), upright(E), upright(F), upright(G), upright(H)}, qquad #[`edges`] = {1,0,2,3} $)
+  #v(1em)
+  #figure(image("assets/image-18.png", width: 25em))
+  
+  
+]
 
-More content here.
+#slide(title: "Message passing framework")[
 
-- Point A
-- Point B
-- Point C
+  
+]
+#slide(title: "Graph convolution & attention")[
 
-== Topic 3
+  
+]
+#slide(title: "Practical considerations")[
 
-#grid(
-  columns: (1fr, 1fr),
-  gutter: 2em,
-  [
-    *Left column*
+  
+]
+#slide(title: "Over-smoothing")[
 
-    Some text or diagram.
-  ],
-  [
-    *Right column*
+  
+]
+#slide(title: "Feedforward nets")[
 
-    Some text or diagram.
-  ]
-)
+  
+]
+#slide(title: "Feedforward nets")[
 
-== Conclusion
+  
+]
 
-- Key takeaway 1
-- Key takeaway 2
-- Key takeaway 3
