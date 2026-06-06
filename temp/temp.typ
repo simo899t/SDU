@@ -127,6 +127,7 @@
 #let pred(a) = $accent(#a,\^)$
 #let ubar(a) = $accent(#a, \u{0331})$
 #let where = $quad "where"$
+#let since = $quad "since"$
 #let iff = $quad"if" $
 #let otherwise = $quad "otherwise"$
 #let QED = [#h(1fr) $square$]
@@ -176,7 +177,7 @@
 #let ppy = $partial/(partial y)$    
 #let ppz = $partial/(partial z)$            // ∂/∂x  (operator)
 #let pp(x) = $partial/(partial #x)$                           // ∂/∂(var)  e.g. pp(y)
-#let pv(f, x) = $(partial #f)/(partial #x)$                   // ∂f/∂x  e.g. pv(f,x)
+#let ppv(f, x) = $(partial #f)/(partial #x)$                   // ∂f/∂x  e.g. pv(f,x)
 #let pvn(f, x, n) = $(partial^#n #f)/(partial #x^#n)$        // ∂ⁿf/∂xⁿ  e.g. pvn(f,x,2)
 #let pvm(f, x, y) = $(partial^2 #f)/(partial #x partial #y)$ // ∂²f/∂x∂y  mixed partial
 
@@ -211,11 +212,14 @@
 #let cup = $union$
 #let ent = symbol("⊨", ("not", "⊭"))
 #let prov = symbol("⊢", ("not", "⊬"))
+#let pplus = $plus.double$
+#let ppplus = $plus.triple$
 #let model = $cal(M)$
 #let apx = $approx$
 #let dag = $dagger$
 #let phid = $phi^dag$
 #let Gamd = $Gam^dag$
+#let loss = $cal(L)$
 
 
 // --- Proof trees (curryst-backed) ---

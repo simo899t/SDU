@@ -12,123 +12,103 @@
   info: "May 2026",
 )
 
-#slide(title: "Overview")[
-  - The main autoencoder objective
-  - Types of autoencoders (under/over-complete AE, DAE, SAE, VAE)
-  - Challenges of generative modeling, likelihood of the data
-  - Generative adversarial nets: generator/discriminator objective
+#slide(title: "Autoencoder objective")[
+  #figure(image("assets/AE.png", width: 12em))
+  #show math.equation: set text(26pt)
+  Let $f_theta$ be the encoder and $g_phi$ the decoder, then
+  $ arg min_(theta,phi) loss = norm(x - g_phi (f_theta (x))) $
 ]
 
-#slide(title: "Feedforward nets")[
-
-  #figure(image("assets/image-1.png", width: 25em), caption: [Feedforward net illustration])
+#slide(title: "Under/over-complete AE's")[
+  #show math.equation: set text(30pt)
+  $ f_theta : RR^d -> RR^k $
+  #v(3em)
+  #show math.equation: set text(26pt)
+  #figure(grid(columns: 2, column-gutter: 5em, rows: 2, row-gutter: 2em,
+  $ k<d $,
+  $ k>=d $,
+  [undercomplete],
+  [overcomplete (trivial)]))
 ]
 
-#slide(title: "Feedforward nets")[
+#slide(title: "De-noising AE's")[
+  Corrupt input $x$ with random noise
+  #show math.equation: set text(26pt)
+  $ tilde(x) = x + eps where eps tilde cal(N)(0,sigma^2 I) $
+  #show math.equation: set text(26pt) 
+  Now
+  $ arg min_(theta,phi) loss = norm(x - g_phi (f_theta (tilde(x)))) $
 
-  #figure(image("assets/image-1.png", width: 15em), caption: [Feedforward net illustration])
-  #show math.equation: set text(25pt)
-  #align(center)[
-    $ f(x) = sigma(W x + b) $
-  ]
 ]
-#show math.equation: set text(30pt)
-#slide(title: "Feedforward nets")[
 
-#let imgsize = 9em
-  #figure(
-    grid(columns: 3, rows: 3,
-    column-gutter:3em,
-    row-gutter: 2em,
-  [Sigmoid], [ReLU], [Tanh],
-  image("assets/image-4.png",width: imgsize),
-  image("assets/image-2.png",width: imgsize),
-  image("assets/image-3.png",width: imgsize),
-  $sigma(z) = 1/(1+e^(-z))$, $sigma(z) = max(0,z)$, $sigma(x) = (e^z -e^(-z))/(e^z+e^(-z))$,
-  
-  
-  )
-  )
-]
-    
+#slide(title: "Sparse AE's")[
+  #show math.equation: set text(26pt) 
 
-#slide(title: "Universal Approximation Theorem")[
+  Recall L1 regularization $ norm(z)_1 = sum_i abs(z_i) $
+
+  Let $z= f_theta (x)$
   #v(1em)
-  $ #definition(title: [#align(left)[Definition: Universal Approximation Theorem]], width: 70%)[
-  #align(left)[
-    #set text(size: 20pt)
-    #show math.equation: set text(23pt)
-  For any compact continuous function $f$, an approximation function $pred(f)$ and an $eps > 0$, then
-  #show math.equation: set text(25pt)
-    $ sup_(x in cal(X)) = f(x) - pred(f)(x) < epsilon $
-  ]
-]
- $
-]
-#show math.equation: set text(30pt)
-#slide(title: "Loss functions - Cross Entropy")[
-  #figure(
-    grid(columns: 1, rows: 2,
-    column-gutter:3em,
-    row-gutter: 2em,
-  [Cross Entropy],
-  $ L = - sum_k y_k log pred(p)_k $
-  
-  
-  )
-  )
-] 
-
-#slide(title: "Loss functions - Mean Squared Error")[
-  #figure(
-    grid(columns: 1, rows: 2,
-    column-gutter:3em,
-    row-gutter: 2em,
-  [Mean Squared Error],
-  $ L = sum_k (pred(y)_k - y_k)^2 $
-  
-  
-  )
-  )
-]
-#slide(title: "Loss functions - Maximum Likelihood Estimation")[
-  #figure(
-    grid(columns: 1, rows: 3,
-    column-gutter:3em,
-    row-gutter: 2em,
-  [Maximum Likelihood Estimation],
-  $ pred(theta) = arg max_theta sum_k log p(x_k | theta) $,
-  $ hat(theta) = arg min_theta cal(L)(theta) where cal(L)(theta) =  -sum_k log p(x_k | theta) $
-  
-  
-  )
-  )
+  $ arg min_(theta,phi) loss = norm(x - g_phi (z)) + lambda norm(z)_1 $
 ]
 
-#slide(title: "Regularization - L1 & L2")[
-  #figure(
-    grid(columns: 2, rows: 2,
-    column-gutter:3em,
-    row-gutter: 2em,
-  [L1 (Absolute)], [L2 (Squared)],
-  $ sum_k norm(pred(y)_k - y_k) $,
-  $ sum_k (pred(y)_k - y_k)^2 $ 
-  
-
-  
-  )
-  )
-]
-#let imgsize = 16em
-#slide(title: "Regularization - Dropout")[
-  #align(center,[Dropout])
-  #figure(grid(columns: 2, rows: 1,
-  image("assets/image-5.png", width: imgsize), 
-  image("assets/image-6.png", width: imgsize)
-  ))
+#slide(title: "Variational AE's")[
+  #show math.equation: set text(26pt) 
+  Instead of the regular encoder let 
+  $ f: RR^d -> (RR^k, RR^k) $
+  #show math.equation: set text(21pt) 
+  where $mu in RR^k$ and $sigma^2 in RR^k$
+  #show math.equation: set text(26pt) 
+  Now $ z tilde cal(N)(mu,sigma^2) $
 ]
 
-#slide(title: "Regularization - Data argumentation")[
-  #align(center,[Data argumentation])
-  #figure(image("assets/image-8.png",width: 30em))
+#slide(title: "Variational AE's")[
+  The decoder:
+  #show math.equation: set text(26pt) 
+  $ pred(x) = g_phi (z) where z tilde cal(N)(mu,sigma^2) $
+  #show math.equation: set text(21pt) 
+  When generating $z tilde cal(N)(0,I)$
+  #show math.equation: set text(26pt) 
+  We use $ arg min_(theta,phi) loss = norm(x - g_phi (z)) + underbrace(D_"KL" (cal(N)(mu,sigma^2) || cal(N)(0,I)), #[KL Divergence])  $
 ]
+
+
+#slide(title: "Challenges - Backpropagation through samples")[
+  We cant backpropagate through the sampling
+  
+  $ z = mu + sigma dot eps, where eps tilde cal(N)(0,1) $
+  
+]
+
+#slide(title: "Challenges - Variational Lower Bound")[
+
+  One could also compute $log p(x)$
+
+  $ log p(x) = integral_(RR^k) p(x|z)p(z) dif z, quad "where "RR^k" is uncountably infinite" $
+
+  Maximise a lower bound instead:
+
+  $ log p(x) >= underbrace(EE_(q_phi (z|x)) [log p_theta (x|z)], "reconstruction") - underbrace(D_"KL" (q_phi (z|x) || p(z)), "KL divergence") $
+
+  where:
+  - $q_phi (z|x) = cal(N)(mu, sigma^2)$
+  - $p_theta (x|z)$
+  - $p(z) = cal(N)(0,I)$
+]
+
+#slide(title: "GANs")[
+  #figure(image("assets/GAN.png"))
+  
+]
+
+#slide(title: "GANs")[
+  Let $D_phi : RR^d -> [0,1]$
+
+
+  Let $G_theta (z)  in RR^d, where z tilde cal(N)(0,I)$.
+  #v(2em)
+
+  Then the objective
+  $ min_theta max_phi (G_theta, D_phi) = EE_(x in p_"data") [log D_phi (X)] + EE_(z in p(z)) [log (1-D_phi (G_theta (z)))]  $
+]
+
+
