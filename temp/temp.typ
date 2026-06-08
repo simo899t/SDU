@@ -94,7 +94,7 @@
 #let allare(p,q) = $"All" #p "are" #q$
 #let def = $=^"def"$
 #let supremum(x) = $op("supremum", limits: #true)_(#x)$
-#let softmax(x) = $"softmax"(#x)$
+#let softmax(x) = $"sofwtmax"(#x)$
 #let ReLU(x) = $"ReLU"(#x)$
 #let GeLU(x) = $"GeLU"(#x)$
 #let wrt = $w.r.t$
@@ -208,6 +208,7 @@
 #let Del = $Delta$
 #let gam = $gamma$
 #let Gam = $Gamma$
+#let lam = $lambda$
 #let cap = $inter$
 #let cup = $union$
 #let ent = symbol("⊨", ("not", "⊭"))

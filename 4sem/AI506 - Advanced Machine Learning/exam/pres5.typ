@@ -72,7 +72,7 @@
 ]
 
 
-#slide(title: "Challenges - Backpropagation through samples")[
+#slide(title: "Challenges - Backpropagate through samples")[
   We cant backpropagate through the sampling
   
   $ z = mu + sigma dot eps, where eps tilde cal(N)(0,1) $

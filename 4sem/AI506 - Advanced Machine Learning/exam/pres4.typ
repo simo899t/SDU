@@ -12,45 +12,60 @@
   info: "May 2026",
 )
 
-#slide(title: "Overview")[
-  - *Graphs* as a data structure: *nodes*, *edges*, *neighborhoods*, *permutation invariance*
-  - *Message passing framework*
-  - Graph *convolution* and graph *attention*
-  - Practical considerations: *over-smoothing*, *jumping knowledge*
+
+
+#slide(title: "The graph structure")[
+  - Nodes: $V$
+  - Node features: $V -> RR^d$
+  - Edges: $E subset V times V$
+  
+  #figure(grid(columns: 2, column-gutter: 4em, row-gutter: 2em,
+  image("assets/image-59.png",width: 9em),
+  image("assets/image-60.png",width: 9em)
+  ))
 ]
 
-#slide(title: "GNN (Graph neural networks)")[
-  Let
-  #figure($#[`nodes`] = {upright(A), upright(B), upright(C)}, qquad #[`edges`] = {(A,B), (B,C)} $)
-  
+#slide(title: "Common GNN tasks")[
+  #figure(image("assets/image-58.png"))
+]
+
+#slide(title: "Common GNN tasks")[
+  For node classification:
+
+  Let X = $H^0$
+
+  $ H^((l+1)) = sigma (hat(A) H^((l)) W^((l)) + b^((l))) $
+
   #v(1em)
-  #figure(image("assets/image-18.png", width: 13em))
-  
+  $ Z = softmax(hat(A) ReLU(z^((l-1))) W^((l))) $
 
-]
-
-#slide(title: "Message passing framework")[
-  $  $
-  $ h^((l+1))_i = sigma("UPD"(h^((l))_i, m^((l))_i)) $
-  $ "UPD"(h^((l))_i, m^((l))_i) = W_h dot h^((l))_i + W_cal(N) m^((l))_i + b^((l)) $
-  where
-  $ m_i = "AGG"_(j in cal(N)(i)) g(h^((l))_i,h^((l))_j) $
-  $ g = "some tranformation of "h_i "and" h_j $
-]
-
-#slide(title: "Aggregation")[
-  #show math.equation: set text(30pt)
-  $ "AGG"_"sum" = sum_(j in cal(N)(i)) h_j^((l)) $
-  $ "AGG"_"avg" = 1/norm(cal(N)(i)) sum_(j in cal(N)(i)) h_j^((l)) $
-  $ "AGG"_"max" = max_(j in cal(N)(i)) (h_j^((l)))  $
 ]
 
 #slide(title: "Graph convolution")[
 
-  #figure(image("assets/image-19.png", width: 50%))
+  #figure(image("assets/image-55.png",width: 33em))
+  #figure(image("assets/image-57.png",width: 30em))
   #show math.equation: set text(25pt)
-  $ "AGG" = sum_(j in cal(i)) h_j / sqrt(norm(cal(N)(i)) dot norm(cal(N)(j))) $
+
 ]
+
+#slide(title: "Message passing framework")[
+  $ h^((l+1))_i = sigma("UPD"(h^((l))_i, m^((l))_i)) $
+  $ "UPD"(h^((l))_i, m^((l))_i) = W_h dot h^((l))_i + W_cal(N) m^((l))_i + b^((l)) $
+  where
+  $ m_i^((l)) = "AGG"_(j in cal(N)(i)) g(h^((l))_i,h^((l))_j) $
+  $ g = "some transformation of "h_i "and" h_j $
+]
+
+#slide(title: "Aggregation")[
+  #show math.equation: set text(26pt)
+  $ "AGG"_"sum" = sum_(j in cal(N)(i)) h_j^((l)) $
+  $ "AGG"_"max" = max_(j in cal(N)(i)) (h_j^((l)))  $
+  $ "AGG"_"avg" = 1/norm(cal(N)(i)) sum_(j in cal(N)(i)) h_j^((l)) $
+  $ "AGG"_"norm" = sum_(j in cal(N)(i)) h_j^((l))/(norm(cal(N)(i))  dot norm(cal(N)(j))) $
+]
+
+
 
 #slide(title: "Graph attention (GAT)")[
   #show math.equation: set text(25pt)
@@ -74,11 +89,11 @@
 #slide(title: "Jumping knowledge")[
   #show math.equation: set text(25pt)
   Concatenation:
-  $ z_i = "MLP"(h_i^((1)) pplus h_i^((2)) pplus dots pplus h_i^((k))) $
+  $ z_i = "MLP"(h_i^((1)) pplus h_i^((2)) pplus dots pplus h_i^((l))) $
   
   Max pooling:
-  $ z_i = "MLP"(h_i^"max"), qquad h_i^"max" = "MaxPool"(h_i^((1)), h_i^((2)), dots, h_i^((k))) $
+  $ z_i = "MAX"(h_i^((1)), h_i^((2)), dots, h_i^((l))) $
 
   LSTM:
-  $ z_i = "MLP"(h_i^"LSTM"), qquad h_i^"LSTM" = "LSTM"(h_i^((1)), h_i^((2)), dots, h_i^((k))) $
+  $ z_i = "LSTM"(h_i^((1)), h_i^((2)), dots, h_i^((l))) $
 ]

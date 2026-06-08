@@ -15,7 +15,7 @@
 #slide(title: "Parameter sharing")[
  
   #show math.equation: set text(40pt)
-  #figure(image("assets/image-22.png"))2
+  #figure(image("assets/image-22.png"))
 ]
 
 #slide(title: "Convolutional networks - Convolutional Layers")[

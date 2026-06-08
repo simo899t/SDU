@@ -34,7 +34,7 @@
     #show math.equation: set text(23pt)
   For any compact continuous function $f$, an approximation function $pred(f)$ and an $eps > 0$, then
   #show math.equation: set text(25pt)
-    $ f(x) - pred(f)(x) < epsilon quad forall x in cal(X) $
+    $ abs(f(x) - pred(f)(x)) < epsilon quad forall x in cal(X) $
   ] 
 ] $ ]
 
@@ -154,7 +154,7 @@
   ))
 ]
 
-#slide(title: "Regularization - Data argumentation")[
+#slide(title: "Regularization - Data augmentation")[
 
   #figure(image("assets/image-8.png",width: 30em))
 ]
