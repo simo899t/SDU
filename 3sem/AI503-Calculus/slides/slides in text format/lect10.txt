@@ -1,0 +1,492 @@
+Integration
+AI503
+Shan Shan
+
+Lecture 10
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+1 / 23
+
+Integration by Parts
+
+Recall the Product Rule:
+d
+[f (x)g (x)] = f ′ (x)g (x) + f (x)g ′ (x).
+dx
+Integrating both sides gives
+Z
+Z
+f ′ (x)g (x) dx + f (x)g ′ (x) dx = f (x)g (x) + C .
+Hence,
+
+Z
+
+Z
+
+′
+
+f (x)g (x) dx = f (x)g (x) −
+
+AI503 Shan Shan
+
+Integration
+
+f ′ (x)g (x) dx.
+
+Lecture 10
+
+2 / 23
+
+Integration by Parts Formula
+
+Let u = f (x) and dv = g ′ (x) dx. Then
+Z
+Z
+u dv = uv − v du.
+For definite integrals:
+Z b
+a
+
+b
+
+f (x)g ′ (x) dx = f (x)g (x) a −
+
+AI503 Shan Shan
+
+Integration
+
+Z b
+
+f ′ (x)g (x) dx.
+
+a
+
+Lecture 10
+
+3 / 23
+
+Examples
+
+Evaluate:
+Z 1
+1
+xe x dx.
+0
+Z 2
+2
+ln x dx.
+1
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+4 / 23
+
+Extending to Two Variables
+We extend the definition of the integral to a function f (x, y ) defined on
+a ≤ x ≤ b,
+
+c ≤ y ≤ d.
+
+Divide both intervals into n and m equal parts:
+∆x =
+
+b−a
+,
+n
+
+∆y =
+
+d −c
+.
+m
+
+Number of subrectangles:
+Area of each subrectangle:
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+5 / 23
+
+Riemann Sums for Two Variables
+
+Let Mij and Lij denote the max and min of f on the ij-th rectangle. If
+(uij , vij ) is any point in the ij-th subrectangle:
+n X
+m
+X
+
+Lij ∆x∆y ≤
+
+i=1 j=1
+
+n X
+m
+X
+
+f (uij , vij )∆x∆y ≤
+
+i=1 j=1
+
+n X
+m
+X
+
+Mij ∆x∆y
+
+i=1 j=1
+
+Question:
+How does
+
+P
+
+ij f (uij , vij )∆x∆y look geometrically?
+
+What happens as n, m → ∞?
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+6 / 23
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+7 / 23
+
+Double Integral: Definition
+
+Let f (x, y ) be a function on R = [a, b] × [c, d]. The definite
+integral of f over R is
+Z
+f dA =
+R
+
+lim
+
+n X
+m
+X
+
+n,m→∞
+
+f (uij , vij ) ∆x∆y ,
+
+i=1 j=1
+
+if the limit exists. Then f is said to be integrable on R.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+8 / 23
+
+Interpretation and Notation
+
+dA = dx dy represents the area of an infinitesimal rectangle.
+Z
+Z
+f dA =
+f (x, y ) dx dy
+R
+
+R
+
+R
+
+R f dA gives the volume under the surface z = f (x, y ) over R.
+
+If f is continuous (or has finitely many jump discontinuities), it is
+integrable on R.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+9 / 23
+
+Questions
+
+R
+
+1
+
+If g (x, y ) = 1, what is
+
+2
+
+How do we compute the average value of f over R?
+
+AI503 Shan Shan
+
+R g dA?
+
+Integration
+
+Lecture 10
+
+10 / 23
+
+Iterated Integral
+
+If f is integrable on R = [a, b] × [c, d], then
+Z dZ b
+
+Z
+f dA =
+R
+
+f (x, y ) dx dy .
+c
+
+a
+
+To evaluate:
+Integrate with respect to x first (treat y constant).
+Then integrate the result with respect to y .
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+11 / 23
+
+Example: Iterated Integral
+
+Let f (x, y ) = x 2 y , R = [0, 1] × [0, 1]. Compute
+Z 1Z 1
+0
+
+AI503 Shan Shan
+
+R
+
+R f dA.
+
+x 2 y dx dy
+
+0
+
+Integration
+
+Lecture 10
+
+12 / 23
+
+Example: Iterated Integral
+
+What if we switch the order of integration?
+Z 1Z 1
+x 2 y dy dx
+0
+
+0
+
+Why does the result stay the same?
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+13 / 23
+
+Example: Volume Problem
+
+A building is 8 m wide and 16 m long. It has a flat roof 12 m high at one
+corner, and 10 m high at each adjacent corner. Find the volume of the
+building.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+14 / 23
+
+Integrals over Non-Rectangular Regions
+
+R
+We can define R f dA for other shapes (triangles, circles, etc.) by
+enclosing R in a rectangle and summing over subrectangles inside R.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+15 / 23
+
+Example
+
+The density at (x, y ) of a triangular metal plate is δ(x, y ). Express its
+mass as an iterated integral.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+16 / 23
+
+Limits on Iterated Integrals
+
+Rules:
+1
+
+The limits of the outer integral must be constants.
+
+2
+
+The limits of the inner integral can depend on the
+outer variable.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+17 / 23
+
+Example
+
+A city occupies a semicircular region of radius 3 km bordering the ocean.
+Find the average distance from points in the city to the ocean.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+18 / 23
+
+Example
+
+Sketch the region for
+Z 6Z 2
+x
+0
+
+p
+y 3 + 1 dy dx,
+
+x/3
+
+then reverse the order of integration.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+19 / 23
+
+Triple Integrals: Definition
+
+We can define integrals over a solid region W in R3 by subdividing into
+boxes.
+
+Using similar reasoning, express
+
+AI503 Shan Shan
+
+R
+
+W f dV as a limit of Riemann sums.
+
+Integration
+
+Lecture 10
+
+20 / 23
+
+Triple Integrals as Iterated Integrals
+
+If f is integrable on W = [a, b] × [c, d] × [p, q], then
+Z qZ dZ b
+
+Z
+f dV =
+W
+
+f (x, y , z) dx dy dz.
+p
+
+c
+
+a
+
+Other integration orders are also possible.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+21 / 23
+
+Example
+
+Z
+(1 + xyz) dV over the cube 0 ≤ x, y , z ≤ 4.
+
+Compute
+W
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+22 / 23
+
+Example
+
+Set up
+p an iterated integral for the mass of a solid cone bounded by
+z = x 2 + y 2 and z = 3, with density δ(x, y , z) = z.
+
+AI503 Shan Shan
+
+Integration
+
+Lecture 10
+
+23 / 23
+
+

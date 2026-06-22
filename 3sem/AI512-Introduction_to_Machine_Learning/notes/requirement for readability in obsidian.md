@@ -1,0 +1,1 @@
+typst plugin (Wypst) in obsidian is a requirement for some math blocks in these.

@@ -1,0 +1,5 @@
+- NIS2: handler om markedet i europa, med formål at sikre (cyber)sikkerhed [link](3sem/etik og privathed/jura/AI Jura - pensumlitteratur/NIS2 direktivet.pdf)
+- GDPR: handler om personrettigheder, med formål at sikre (cyber)sikkerhed [link](/Users/simonholm/Library/Mobile Documents/iCloud~md~obsidian/Documents/SDU/3sem/etik og privathed/jura/AI Jura - pensumlitteratur/eu_personoplysninger.pdf)
+- Processhåndtering: optimerer mit arbejde arbejdsgange, sparer ressourcer eller frigør tid "opfylder det stadig krav".
+- Funktionsdygtighed
+- Risikoaccept

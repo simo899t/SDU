@@ -1,4 +1,4 @@
-#import "../../../../temp.typ": *
+#import "../../temp/temp.typ": *
 
 #show: project.with(
   title: "Project Title",

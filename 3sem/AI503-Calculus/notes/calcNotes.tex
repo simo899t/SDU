@@ -1,0 +1,66 @@
+\documentclass{article}
+                            % Useful packages
+% Basic page setups
+\usepackage[english]{babel}
+\usepackage{minted}
+\usepackage{ragged2e}
+\usepackage{microtype}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage[T1]{fontenc} %c<- Times-like font \textcs
+
+% For drawing. i recomend using AI for writing tikz code and then manually edit.
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+
+% Math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathabx}
+\usepackage{mathptmx}
+
+% For trees
+\usepackage[linguistics]{forest}
+
+% For custom symbols [outerjoins]
+\def\ojoin{\setbox0=\hbox{$\Join$}%
+\rule[0.041ex]{.27em}{.4pt}\llap{\rule[1.032ex]{.27em}{.4pt}}}
+\def\leftouterjoin{\mathbin{\ojoin\mkern-6.9mu\Join}}
+\def\rightouterjoin{\mathbin{\Join\mkern-6.9mu\ojoin}}
+\def\fullouterjoin{\mathbin{\ojoin\mkern-6.9mu\Join\mkern-6.9mu\ojoin}}
+
+% For psudocodes
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+%==================================================================================================================%
+\title{Notes for "Calculus"}
+\author{Simon Holm\\\\AI503: Calculus\\\\Teacher: Shan Shan}
+\date{ }
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+\section{Introduktion}
+Notes and exercises for lectures and TA-sessions. Note that mistakes in note and/or exercises may occur.
+\newpage
+\section{Notes}
+\subsection{Definitions}
+$$\lim_{x\rightarrow c} f(x) = L$$
+L is the limit of f(x) as x approaches c, if for every $\epsilon > 0$ there exists a $\delta > 0$ such that if $0 < |x - c| < \delta$ then $|f(x) - L| < \epsilon$.
+\\
+\noindent if f is continuous at c then $\lim_{x\rightarrow c} f(x) = f(c)$
+
+\end{document}
