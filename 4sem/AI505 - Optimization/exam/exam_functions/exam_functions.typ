@@ -1,5 +1,4 @@
-
-#import "../../../../temp/temp.typ": *
+#import "@local/sdu-notes:0.1.0": *
 
 #show: note.with(
   title: "Exam preparations",
@@ -321,8 +320,100 @@ Now let each individual track,
 As particles fly toward the current global best, they pass through different regions of the search space. If one of them stumbles across a better point along the way — that becomes the new global best, and the whole swarm redirects toward it.
 
 
-= Lagrangian Function
-$ lag(x,mu,lam) = sum_i mu_i g_i (x) + sum_j lam_j h_j (x) $
+= Sampling Plans
+Choosing how to initialize points before optimization begins. There are several methods.
+- try optimizing multiple starting points and keep best result
+- if $f$ is expensive, one can sample points from a _surrogate model_
+*Surrogate model*: cheap fake version of $f$
+
+
+== Full Factorial Design
+Sample points uniformly and evenly spaced samples across domain
+Simple, easy to design, but grows with $n^m$ and can miss local features
+
+== Random Sampling
+Sample randomly from some distribution over $[a_1,b_1] times dots times [a_n,b_n]$
+
+== Uniform Projection Plans
+Sample $m$ points from $m times m$ with the premise that every dimension must be uniformly covered (like N-queens but with rooks). 
+
+== Stratified Sampling
+Fix problem with local accuracy that full factorial has. Place points uniformly random within their square
+
+
+== Space Filling Metrics
+Fill the space so everything is covered. (measure how spread points are)
+- Like pairwise distance
+
+== Space-Filling Subsets
+Choose a subset of the space what best represents the whole space.
+
+== Quasi-Random Sequences 
+Optimize the points such that $ integral f(x) dx apx 1/M summ(i=1,M,f(x_i)) $
+
+#pagebreak()
+
+= Machine Learning as Optimization
+
+Predict $ h(x;w), given  {(x_i,y_i)}^n_(i=1) $.
+
+== Expected risk vs empirical risk
+Ideally, you want to minimize the expected risk
+
+$ R(w) = EE[f(w;xi)] = integral ell(h(x;w),y) dif P(x,y) $
+
+Since $P(x,y)$ is unknown, we minimize *empirical risk* instead.
+
+$ R_n (w) = 1/N summ(i=1,n,ell(h(x_i;w),y_i)) $
+
+Usually regularize $R_n(h) + lambda Omega (h)$
+
+== Stochastic approach
+Stochastic Gradient like $ w_(k+1) = w_k - alpha_k nf_i_k (w_k) $
+- very cheap, though might not always be optimal.
+
+== Batch approach
+use the full gradient of a batch instead of the whole dataset.
+
+$ w_(k+1) = w_k - alpha_k nabla R_n (w_k) = w_k - (alpha_K)/N summ(i=1, N, nf_i (w_k)) $
+
+== Noise Reduction
+Stochastic gradient methods can have noisy gradients leading to variance (and overfitting).
+- Dynamic Sampling: 
+  - increase the mini-batch size used in the gradient computation
+- Gradient aggregation
+  - aggregate new gradients with the previous iterations 
+  - SAGA - Stochastic average gradient algorithm 
+    - if the average of gradient went in direction $bold(d)$ it should also infer the new gradient in direction $bold(d)$
+
+
+== Second order methods
+- Diagonal scaling
+  - Scale only using a diagonal hessian $ H_k apx diag(H_k) $
+  - It still holds curvature information, just not as much.
+- quasi-Newton
+  - construct approximations to the Hessian using only gradient information (L-BFGS)
+- Gradient free
+  - Use system of linear equations to find $s_k$ from $H_k s_k = - nf$
+
+= SG convergence analysis
+- Strongly convex + fixed $alpha$ = never converge. You need to shrink $alpha$ (slower).
+- Non convex cannot be bound since there might be many local minima. you might approach a stationary point though. When shrinking $alpha$ yoy get closer to a minima, but slower.
+
+= Constrained Optimization
+1. Equality constraints: $h(x) = 0$
+2. Inequality constraints: $g(x) <= 0$
+
+== Transformations to Remove Constraints
+$ min_(x in [a,b]) f(x) $
+
+Instead define $cal(T)_(a,b) : RR to [a,b]$
+$ min_(hat(x) in RR) f(cal(T)(hat(x))) $
+
+
+
+== Lagrangian Function
+$ lag(x,mu,lam) = f(x) +sum_i mu_i g_i (x) + sum_j lam_j h_j (x) $
 
 == KKTC (Karush-Kuhn-Tucker conditions)
 For any $x^*$
@@ -331,14 +422,11 @@ For any $x^*$
 + Complementary slackness: $mu dot g(x^*) = 0$
 + Stationarity: $nf(x^*) + mu dot nabla g(x^*) + lam dot nabla h(x^*)$
 
-== Primal form
+=== Primal form
 $ min_x max_(mu>=0, lam) lag(x,mu,lam) $
 
-== Dual form
+=== Dual form
 $ max_(mu>=0, lam) min_x lag(x,mu,lam) $
-
-
-#pagebreak()
 
 = Penalty methods
 
@@ -353,10 +441,17 @@ Examples:
 == Barrier functions
 $ p_"barrier" (x) = - sum_i log(-g_i (x)) $
 
-= Simplex problems
-$ min_x tran(c)x \ st A x & <= b \ x & >= 0 $
+= LP
+when both the objective and all constraints are linear.
+== Model form nonlinear to LP
+$ min_x norm(A x -b)_1 $
+$ min_x tran(1)s \ st A x -b &<= s \ -(A x -b) &<= s $
 
-multiple solutions
+
+= Simplex problems
+Each inequality constrains are half-spaces, where equality would reduce the dimensions.
+
+multiple solutions types
 == Inquality contstraints
 standard way of thinking using $<=$
 
@@ -368,7 +463,6 @@ Easier to solve using $s.l.e.$ to solve for variables $x_i$
 == Conversion
 Introduce _slacks_
 $ tran(a_i)x <= b iimp tran(a_i) x +s_i = b $
-#pagebreak()
 
 == The simplex algorithm
 
@@ -377,7 +471,23 @@ $ lag(x,mu >= 0, lam) = tran(c)x - tran(mu)x - lam (A x -b) $
 $ nabla lag = c-mu-tran(lam)A = 0 iimp tran(A)lam + mu = c $
 
 Split into ($B,N$)
-$ cases(tran(A_B) lam+ mu_B = c_B, tran(A_N) lam+ mu_N = c_N) qquad  iimp lam = inv(A_B) c_B since x>=0, mu_B = 0 $
+$ cases(tran(A_B) lam+ mu_B = c_B, tran(A_N) lam+ mu_N = c_N) qquad  iimp lam = inv((tran(A_B))) c_B since x>=0, mu_B = 0 $
+
+Now $ tran(A)_N inv((tran(A_B))) c_B + mu_N = c_N bii mu_N = c_N - tran(A)_N inv((tran(A_B))) c_B $
+One must maintain $ A_B x_B^prime + A_{q} x_{q}^prime = A_B x_B = A x = B $
+This is done by updating $x_B to x^prime_B$ by
+$ x^prime_B = x_B - A^(-1)_B A_{q} x^prime_{q} $
+Then the objective value function is updated
+$tran(c)x^prime = tran(c)x + mu_{q} x_{q}^prime $
+We can initialize the problem by populating $x$ with values that fit into $A x=b$
+
+- *Pivoting*: move elements from/to $B$ and $N$
+  - $mu_N$ defines a cost of "moves" when partition elements in $B$ and $N$
+  - Choose the leaving candidate the yields the smallest $x^prime$ (*minimum ratio test*)
+  - for multiple entering candidates with $mu_{q} < 0$ several
+  - If all components of $mu_N$ are non-negative, we have found a global optimum.
+
+
 
 = Types
 - Continuos

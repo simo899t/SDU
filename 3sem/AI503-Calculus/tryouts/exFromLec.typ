@@ -1,6 +1,6 @@
 #import "../../../temp/temp.typ": *
 
-#note(
+#show: exercise.with(
   title: "Exercises from Shan Shan's lectures",
   course: "AI503: Calculus",
   author: "Simon Holm",

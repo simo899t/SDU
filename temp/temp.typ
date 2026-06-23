@@ -126,8 +126,8 @@
 #let mid = "|"
 #let imp = $=>$
 #let iimp = $==>$
-#let bi = $<==>$
-#let bishort = $<=>$
+#let bi = $<=>$
+#let bii = $<==>$
 #let ent = symbol("⊨", ("not", "⊭"))
 #let prov = symbol("⊢", ("not", "⊬"))
 #let lang = $chevron.l$
@@ -149,6 +149,7 @@
 #let from = $tilde$
 #let where = $quad "where"$
 #let since = $quad "since"$
+#let given = $quad "given"$
 #let iff = $quad"if" $
 #let otherwise = $quad "otherwise"$
 #let bigo(x) = $cal(O)(#x)$
@@ -183,6 +184,7 @@
   $limits(op("minimize"))_(#args.pos().first())$
 }
 #let supremum(x) = $op("supremum", limits: #true)_(#x)$
+#let diag(x) = $"diag"(#x)$
 
 // ML / activation
 #let softmax(x) = $"softmax"(#x)$
@@ -364,7 +366,7 @@
   },
 )
 
-// Gray
+// gray default block
 #let block(title: none, width: 100%, content) = _titled-card(
   title: title, width: width,
   header-fill: rgb("#6b7280"), body-fill: rgb("#f3f4f6"),
@@ -372,7 +374,7 @@
   content,
 )
 
-// Cerulean blue
+// blue theorem
 #let theorem(title: "Theorem", width: 100%, content) = _titled-card(
   title: title, width: width,
   header-fill: rgb("#1565c0"), body-fill: rgb("#ecf3fc"),
@@ -380,7 +382,7 @@
   content,
 )
 
-// Forest green
+// green definition
 #let definition(title: "Definition", width: 100%, content) = _titled-card(
   title: title, width: width,
   header-fill: rgb("#2e7d32"), body-fill: rgb("#ecfdf5"),
@@ -388,7 +390,7 @@
   content,
 )
 
-// Fire red
+// red example
 #let example(title: "Example", width: 100%, content) = _titled-card(
   title: title, width: width,
   header-fill: rgb("#c62828"), body-fill: rgb("#fdeced"),
@@ -398,301 +400,12 @@
 
 
 // ══════════════════════════════════════════════════════
-// DIAGRAMS
-// ══════════════════════════════════════════════════════
-
-// Shared colour palette for diagrams
-#let _diagram-palette-180 = (
-  rgb(214, 234, 248, 180), rgb(212, 239, 223, 180), rgb(253, 235, 208, 180),
-  rgb(245, 215, 215, 180), rgb(235, 218, 255, 180), rgb(255, 245, 200, 180),
-  rgb(200, 240, 240, 180), rgb(255, 220, 200, 180), rgb(220, 220, 255, 180),
-  rgb(210, 245, 210, 180),
-)
-#let _diagram-palette-150 = (
-  rgb(214, 234, 248, 150), rgb(212, 239, 223, 150), rgb(253, 235, 208, 150),
-  rgb(245, 215, 215, 150), rgb(235, 218, 255, 150), rgb(255, 245, 200, 150),
-  rgb(200, 240, 240, 150), rgb(255, 220, 200, 150), rgb(220, 220, 255, 150),
-  rgb(210, 245, 210, 150),
-)
-
-// ── Subset diagram (Euler / nested circles) ──────────
-// Draws a chain of nested circles: outermost set first, innermost last.
-//
-// sets     — array of set specs, each one of:
-//              "key"                    key used in elements dict, displayed as-is
-//              ("key", label)           string key + any content as display label
-//              ("key", label, color)    as above with explicit fill colour
-//            Omit entirely to auto-derive from elements dict keys.
-// elements — dict  key → array of content
-// gap      — radial distance between consecutive circles (cm)
-//
-// #subset-diagram(elements: ("A": ("1","2"), "B": ("3","4","5")))
-#let subset-diagram(sets: none, elements: (:), gap: 1.0) = {
-  let sets = if sets == none { elements.keys() } else { sets }
-  let defaults = _diagram-palette-180
-  canvas({
-    import draw: *
-    let n = sets.len()
-    let base-r = n * gap
-
-    for i in range(n) {
-      let spec = sets.at(i)
-      let (key, lbl, col) = if type(spec) == array and spec.len() >= 3 {
-        (spec.at(0), spec.at(1), spec.at(2))
-      } else if type(spec) == array and spec.len() == 2 {
-        (spec.at(0), spec.at(1), defaults.at(calc.rem(i, defaults.len())))
-      } else {
-        (spec, spec, defaults.at(calc.rem(i, defaults.len())))
-      }
-      let r = base-r - i * gap
-
-      circle((0, 0), radius: r,
-        stroke: 1pt + rgb(80, 100, 140),
-        fill: col,
-        name: "s" + str(i),
-      )
-      content((-r * 0.72, r * 0.82), text(size: 9pt, weight: "bold", lbl))
-
-      if key in elements {
-        let raw     = elements.at(key)
-        let elems   = if type(raw) == array { raw } else { (raw,) }
-        let inner-r = if i + 1 < n { base-r - (i + 1) * gap } else { 0 }
-        let mid-r   = (r + inner-r) / 2 * 0.75
-        let count   = elems.len()
-        for j in range(count) {
-          let angle = 360deg / count * j - 90deg
-          content(
-            (mid-r * calc.cos(angle), mid-r * calc.sin(angle)),
-            text(size: 8pt, elems.at(j)),
-          )
-        }
-      }
-    }
-  })
-}
-
-// ── Euler diagram (blob / free-form) ─────────────────
-// For sets that are not a simple chain (siblings, overlaps, lattices).
-//
-// sets     — array of (key, label). First set = universe, auto-contains all elements.
-// elements — array of (display, (key1, key2, ...), (x, y)).
-//            Position (x, y) places the element; each blob auto-expands to encapsulate it.
-// padding  — extra space around elements inside each blob.
-//
-// #euler-diagram(
-//   (("P", $P$), ("a", $[|a|]$), ("b", $[|b|]$)),
-//   elements: (($a$, ("a",), (1, 0)), ($b$, ("b",), (-1, 0))),
-// )
-#let euler-diagram(sets, elements: (), padding: 0.8) = {
-  let defaults = _diagram-palette-150
-  let universe-key = sets.at(0).at(0)
-
-  let elem-data = elements.map(item => {
-    let (ex, ey) = if item.len() >= 3 {
-      (float(item.at(2).at(0)), float(item.at(2).at(1)))
-    } else { (0.0, 0.0) }
-    (item.at(0), ex, ey, item.at(1))
-  })
-
-  let set-pts = (:)
-  for s in sets { set-pts = set-pts + ((s.at(0)): ()) }
-  for ed in elem-data {
-    let pos = (ed.at(1), ed.at(2))
-    set-pts = set-pts + ((universe-key): set-pts.at(universe-key) + (pos,))
-    for k in ed.at(3) {
-      if k != universe-key and k in set-pts {
-        set-pts = set-pts + ((k): set-pts.at(k) + (pos,))
-      }
-    }
-  }
-
-  let ordered = sets.map(s => s.at(0)).sorted(key: k => -set-pts.at(k).len())
-
-  canvas({
-    import draw: *
-
-    for (idx, key) in ordered.enumerate() {
-      let s   = sets.filter(s => s.at(0) == key).at(0)
-      let lbl = s.at(1)
-      let col = defaults.at(calc.rem(idx, defaults.len()))
-      let pts = set-pts.at(key)
-
-      let (cx, cy) = if pts.len() == 0 { (0.0, 0.0) } else {
-        ( pts.map(p => p.at(0)).sum() / float(pts.len()),
-          pts.map(p => p.at(1)).sum() / float(pts.len()) )
-      }
-
-      let n-pts = 60
-      let blob = range(n-pts).map(j => {
-        let alpha = 360deg * float(j) / float(n-pts)
-        let ca = calc.cos(alpha)
-        let sa = calc.sin(alpha)
-        let r = pts.fold(padding, (acc, p) => {
-          let proj = (p.at(0) - cx) * ca + (p.at(1) - cy) * sa
-          if proj > 0 { calc.max(acc, proj + padding) } else { acc }
-        })
-        (cx + r * ca, cy + r * sa)
-      })
-
-      catmull(..blob, close: true, fill: col, stroke: 1pt + rgb(80, 100, 140))
-
-      let lca = calc.cos(135deg)
-      let lsa = calc.sin(135deg)
-      let lr  = pts.fold(padding + 0.25, (acc, p) => {
-        let proj = (p.at(0) - cx) * lca + (p.at(1) - cy) * lsa
-        if proj > 0 { calc.max(acc, proj + padding + 0.25) } else { acc }
-      })
-      content((cx + lr * lca, cy + lr * lsa), text(size: 9pt, weight: "bold", lbl))
-    }
-
-    for ed in elem-data {
-      content((ed.at(1), ed.at(2)), text(size: 8pt, ed.at(0)))
-    }
-  })
-}
-
-// ── venn — set diagram with rotated ovals ────────────
-// Elements placed evenly on a ring inside the domain circle.
-// Each subset gets a rotated bounding oval oriented along its principal axis,
-// so {p,r} with p at top and r at right produces a diagonal oval.
-// Shared elements fall inside all ovals that contain them.
-//
-// domain:        optional label for the outer circle
-// outside:       elements outside all subsets but inside domain
-// scale:         canvas length per unit (cm)
-// universe-fill: fill for the domain circle (none = no fill)
-//
-// #venn(
-//   domain: $P$,
-//   ($A$, ("p", "q")),
-//   ($B$, ("q", "r", "s")),
-// )
-#let venn(domain: none, outside: (), scale: 2cm, universe-fill: none, ..args) = {
-  let sets = args.pos().map(s => {
-    let mem = s.at(1)
-    let col = s.at(2, default: auto)
-    (s.at(0), if type(mem) == str { (mem,) } else { mem }, col)
-  })
-  let R        = 2.8
-  let er       = R * 0.52
-  let pad      = 0.58
-  let pad-perp = 0.32
-
-  let palette = (
-    red.transparentize(75%), blue.transparentize(75%),
-    green.transparentize(75%), orange.transparentize(75%),
-    purple.transparentize(75%), teal.transparentize(75%),
-  )
-
-  let all-elems = ()
-  for s in sets { for m in s.at(1) { if m not in all-elems { all-elems.push(m) } } }
-  for el in outside { if el not in all-elems { all-elems.push(el) } }
-  let ne = all-elems.len()
-
-  let epos = (:)
-  for (j, el) in all-elems.enumerate() {
-    let ang = 90deg - 360deg / ne * j
-    epos.insert(el, (er * calc.cos(ang), er * calc.sin(ang)))
-  }
-
-  let oval-for(members) = {
-    let pts = members.map(el => epos.at(el))
-    let n   = pts.len()
-    let cx  = pts.map(p => p.at(0)).sum() / n
-    let cy  = pts.map(p => p.at(1)).sum() / n
-    if n == 1 { return (cx: cx, cy: cy, rx: pad, ry: pad-perp + 0.1, ang: 0deg) }
-    let rel = pts.map(p => (p.at(0) - cx, p.at(1) - cy))
-    let ax = 1.0; let ay = 0.0; let best = 0.0
-    for i in range(n) {
-      for j in range(i + 1, n) {
-        let dx = rel.at(j).at(0) - rel.at(i).at(0)
-        let dy = rel.at(j).at(1) - rel.at(i).at(1)
-        let d2 = dx * dx + dy * dy
-        if d2 > best { best = d2; ax = dx; ay = dy }
-      }
-    }
-    let alen = calc.sqrt(ax * ax + ay * ay)
-    let ux = ax / alen; let uy = ay / alen
-    let along = rel.map(p =>  p.at(0) * ux + p.at(1) * uy)
-    let perp  = rel.map(p => -p.at(0) * uy + p.at(1) * ux)
-    let rx-val = along.map(calc.abs).fold(0.0, calc.max) + pad
-    let ry-val = calc.max(perp.map(calc.abs).fold(0.0, calc.max) + pad-perp, rx-val * 0.38)
-    (cx: cx, cy: cy, rx: rx-val, ry: ry-val, ang: calc.atan2(ax, ay))
-  }
-
-  let ovs = sets.map(s => oval-for(s.at(1)))
-
-  canvas(length: scale, {
-    import draw: *
-    circle((0, 0), radius: R, stroke: black + 1.2pt, fill: universe-fill)
-    if domain != none { content((-R * 0.8, R * 0.88), domain) }
-
-    for (i, s) in sets.enumerate() {
-      let ov  = ovs.at(i)
-      let col = if s.at(2) == auto { palette.at(calc.rem(i, palette.len())) } else { s.at(2) }
-      group({
-        translate((ov.cx, ov.cy))
-        rotate(ov.ang)
-        circle((0, 0), radius: (ov.rx, ov.ry), fill: col, stroke: black + 0.8pt)
-      })
-      let ux-v = calc.cos(ov.ang)
-      let uy-v = calc.sin(ov.ang)
-      let tip1 = (ov.cx + ov.rx * ux-v, ov.cy + ov.rx * uy-v)
-      let tip2 = (ov.cx - ov.rx * ux-v, ov.cy - ov.rx * uy-v)
-      let cl1 = 9999.0; let cl2 = 9999.0
-      for (j, ov2) in ovs.enumerate() {
-        if j != i {
-          let dx1 = tip1.at(0) - ov2.cx; let dy1 = tip1.at(1) - ov2.cy
-          let dx2 = tip2.at(0) - ov2.cx; let dy2 = tip2.at(1) - ov2.cy
-          let d1 = calc.sqrt(dx1 * dx1 + dy1 * dy1)
-          let d2 = calc.sqrt(dx2 * dx2 + dy2 * dy2)
-          if d1 < cl1 { cl1 = d1 }
-          if d2 < cl2 { cl2 = d2 }
-        }
-      }
-      let (tx, ty) = if cl1 >= cl2 { tip1 } else { tip2 }
-      let td = calc.sqrt(tx * tx + ty * ty)
-      let lpos = if td > 0.05 {
-        let ld = calc.min(td + 0.45, R - 0.1)
-        (tx / td * ld, ty / td * ld)
-      } else { (0, ov.ry + 0.5) }
-      content(lpos, s.at(0))
-    }
-
-    for (el, pos) in epos {
-      content(pos, text(style: "italic", el))
-    }
-  })
-}
-
-// ── tree — tidy tree graph ────────────────────────────
-#let tree(body, reverse: false, shape: "circle", draw-node: none, ..args) = {
-  let shape-draw-node = if shape == "circle" {
-    tidy-tree-draws.circle-draw-node
-  } else if shape == "rect" or shape == "rectangle" {
-    ((name, label, pos)) => (shape: rect)
-  } else if shape == "square" {
-    ((name, label, pos)) => (shape: rect, width: 1.6em, height: 1.6em)
-  } else {
-    tidy-tree-draws.circle-draw-node
-  }
-  let effective-draw-node = if draw-node != none { draw-node } else { shape-draw-node }
-  let draw-nodes = if reverse {
-    (effective-draw-node, ((name, label, pos)) => (pos: (pos.x, -pos.y)))
-  } else {
-    effective-draw-node
-  }
-  tidy-tree-graph(body, draw-node: draw-nodes, ..args)
-}
-
-
-// ══════════════════════════════════════════════════════
 // DOCUMENT TEMPLATES
 // ══════════════════════════════════════════════════════
 
 #let default-title  = "Untitled Document"
-#let default-course = "SDU"
-#let default-author = "Simon Holm"
+#let default-course = "University"
+#let default-author = "Firstname Lastname"
 #let default-date   = "16/12/2002"
 
 // ── note ─────────────────────────────────────────────
@@ -1144,7 +857,7 @@
 
 /*
 =============================================================
-TEMPLATE CHEATSHEET — copy the block you need into a new file
+TEMPLATES — copy the block you need into a new file
 =============================================================
 
 ── NOTE ──────────────────────────────────────────────────────
@@ -1152,8 +865,8 @@ TEMPLATE CHEATSHEET — copy the block you need into a new file
 #show: note.with(
   title:         "Lecture Notes",
   course:        "DM000 — Course Name",
-  author:        "Simon Holm",
-  date:          "February 2026",
+  author:        "Firstname Lastname",
+  date:          "date",
   outline:       true,          // set false to skip TOC
   outline-depth: 2,             // none = unlimited depth
 )
@@ -1166,8 +879,8 @@ Content goes here.
 #show: exercise.with(
   title:         "Exercises 1",
   course:        "DM000 — Course Name",
-  author:        "Simon Holm",
-  date:          "February 2026",
+  author:        "Firstname Lastname",
+  date:          "date",
   outline:       true,
   outline-depth: 2,
 )
@@ -1180,8 +893,8 @@ Content goes here.
 #show: assignment.with(
   title:         "Assignment 1",
   course:        "DM000 — Course Name",
-  author:        "Simon Holm",
-  date:          "February 2026",
+  author:        "Firstname Lastname",
+  date:          "date",
   outline:       true,
   outline-depth: 2,
 )
@@ -1195,14 +908,14 @@ Content goes here.
   title:         "Written Exam",
   subtitle:      "Re-exam",                    // optional
   course:        "DM000 — Course Name",
-  author:        "Simon Holm",
-  date:          "June 2026",
-  student-id:    "sihol24",                    // optional
-  username:      "sihol24",                    // optional — shown in page header
+  author:        "Firstname Lastname",
+  date:          "date",
+  student-id:    "id",                         // optional
+  username:      "username",                   // optional — shown in page header
   student-number: "215751682",                 // optional — shown in page header
   duration:      "4 hours",                    // optional
   allowed-aids:  "All written materials",      // optional
-  university:    "University of Southern Denmark",
+  university:    "University",
   outline:       false,
 )
 
@@ -1215,8 +928,8 @@ Content goes here.
   title:        "Written Exam",
   course:       "DM000 — Course Name",
   author: (
-    (name: "Simon Holm", id: "sihol24"),
-    (name: "Firstname Lastname", id: "jado42"),
+    (name: "Firstname Lastname", id: "id"),
+    (name: "Firstname Lastname", id: "id"),
   ),
   date:         "June 2026",
   duration:     "4 hours",
@@ -1232,8 +945,8 @@ Content goes here.
   title:         "Project Title",
   subtitle:      "Optional subtitle",          // optional
   course:        "DM000 — Course Name",
-  author:        "Simon Holm",                 // or array of dicts below
-  date:          "February 2026",
+  author:        "Firstname Lastname",         // or array of dicts below
+  date:          "date",
   group:         "Group 4",                    // optional
   supervisor:    "Prof. Firstname Lastname",   // optional
   university:    "University of Southern Denmark",
@@ -1250,12 +963,12 @@ Content goes here.
   title:  "Project Title",
   course: "DM000 — Course Name",
   author: (
-    (name: "Simon Holm", email: "sihol24@student.sdu.dk"),
-    (name: "Firstname Lastname", email: "jado@student.sdu.dk"),
+    (name: "Firstname Lastname", email: "mail@mail.com"),
+    (name: "Firstname Lastname", email: "mail@mail.com"),
   ),
-  date:       "February 2026",
-  group:      "Group 4",
-  supervisor: "Prof. Jane Doe",
+  date:       "date",
+  group:      "Group no.",
+  supervisor: "Prof. Firstname Lastname",
 )
 
 = Introduction
@@ -1266,40 +979,17 @@ Content goes here.
 #show: chi.with(
   title: "Paper Title",
   authors: (
-    (name: "Simon Holm", institution: "University of Southern Denmark", city: "Odense", country: "Denmark", email: "sihol24@student.sdu.dk"),
-    (name: "Author Two", institution: "University of Southern Denmark", city: "Odense", country: "Denmark", email: "two@student.sdu.dk"),
+    (name: "Firstname Lastname", institution: "University", city: "City", country: "County", email: "mail@mail.com"),
+    (name: "Firstname Lastname", institution: "University", city: "City", country: "County", email: "mail@mail.com"),
   ),
   abstract: [Your abstract text here.],
   keywords: ("keyword one", "keyword two", "keyword three"),
-  ccs:      [\u{2192} Human-centered computing \u{2192} HCI theory, concepts and models], // optional
-  date:     "March 2026",
+  ccs:      [\u{2192} text1 \u{2192} text2], // optional
+  date:     "date",
   outline:  false,
 )
 #set page(columns: 2)
 
 = Introduction
 Content goes here.
-
-── VENN DIAGRAM (ring ovals, default) ───────────────────────
-// Elements placed evenly on a ring; ovals fitted along principal axis.
-#venn(
-  domain: $P$,
-  ($A$, ("p", "q")),
-  ($B$, ("q", "r", "s")),
-)
-
-── MAPPING DIAGRAM (inline, no import needed) ────────────────
-#mapdiag(
-  title:        $f: A -> B$,           // optional label above diagram
-  a:            $A$,                   // left set label  (default $A$)
-  b:            $B$,                   // right set label (default $B$)
-  a-elems:      ($1$, $2$, $3$),
-  b-elems:      ($a$, $b$, $c$),
-  arrow-color:  black,                 // default arrow colour
-  arrows: (
-    (0, 0),                            // plain arrow
-    (1, 2, red),                       // coloured arrow
-    (2, 1, blue, $g$),                 // coloured + label
-  ),
-)
 */
