@@ -3,7 +3,7 @@
 #let author = "Simon Holm"
 #let date = "March - 2026"
 
-#import "../../../../../../temp.typ": *
+#import "@local/sdu-notes:0.1.0": *
 
 #show: note.with(
   title: title,

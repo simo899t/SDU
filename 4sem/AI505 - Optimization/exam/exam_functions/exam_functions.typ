@@ -9,34 +9,39 @@
 #set heading(numbering: none)
 
 #let lag = $cal(L)$
+= Conditions for local minima
+$ nf(x^*) = 0 $
+$ nnf(x^*) >= 0 $
 
 = Bracketing
 For $a<b<c$
 
 there exists a minimum in interval $[a,c]$ if
-$ f(a)<f(b) and f(c)<f(b) $
+$ f(a) > f(b) and f(c) < f(b) $
 
 == Fibonacci Search
 When we know how many evaluations we have available
 
-Places evaluations such that one evaluation always carries over to the next iteration.
+$ (F_(n-k+1))/(F_(n-k+2)) $
 
 == Golden Ratio Search
 If one were to use fibonacci with $oo$ function evaluations. it would converge to a avg distance of $phi$
 
-Golden Ratio just uses $phi$
+Golden Ratio just uses $1/phi apx 0.6$
 == Quadratic fit search
 Iteratively fits a quadratic and uses that minimum
 
-== Lipschitz continuous
-Upper bound on the derivative
 
-For some constant $L$, $ abs(nf) >= L $
 
 == Bisection method
-Find roots since if $sign(nf(a)) ≠ sign(nf(b))$ then $[a,b]$ guaranteed to contain a root.
+Root:
+$ sign(f(a)) != sign(f(b)) $
+
+Minimum 
+$ sign(nf(a)) != sign(nf(b)) $
 
 So cut the midpoint and choose the side where this property still holds
+#pagebreak()
 
 = A simple minimization problem
 
@@ -59,8 +64,14 @@ Taylor expansion
 
 Let $a$ be a fixed point. The Taylor expansion approximates $f(x)$ near $a$ using only information about $f$ at $a$.
 
-$ f(x) = f(a) + tran(nf(a)) (x-a) + 1/2 tran((x-a)) nnf(a) (x-a) $
-$ f(a+h) = f(x) + nf(a)/1! h + nnf(a)/2! h^2 + O(norm(h)^3) $
+$ f(x) apx f(a) + tran(nf(a)) (x-a) + 1/2 tran((x-a)) nnf(a) (x-a) +dots $
+$ f(x) =f(a+h) apx f(a) + nf(a)/1! h + nnf(a)/2! h^2+dots $
+
+== Lipschitz continuous
+Upper bound on the derivative
+
+For some constant $L$, $ norm(f(x)-f(y)) >= L norm(x-y) $
+
 = Convexity
 
 $ f: RR^n -> RR \ f(alpha x + (1-alpha) y) <= alpha f(x) + (1-alpha) f(y)  $
@@ -74,6 +85,17 @@ For a convex hull:
   image("assets/image-3.png")
 )
 $ "conv"(X) = {sum_i lambda_i x_i | x_i in X, quad  lambda_i >= 0, quad  sum_i lambda_i = 1} $
+
+= Smoothness
+There exists $C^oo$ such that
+$ nabla^n f where n to oo $
+
+= L-smoothness
+$ norm(nf(x)-nf(y)) >= L norm(x-y) $
+
+= Numerical diff
+
+$ f'(x) approx (f(x+h)-f(x))/h $
 
 = Directional derivative
 
@@ -194,7 +216,30 @@ $ d_k = -nf(x_k) + beta_k d_(k-1) $
 Where $ beta_k = (tran(nf(x_k)) A d_(k-1))/(tran(d_(k-1)) A d_(k-1)) $
 
 = Momentum 
-$ v_(k+1) &= beta v_k - alpha nf(x_k) \ x_(k+1) = x_k + v_(k+1) $
+$ v_(k+1) & = beta v_k - alpha nf(x_k) \ x_(k+1) & = x_k + v_(k+1) $
+
+= Nesterov momentum
+(look ahead gradient)
+$ v_(k+1) & = beta v_k - alpha nf(x_k + beta v_k) $
+
+= Adagrad
+Adapts the learning rate to the size of previous gradients
+
+== RMSprop
+Extends Adagrad such that the squared gradients are averaged and decayed
+
+== AdaDelta
+instead of learning rate modify RMSprop
+
+= Adam
+Momentum + RMSprop
+
+== Nadam
+Adam + nesterov momentum
+
+== Hypergradient descent
+Applying gradient descent to a hyperparameter
+
 
 = Newton method
 Multivariate update rule
@@ -213,9 +258,14 @@ So $ x_(k+1) = x_k - (f'(x_k) - f'(x_(k-1)))/(x_k - x_(k-1)) f'(x_k) $
 Approximate $Q_k apx H^(-1)$ iteratively
 
 = Derivative free methods
+Black box infinite computational resources + unknown constraints
+
+
+The objective function is unknown and can only be accessed through evaluations (oracles, zero'th or first order )
 - Cyclic Coordinate Search
-  - line search in alternating coordinate directions
+  - line search in alternating coordinate directions (can be augmented like conjugate descent)
 - Powell's method
+  - Non orthogonal directions
   - Drops already seen directions
 - Hooke-Jeeves
   - evaluate $f(x)$ and $f(x pm alpha e_i)$ and select best one
@@ -227,22 +277,17 @@ Approximate $Q_k apx H^(-1)$ iteratively
 - DIRECT - Divided rectangles
   - Balances interval size and function evaluation
 #pagebreak()
-
-= Stable Step Size
-Consider $ f(x) tran(1/2 x) Q x - tran(b)x, where Q = tran(Q) succ 0 $
-Then $nf(x) = Q x -b $
-One can derive that the step size that stabilizes the iteration
-$ 0<alpha< 2/(lambda_"max" (Q)) $
-
 = Noisy Descent
 
-$ x_(k+1) = x_k + alpha nf(x_k) + eps_k where eps_k tilde cal(N)(0,sigma^2_k) $
-
+$ x_(k+1) = x_k + alpha nf(x_k) + eps_k where eps_k tilde cal(N)(0,sigma^2_k I) $
+$ sigma = 1/k $
 = Stochastic Gradient Descent
 $ nf(x) apx 1/abs(B) sum_(i in B) nf_i (x) $
 
 = Mesh Adaptive Direct Search
 Similar to generalized pattern search but uses controlled randomness to generate directions
+
+Should preserve linearindepence 
 
 = Simulated Annealing
 
@@ -252,8 +297,10 @@ $x^prime = x + eps, where eps in cal(N)(0, T) $
 Let $Delta = f(x')-f(x)$
 Then $ p(x, x^prime) = cases(1 & iff Delta <= 0, e^(-Delta \/ t_k) & iff Delta > 0) $
 
+$ T_(k+1) =  $
+
 = Cross entropy/Max likelihood
-Fit a distribution to elite points (lowerst function evaluation)
+Fit a distribution to elite points (lowest function evaluation)
 
 $ theta^* = arg min_theta -summ(i=1,N, log p(x_i| theta)) = arg min_theta prod(i=1,N,p(x_i| theta)) $
 One can model data and use to sample from and/or make predictions.
@@ -267,8 +314,8 @@ Where $p(dot| theta) = cal(N)(mu,sigma^2)$
 Similar to CE but all points.
 
 == CMA-ES
-Same but with covariance so that it can utilize mutivariate data. 
-$ x from gaus(mu,var cov) $
+Same but with covariance so that it can utilize multivariate data. 
+$ x from gauss(mu,var cov) $
 
 mean is weighed average of $m$-elites
 
@@ -349,43 +396,42 @@ Fill the space so everything is covered. (measure how spread points are)
 Choose a subset of the space what best represents the whole space.
 
 == Quasi-Random Sequences 
-Optimize the points such that $ integral f(x) dx apx 1/M summ(i=1,M,f(x_i)) $
+Optimize the points such that $ abs(1/M summ(i=1,M,f(x_i)) -integral f(x) dx) -> 0 $
 
 #pagebreak()
 
 = Machine Learning as Optimization
 
-Predict $ h(x;w), given  {(x_i,y_i)}^n_(i=1) $.
-
 == Expected risk vs empirical risk
-Ideally, you want to minimize the expected risk
+Ideally, 
+$ R(w) = EE[ell(h(x;w),y)] = integral ell (h(x;w),y) dvar(P) $
 
-$ R(w) = EE[f(w;xi)] = integral ell(h(x;w),y) dif P(x,y) $
+Instead we minimize *empirical risk* instead.
 
-Since $P(x,y)$ is unknown, we minimize *empirical risk* instead.
-
-$ R_n (w) = 1/N summ(i=1,n,ell(h(x_i;w),y_i)) $
-
-Usually regularize $R_n(h) + lambda Omega (h)$
+$ pred(h) = arg min_w 1/N summ(i=1,n,ell(h(x_i;w),y_i)) $
 
 == Stochastic approach
-Stochastic Gradient like $ w_(k+1) = w_k - alpha_k nf_i_k (w_k) $
+Determine $nf_i$ from a single $x_i$ $ w_(k+1) = w_k - alpha_k nf_i_k (w_k) $
 - very cheap, though might not always be optimal.
 
 == Batch approach
-use the full gradient of a batch instead of the whole dataset.
+Use the full gradient 
 
-$ w_(k+1) = w_k - alpha_k nabla R_n (w_k) = w_k - (alpha_K)/N summ(i=1, N, nf_i (w_k)) $
+$ w_(k+1) = w_k - alpha_k 1/N summ(i=1, N, nf_i (w_k)) $
+
+== Mini batch
+$ w_(k+1) = w_k - alpha_k 1/abs(B) summ(i=1, abs(B), nf_i_k (w_k)) $
+
 
 == Noise Reduction
-Stochastic gradient methods can have noisy gradients leading to variance (and overfitting).
 - Dynamic Sampling: 
-  - increase the mini-batch size used in the gradient computation
+  - Increase $abs(B)$
 - Gradient aggregation
-  - aggregate new gradients with the previous iterations 
-  - SAGA - Stochastic average gradient algorithm 
-    - if the average of gradient went in direction $bold(d)$ it should also infer the new gradient in direction $bold(d)$
+  - $nf_i$ should infer on $nf_iplus$
+- Iterative average methods
+  - $ nf(obar(x)) where obar(x) = 1/N summ(i=1,N,x_i) $
 
+#pagebreak()
 
 == Second order methods
 - Diagonal scaling
@@ -403,6 +449,10 @@ Stochastic gradient methods can have noisy gradients leading to variance (and ov
 = Constrained Optimization
 1. Equality constraints: $h(x) = 0$
 2. Inequality constraints: $g(x) <= 0$
+
+$ #image("assets/image-5.png", width: 20em) $
+
+#pagebreak()
 
 == Transformations to Remove Constraints
 $ min_(x in [a,b]) f(x) $
@@ -444,25 +494,26 @@ $ p_"barrier" (x) = - sum_i log(-g_i (x)) $
 = LP
 when both the objective and all constraints are linear.
 == Model form nonlinear to LP
-$ min_x norm(A x -b)_1 $
+$ min_x abs(A x -b) $
 $ min_x tran(1)s \ st A x -b &<= s \ -(A x -b) &<= s $
 
-
-= Simplex problems
+== Simplex problems
 Each inequality constrains are half-spaces, where equality would reduce the dimensions.
 
 multiple solutions types
-== Inquality contstraints
+=== Inequality constraints
 standard way of thinking using $<=$
 
 minimize problem such that something is less than
 
-== Equality constraints
+=== Equality constraints
 Easier to solve using $s.l.e.$ to solve for variables $x_i$
 
 == Conversion
 Introduce _slacks_
 $ tran(a_i)x <= b iimp tran(a_i) x +s_i = b $
+
+#pagebreak()
 
 == The simplex algorithm
 
@@ -481,6 +532,15 @@ Then the objective value function is updated
 $tran(c)x^prime = tran(c)x + mu_{q} x_{q}^prime $
 We can initialize the problem by populating $x$ with values that fit into $A x=b$
 
+= PDHG
+LPs with strong duality are saddle-points!
+
+Do gradient descent ascend + momentum
+
+
+
+#pagebreak()
+
 - *Pivoting*: move elements from/to $B$ and $N$
   - $mu_N$ defines a cost of "moves" when partition elements in $B$ and $N$
   - Choose the leaving candidate the yields the smallest $x^prime$ (*minimum ratio test*)
@@ -488,8 +548,166 @@ We can initialize the problem by populating $x$ with values that fit into $A x=b
   - If all components of $mu_N$ are non-negative, we have found a global optimum.
 
 
+== Dual certification
+Verify that a solution is optimal given that for primal solution $p^*$ and dual solution $d^*$
 
-= Types
-- Continuos
-- Stochastic
-- Deterministic
+Weak duality guarantees that the duality gap:
+$ d^* - p^* >= 0 $
+
+If $d^*=p^*$ then $p^*$ must be the unique optimal value. That is for $f(x) = p^* iimp x^*$ 
+
+Duals might be infeasible. *Example*: if $p^* = -oo$ then $d^* lt.eq.not -oo $.
+
+
+= Discrete Optimization
+Space is discrete. Variables can only take specific, distinct values. These problems tend to be computationally expensive, so one can utilize heuristics.
+
+== Exact methods
+- ILP
+- Combinatorial optimization algorithms
+- SAT
+- Dynamic
+- Constraint
+
+== Heuristic Methods
+- Greedy
+- Local search
+- Metaheuristics
+  -  Genetic
+  -  SA
+#pagebreak()
+
+= ILP
+Variables can be $ZZ, NN_0 "or" BB$
+- Mixed ILP (not all variables *has* to be integers)
+
+== LP rounding
+Solve LP-problem and round the solution to to integer. Typically round to suboptimal point so we don't round outside the feasible space. This can lead to problems where you essentially need to start searching again ig the optimal integer is far away from the $x^*$
+
+== Cutting Plane method
+Assume that LP $f(x) = x^*$ where $x^*$ is fractional. when solving $x^*$ is not a valid integer solution. Find cutting plane (linear constraints) such that the problem is constrained to exclude the infeasible non-integer space beyond the optimal integer $x^*$
+
+$ max_x tran(c)x \ st A x &<= b \ x &in ZZ^n  $
+
+
+=== CG method
+Take the partition that 
+$ A_B x_B^* + A_N x_N^* = bold(b) iimp x_B^* = inv(A_B) bold(b) - inv(A_B) A_N x_N^* $
+
+Now floor some of the constraints such that
+
+$ A_B bold(b) - floor(A_B bold(b)) - underbrace((inv(A_B) A_N - floor(inv(A_B) A_N))x_N^*, =0) <=0  $
+
+$ A_B bold(b) - floor(A_B bold(b)) <= 0 quad ("integer") $
+
+= Branch and Bound
+#let lb = $ubar(z)^k$
+#let ub = $obar(z)^k$
+
+$ min tran(c)x where x in S $
+$ S = S_1 cup S_2 cup dots cup S_k $
+Define upper bound and lowerbound
+
+$ lb <= z^k <= ub $
+
+At each node one can prune any branch where $lb>=ub$
+
+So the algorithm naturally stops when all expanded nodes have been pruned or *solved*
+#pagebreak()
+
+= Dynamic programming
+optimal substructures  + overlapping subproblems
+
+recursion can easily benefit from this, since it includes overlapping quite a bit
+  
+#example(title: [Example: Fibonacci], [
+  Let $ F_n = F_(n-1) + F_(n-2) where F_1,F_2 = 1 $
+
+  Then we can optimize storying known F's
+
+  $ #image("assets/0226C4DA-99AC-4302-A86E-AD7C215B576E_1_102_a.jpeg") $
+])
+
+For TSP instead of brute force one can model so that $ z^*=g(i,S) = min_(k in S) {c_(i,k) + g(k,S - {k})} $
+
+#pagebreak()
+
+= Constraint programming
+Assign values to variables such that some constraints are satisfied.
+
+*Goal*: feasibility
+
+- variables $bold(x)$
+- Domain $x in cal(D)$
+- Constraints: some rules (eg. adjacency)
+
+The *core* of CP #emoji.face.teeth:
+- Modelling
+- Inference: after assigning a variable, propagate the consequence to reduce domains
+- Heuristics: Guide when multiple options are valid. (like assign most constrained first)
+- Symmetry: some assignments might lead to a symmetric result. compensate for this.
+- Backtracking
+
+= Discrete Optimization: Random optimization heuristics ROH
+We can utilize heuristics typically work well in practice, but often lack theoretical guarantees. 
+
+We can utilize the following
+
+  - White box: LP,ILP,CP
+  - Gray box: neural networks
+  - Black box: function evaluation based like `ROAR-NET-API`
+
+- Construction: construct on a partial solution such that it becomes complete
+  - Greedy
+  - Beam
+  - Rollout
+- Local search: optimize the complete solution
+  - First improvement
+  - Best improvement
+  - $Astar$
+- Metaheuristics
+  - SA
+
+= Projects
+
+== Assignment 1
+=== Case 1
+
+some minus errors in formulas
+
+Space-Filling Metrics
+
+Penalty function
+Balance optimality and convergence
+Newton method Hessian, penalize between points
+
+force PD $ nnf(x) = Q Lambda tran(Q) $
+Steps: nelder mead (within reasonable no. steps)
+
+Time: they all converge given the time (different no. steps)
+
+Maybe we should have used Nadam also
+
+=== Case 2
+
+More control
+
+Gradient descent was fine. maybe the data was not super hard to learn
+
+Second order method
+
+== Assignment 2
+=== Case 1
+
+- Computing the gradient
+- Convex proof
+- Proving semi definiteness
+- 1 newton step
+- Modify constraint $to$ linear dependency
+- Normalize the last constraint
+- Bound $abs(x)<=1$
+
+=== Case 2 
+No heuristics
+
+lb terminology. We have no lb, only objective value and the ub 
