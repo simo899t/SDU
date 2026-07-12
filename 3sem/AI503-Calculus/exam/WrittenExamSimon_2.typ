@@ -1,4 +1,4 @@
-#import "../../../temp/temp.typ": *
+#import "@local/tempst:0.1.0": *
 #show: exam.with(
   title:         "Written Exam",
   // subtitle:      "Re-exam",                    // optional

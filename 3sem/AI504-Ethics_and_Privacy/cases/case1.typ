@@ -1,4 +1,4 @@
-#import "../../../temp/temp.typ": *
+#import "@local/tempst:0.1.0": *
 
 #show: note.with(
   title: "Ethics and Privacy: Case 1",

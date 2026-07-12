@@ -1,6 +1,5 @@
 {
     "tinymist.onPaste": "{ join(root, dir, \"assets\") }",
-    "tinymist.typstExtraArgs": ["--package-path", "/Users/simonholm/Library/Application Support/typst/packages"],
     "tinymist.rootPath": "/Users/simonholm/GitHub/SDU",
     "github.copilot.chat.codeGeneration.useInstructionFiles": true,
     "chat.instructionsFilesLocations": {

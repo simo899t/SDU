@@ -1,0 +1,363 @@
+#import "@local/tempst:0.1.0": *
+
+#let title = "Lecture 4: Local Descent"
+#let author = "Simon Holm"
+#let date = "19/02/2026"
+
+#show: note.with(
+  title: title,
+  author: author,
+  date: date
+)
+
+// content starts here
+
+= Descent Direction iteration
+Descent Direction Methods use a local model to incrementally improve design point until some
+convergence criteria is met. You can see this as a more general way to view something like gradient descent.
+
+In these cases you would 
+1. Termination conditions at $x_k$; if not met, continue.
+2. Decide a *descent direction* $bold(d)_k$ using local information, commonly required that $ bold(d)_k nf(x_k)<0 $
+3. Decide step size ($ie$, magnitude of the overall step that depends on $alpha_k$ , sometimes but not always $ norm(d_k)_2 = 1 $
+4. Then compute the next design point $x_(k+1)$
+$ x_(k+1) <- x_k + alpha_k d_k $
+
+= Descent Direction <desdir>
+From newtons method, we know that we can approximate the solution by $ f(x+bold(p)) approx f(x) + nf(x)^T bold(p) + 1/2 bold(p)^T nnf(c+t bold(p)) bold(p) $
+Then by $ m_k(p) = f(x) + nf(x)^T bold(p) + 1/2 bold(p)^T nnf(c+t bold(p)) bold(p) $
+
+$ d_k = p = arg min_p m_k (p) ==> nabla m_k (p) =nf(x_k) + H_k p $
+Then 
+$ 0=nf(x_k) + H_k p ==> p = -H^(-1)_k nf(x_k) $
+
+We can then by $ d_k nf(x_k) = -nf(x_k)^T B_k^(-1) nf(x_k)<0 $
+Therefore we can say that $d_k$ is a descent direction
+
+#pagebreak()
+
+= Line Search for stepsize
+Assuming that we already have the search direction, we can then use it to compute $alpha$ the step factor
+
+From previous classes we can use different techniques to minimize a univariate function $f$ 
+$ phi(alpha) = f(x+alpha d) qquad min_(alpha>=0) phi(alpha) $
+
+By assuming that $p_k$ is a descent direction (by @desdir), that is, $phi'(0) < 0$, we can confine our search values to positive values of $alpha$
+
+```py
+def line_search(f, x, d)
+  objective = lambda alpha: f(x + alpha * d)
+  a, b = bracket_minimum(objective)
+  alpha = minimize(objective, a, b)
+  return x + alpha * d
+```
+
+This is often computationally costly, so approximate line search is used instead
+
+
+= Line search alternatives
+As mentioned earlier $alpha$ is sometimes equal to the stepsize when $norm(d_k)_2 = 1$
+
+For approximating the line search we typically do either
+- A fixed stepfactor/learning rate $alpha$
+- Or a *decaying step factor/learning rate*
+
+$ alpha_k = alpha_1 gam^(k-1) quad "for" gam in [0,1] $
+
+#pagebreak()
+
+== Approximate Line Search
+We can bound a point of sufficient decrease, that is
+
+$ f(x_(k+1)) <= f(x_k) + beta alpha nabla_(d_k) f(x_k) $
+Where $beta in [0,1], "usually" beta = 1 times 10^(-4)$
+
+This is simply just setting a bound for the a function. This way we can ignore great parts of parts which we know do not hold the minimizer. This is Armijo condition 
+
+#figure(
+  image("assets/IMG_7642.jpeg", width: 30em),
+  caption: [Example of bound of a function $f$]
+)
+
+  ```py
+def backtracking_line_search(f, grad, x, d, alpha_0=1, p=0.5, beta=1e-4):
+  y, g, alpha = f(x), grad(x), alpha_0
+  while ( f(x + alpha * d) > y + beta * alpha * np.dot(g, d) ) :
+    alpha *= p
+  return alpha
+  ```
+#pagebreak()
+
+This method is guaranteed to converge to a local minimum, but can be slow in practice.
+
+#figure(
+  image("assets/image-6.png"),
+  caption: [Example of a dynamic stepsize which can result to a more controlled convergence.]
+)
+
+== Wolfe conditions
+Building on backtracking line search are the *Wolfe Conditions* together sufficient to guarantee convergence to a local minimum.
+
+=== First Wolfe Condition: Sufficient Decrease (Armijo condition)
+
+$ f(x_(k+1)) <= f(x_k) + beta alpha nabla_(d_k) f(x_k) $
+Where $beta in [0,1], "usually" beta = 1 times 10^(-4)$
+
+Ensures that the function decreases enough relative to the directional derivative.
+
+Note that it punishes taking many small steps to crawl toward a minimum. This way we prefer solutions that doesn't take forever to find.
+
+=== Second Wolfe Condition: Curvature Condition
+
+$ nabla_(d_k) f(x_(k+1)) >= sigma nabla_(d_k) f(x_k) $
+
+This just means that we make sure that $nf(x_(k+1))$ is sufficiently more flat than $nf(x_k)$ (e.g we are approaching a stationary point), if this doesn't hold we should probably take bigger steps, in order to get closer to the minimizer (stationary point). For this a higher $sigma$ allows less flattening before accepting a step, and vice versa. For the hyperparameters:  $beta < sigma < 1$
+
+== Strong wolfe conditions
+
+A step length may satisfy the Wolfe conditions without being particularly close to a minimizer of $f(x_k + alpha d_k)$
+
+We can modify the curvature condition to force-excluding points that are far from stationary points
+
+It does this by shrinking the interval with exclusion each time the step fails Armijo or the curvature condition.
+
+We end up with something like this
+#image("assets/image-7.png")
+
+= Approximate Line Search Goal
+
+Given $ x_(k+1) = x_k + alpha_k d_k $
+with a descent direction $ nf(x_k)^top d_k < 0 $ 
+First define $ phi(alpha) = f(x_k+alpha d_k) qquad phi'(alpha) = nf(x_k+alpha d_k)^top d_k $
+
+We wish to find some non-fixed $alpha_k$ which satisfies the *Strong Wolfe Conditions*
+#pagebreak()
+
+== Strong Backtracking
+
+Strong Bracketing is the idea that we use both bracketing as well as zooming (with strong wolfe conditions)
+
+$ "Bracket minimum" -> "Zoom to approach solution" $
+
+So it has two phases
+
+1. Bracketing phase
+  - Start with $[alpha_0=0, alpha_1=1]$
+  - Increase step (with some bracketing algorithm)
+  - Find an interval with a guaranteed solution
+2. Zoom phase
+  - Shrink interval
+  - Use Wolfe conditions to optimize
+
+
+== Bracket Phase 
+The bracket phase is the same as before, but this time we also check for the Strong Wolfe conditions and terminate if they're satisfied. 
+
+The Strong Wolfe check in condition 2 is just an opportunistic shortcut — "while we're here, check if we got lucky and already landed on a good point." If yes, skip the zoom, we're done.
+
+#pseudo[
+  Input: $alpha_"max"$
+  Output: $alpha^*$
+  + $k <- 0$;
+  + $alpha_0 <- 0$
+  + Choose $alpha_"max" > 0$
+  + $alpha_1 in (0,alpha_"max")$
+  + *while* True *do*
+    + Evaluate $phi(alpha_i)$;
+    + *if* $phi(alpha_i) > alpha(0)+beta alpha_i phi'(0)$ or $[phi(alpha_i) >= phi(alpha_(i-1)) " and "i>1]$ *then*
+      + $alpha^* <- "zoom"(alpha_(i-1), alpha_i)$ and break;
+    + Evaluate $phi'(alpha_i)$;
+    + *if* $abs(phi'(alpha_i))<=-sigma phi'(0)$ *then*
+      + $alpha^* <- alpha_i$ and break;
+    + *if* $phi'(alpha_i) >= 0$ *then*
+      + $alpha^* <- "zoom"(alpha_i, alpha_(i-1))$ and break;
+    + Choose $alpha_i + 1 in (alpha_i, alpha_(i-1))$
+    + $i <- i +1$
+]
+#pagebreak()
+
+== Zoom phase
+
+Now we can decrease the size of the interval until an acceptable step length $alpha$ is identified.
+Here we can choose algorithms such as Bisection, Cubic/Quadratic interpolation or golden section search (like bisection but splits at $phi$ instead of the midpoint). Can be optimal for bisection-style search with no gradient info.
+
+Note that in practice *cubic interpolation dominates* many use-cases
+
+#pseudo[
+  Input: $alpha_"low", alpha_"high"$
+  Output: $alpha^*$
+  + *while* True *do*
+  + Interpolate (using quadratic, cubic or bisection) to find a trial step length $alpha_j$ between $alpha_"low"$ and $alpha_"high"$;
+  + Evaluate $phi(alpha_j)$;
+  + *if* $phi(alpha_j) > phi(alpha_o) + beta alpha_j phi'(alpha_o)$ or $phi(alpha_j) >= phi(alpha_"low")$
+  + $alpha_"high" <- alpha_j$;
+  + *else*
+    + Evaluate $phi'(alpha_j)$
+    + *if* $abs(phi'(alpha_j)) <= -sigma phi'(+)$ *then*
+      + $alpha^* <- alpha_j$ and break;
+    + *if* $phi'(alpha_j)(alpha_"high"-alpha_"low") >= 0$ *then*
+      + $alpha_"high" <- alpha_"low"$;
+    + $alpha_"low" <- alpha_j$
+]
+
+
+#pagebreak()
+
+= Convergence analysis
+A sequence ${x_k}$ converges to $x$ if for any $eps > 0$, there's an index $K$ such that:
+$ |x_k - x| <= eps quad forall k >= K $
+
+Let $theta_k$ be the angle between $d_k$ and the steepest descent direction $-nf_k$, defined by:
+$ cos(theta_k) = (-nabla f_k^T d_k)/(norm(nabla f_k)norm(d_k)) $
+
+#theorem(title: [Zoutendijk's condition], [
+  Consider any iteration of the form $x_(k+1) ← x_k + alpha_k d_k$, where dk is a descent direction and $alpha_k$ satisfies the Wolfe conditions. 
+  Suppose that f is bounded below in Rn and that f is continuously differentiable in an open set N containing the level set $cal(L) = {x:f(x) <= f(x_0)}$, where $x_0$ is the starting point of the iteration. Assume also that the gradient $nf$ is Lipschitz continuous on $N$, that
+is, there exists a constant $ell > 0$ such that:
+$ abs(f(x)-f(y)) >= ell abs(x-y), quad forall x,y in N $
+
+Then:
+$ sum_(k>=0) cos^2(theta_k) norm(nf_k)^2 < oo $
+])
+
+Notice that if a series of non-negative numbers $a$ where to satisfy
+$ summ(k=0,oo,a_k) < oo $
+Then $a_k -> 0$
+
+
+
+This implies that $cos^2(theta_k) norm(nf_k)^2 -> 0$, and  ensures that the gradient converges to 0 as long as the search direction are not absurd (not to close to orthogonal with the gradient)
+
+This is a *global convergence*. Note that we cannot guarantee that the method will converge to a minimizer, only that it is attracted by stationary points. (we must introduce hessian to know this for certain.)
+
+#pagebreak()
+
+Notice that if the search directions do not become orthogonal to the gradient (e.g. the algorithm is not bad) then it implies that
+
+$ cos^2(theta_k)norm(nabla f_k) -> 0 $
+
+Because of this since $cos^2(theta_k)norm(nabla f_k)$ cannot be 0 unless $nabla f_k = 0$ (e.g. stationary point), we can be sure that the gradient norms $norm(nabla f_k)$ converge to zero, provided that the search directions are never too close to orthogonality with the gradient (not bad).
+
+Note that we cannot prove convergence to minimum by this only that we approach a stationary point. We can use Hessian ($nabla^2f$) to prove that $x^*$ is a minimum, and not a maximum or saddle-point. With this extra bit of information, we can prove that the convergence is converging to a local minimum
+
+
+
+=== Global Convergence
+We wish to show that it always has a meaningful downhill component, that is even in the worst case, you're still making real progress toward a minimum. We can do this by bounding $cos(theta_k)$ by some constant.
+
+Let
+$ norm(B_k) dot norm(B^(-1)_k) = M forall k $
+Lets substitute $d_k=-b^(-1)_k nabla f$ in the expression for cosine
+
+$ cos(theta_k) = (-nabla f_k^T d_k)/(norm(nabla f_k)norm(d_k)) $
+$ cos(theta_k) = (nabla f_k^T B^(-1)_k nf(x_k))/(norm(nabla f_k)norm(-B^(-1)_k nf(x_k))) $
+
+Then because of $ v^T A v= lambda_"min" (A^(-1)) norm(v)^2 >= 1/norm(A) norm(v)^2 $
+
+Due to $lambda_"min" (A^(-1))1/(lambda_"max" (A)) 1/norm(A)$
+
+Then,
+
+$ cos(theta_k) = (nabla f_k^T B^(-1)_k nf(x_k))/(norm(nabla f_k)norm(-B^(-1)_k nf(x_k))) $
+
+$ cos(theta_k) = frac(norm(nf(x_k))^2\/norm(B_k),  norm(nf(x_k))^2 norm(B^(-1)_k)) $
+#pagebreak()
+
+This equals to 
+
+$ cos(theta_k) = 1/(norm(B_k) norm(B_k^(-1))) = 1/M $
+
+Now we know that even in the worst case and the method cannot stall without ever finding a minimum. This is called global convergence. Note, this makes no promise about efficiency, and in the worst case it _could_ take a very long time.
+
+== Rate of Convergence
+Let $x_k$ be a sequence of steps in $r in RR^n$ that (at some point) converges to a minimum $x^*$ (not necessarily the minimizer).
+
+When analyzing rate of convergence we wish to learn how much closer to the solution a step takes us. This is important as steps might be computationally expensive, and we would rather take less steps, if its possible.
+
+We would like to classify methods by their rate of convergence. We can then test increasingly tighter rates until one fails to analyze more specifically.
+
+=== Q-linear
+For this there should exist a constant $r in (0,1)$
+$ norm(x_(k+1)-x^*)/norm(x_k -x^*) <=r, quad forall k "sufficiently large" $
+If this holds the algorithm is said to be *Q-linear*
+
+Example: ${1+(0.5)^k}$ converges Q-linearly to 1, with a rate of convergence $r=0.5$
+
+=== Q-superlinear
+The convergence is said to be *Q-superlinear* if 
+
+$ lim(k->oo) norm(x_(k+1)-x^*)/norm(x_k -x^*) =0 $
+
+Example: ${1+k^(-k)}$ will superlinearly converge to 1
+
+This is because
+$ limm(k->0) norm(x_(l+1) - x^*)/norm(x_k -x^*) = 0 $
+#pagebreak()
+
+=== Q-quadratic
+The convergence is said to be *Q-quadratic* if
+
+$ norm(x_(k+1)-x^*)/norm(x_k -x^*)^2 <=M, quad forall k "sufficiently large" $
+
+Where $M$ is a positive constant not necessarily $<1$. 
+
+
+Example: ${1+(0.5)^(2^k)}$
+
+In these examples values $r$ and $M$ depends on both the algorithm and the particular problem itself.
+
+Superlinear convergencenses (quadratic, cubic, quartic, etc) is regarded as fast and desirable, while
+sublinear convergence is usually impractical.
+
+=== R-linear
+A slightly weaker form of convergence is the *R-linear*
+
+R-linear just that the errors are on average decreasing at a linear rate — individual steps can be noisy, bad or good - as long as the overall trend stays below the linearly decreasing envelope $v_k$.
+
+We say that convergence is R-linear (root-linear) if there is a sequence of nonnegative scalars {vk }
+such that
+
+$ norm(x_k - x^*) <= {v_k}, quad forall k " and" {v_k} "converges "bold("Q-linearly")" to zero" $
+
+#pagebreak()
+
+= Trust Region Methods
+Descent methods (like GradientDescent and Newtons method), place a lot of trust in the approximated information. That is since we approximate the function, its only accurate close to the current point
+
+We introduce *trust regions* as a local area of the design space where the model is believed to be reliable, that means the area for which the approximation of the function, is accurate enough where we can still rely on the information from that area.
+
+*Trust region methods*, limit the step size to ensure local approximation error is minimized
+
+We define 
+- a new design point $x'$
+- a local function approximation $accent(f,\^)(x')$ (like the second-order Taylor approximation)
+- a trust region radius $delta$
+
+We then
+
+$ min_x accent(f,\^)(x') quad s.t quad norm(x-x') <= del $
+
+$ #image("assets/image-5.png", width: 30em) $
+
+This is now a constrained optimization problem. We can solve this pretty efficiently if $pred(f)$ is quadratic.
+
+We can test the performance of $del$ by
+$ eta = "actual improvement"/"predicted improvement" = (f(x)-f(x'))/(f(x)-pred(f) (x')) $
+#pagebreak()
+
+We can then expand or contract $del$
+
+$ "If" eta<eta_1 " contract by a factor " gam_k < 1 $
+$ "If" eta>eta_2 " expand by a factor " gam_k > 1 $
+
+#figure(
+  image("assets/image-9.png", width: 20em),
+  caption: [In this example the trust regions are circular, but they doesn't have to be]
+)
+
+== Termination Conditions:
+These are some common termination conditions and are commonly used together
+- Maximum Iterations: $k>k_"max"$
+- Absolute Improvement: $f(x_k) - f(x_(k+1)) < eps_a$
+- Relative Improvement: $f(x_k) - f(x_(k+1)) < eps_r abs(f(x_k)) $
+- Gradient Magnitude: $norm(nf(x_(k+1))) < eps_g$

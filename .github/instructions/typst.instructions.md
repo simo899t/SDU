@@ -57,7 +57,7 @@ Every note file imports the shared template and applies it via `#show: note.with
 #let author = "Simon Holm"
 #let date = "Month - Year"
 
-#import "../../../../temp/temp.typ": *  // count `..` to reach SDU root
+#import "@local/tempst:0.1.0": *
 
 #show: note.with(title: title, author: author, date: date)
 ```
