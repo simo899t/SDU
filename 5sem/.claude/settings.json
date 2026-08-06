@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/simonholm/Library/Application Support/Code/User/**)",
+      "Bash(mkdir -p /Users/simonholm/GitHub/SDU/5sem/.vscode; ls /Users/simonholm/GitHub/SDU/5sem/.vscode)",
+      "Read(//Users/simonholm/Library/Application Support/Code/User/hsnips/**)",
+      "Read(//Users/simonholm/.config/karabiner/**)",
+      "Read(//Users/simonholm/bin/**)",
+      "Read(//Users/simonholm/Library/Application Support/org.inkscape.Inkscape/config/inkscape/**)",
+      "Read(//Users/simonholm/.vscode/extensions/anthropic.claude-code-2.1.222-darwin-arm64/**)",
+      "Read(//Users/simonholm/Library/Application Support/org.inkscape.Inkscape/config/inkscape/keys/**)"
+    ],
+    "additionalDirectories": [
+      "/Users/simonholm/Library/Application Support/Code/User",
+      "/Users/simonholm/bin",
+      "/Users/simonholm/GitHub/SDU/5sem",
+      "/Users/simonholm/Library/Application Support/Code/User/hsnips",
+      "/Users/simonholm/Library/Application Support/org.inkscape.Inkscape/config/inkscape"
+    ]
+  }
+}

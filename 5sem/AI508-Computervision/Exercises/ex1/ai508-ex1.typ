@@ -9,3 +9,8 @@
 )
 
 = Exercise 1
+
+#figure(
+  image("figures/figure-1.svg"),
+  caption: [Caption text],
+) <label>

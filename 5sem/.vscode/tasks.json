@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Typst: Edit Figure",
+      "type": "shell",
+      "command": "~/bin/typst-figure-edit.sh \"${fileDirname}/figures\"",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true,
+        "close": true
+      }
+    }
+  ]
+}
