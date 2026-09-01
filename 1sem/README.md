@@ -1,0 +1,1 @@
+Please note that in my 1st semester my notes were handwritten. This was before i knew about the gift from God Almighty that is typst. Sorry in advance :/

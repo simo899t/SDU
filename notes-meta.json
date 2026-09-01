@@ -1,6 +1,319 @@
 {
-  "_README": "Optional per-note overrides for the web hub. Key = repo-relative path to the .typ file. Fields: title (string), description (string, shown under the title), hidden (bool, excludes it from the site). Anything not listed here is auto-derived from the path.",
+  "_README": "Allowlist for the /coursework hub. A .typ is published only if its repo-relative path is a key here and not \"hidden\". Optional per-entry fields: title, description, section, pdf, hidden.",
+  "1sem/DM500-Studyintroduction_to_Artificial_Intelligence_and_Computer_Science/take_home_exam/take_home_exam.typ": {
+    "title": "Take home exam",
+    "description": ""
+  },
+  "1sem/DM549-Discrete_Mathematics/Exam_Preperations/counting.typ": {
+    "title": "Counting",
+    "description": ""
+  },
+  "1sem/DM549-Discrete_Mathematics/Exam_Preperations/functions.typ": {
+    "title": "Functions",
+    "description": ""
+  },
+  "1sem/DM549-Discrete_Mathematics/Exam_Preperations/induction.typ": {
+    "title": "Induction",
+    "description": ""
+  },
+  "1sem/DM549-Discrete_Mathematics/Exam_Preperations/matrices.typ": {
+    "title": "Matrices",
+    "description": ""
+  },
+  "1sem/DM549-Discrete_Mathematics/Exam_Preperations/number_theory.typ": {
+    "title": "Number theory",
+    "description": ""
+  },
+  "1sem/DM549-Discrete_Mathematics/Exam_Preperations/propositions_and_logic.typ": {
+    "title": "Propositions and logic",
+    "description": ""
+  },
+  "1sem/DM549-Discrete_Mathematics/Exam_Preperations/relations.typ": {
+    "title": "Relations",
+    "description": ""
+  },
+  "1sem/DM549-Discrete_Mathematics/Exam_Preperations/sequences.typ": {
+    "title": "Sequences",
+    "description": ""
+  },
+  "1sem/DM549-Discrete_Mathematics/Exam_Preperations/sets.typ": {
+    "title": "Sets",
+    "description": ""
+  },
+  "3sem/AI503-Calculus/Project/CalcProject.typ": {
+    "title": "Calc Project",
+    "description": ""
+  },
+  "3sem/AI503-Calculus/exam/WrittenExamSimon.typ": {
+    "title": "Written Exam Simon",
+    "description": ""
+  },
+  "3sem/AI503-Calculus/exam/WrittenExamSimon_2.typ": {
+    "title": "Written Exam Simon 2",
+    "description": ""
+  },
+  "3sem/AI503-Calculus/excercises/homework1/Homework1.typ": {
+    "title": "Homework 1",
+    "description": ""
+  },
+  "3sem/AI503-Calculus/excercises/homework2/Homework2.typ": {
+    "title": "Homework 2",
+    "description": ""
+  },
+  "3sem/AI503-Calculus/excercises/homework3/Homework3.typ": {
+    "title": "Homework 3",
+    "description": ""
+  },
+  "3sem/AI503-Calculus/excercises/homework4/Homework4.typ": {
+    "title": "Homework 4",
+    "description": ""
+  },
+  "3sem/AI503-Calculus/excercises/homework5/Homework5.typ": {
+    "title": "Homework 5",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/case1.typ": {
+    "title": "Case 1",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/case10.typ": {
+    "title": "Case 10",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/case11.typ": {
+    "title": "Case 11",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/case12.typ": {
+    "title": "Case 12",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/case2.typ": {
+    "title": "Case 2",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/case3.typ": {
+    "title": "Case 3",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/case4.typ": {
+    "title": "Case 4",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/case5.typ": {
+    "title": "Case 5",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/case6.typ": {
+    "title": "Case 6",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/case7.typ": {
+    "title": "Case 7",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/case8.typ": {
+    "title": "Case 8",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/case9.typ": {
+    "title": "Case 9",
+    "description": ""
+  },
+  "3sem/AI504-Ethics_and_Privacy/cases/literatur.typ": {
+    "title": "Literatur",
+    "description": ""
+  },
+  "3sem/DM511-Linear_Algebra/exam/2025 exam/ai511exam2025.typ": {
+    "title": "Exam 2025",
+    "description": ""
+  },
+  "3sem/DM580-Functional_Programming/hsRapport.typ": {
+    "title": "Hs Rapport",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Exercises/ai504 exercises_for_exam.typ": {
+    "title": "Exercises for exam",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Exercises/ex1/ai504 exercise canonical models.typ": {
+    "title": "Exercise canonical models",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Exercises/ex2/ai504 exercise 2.typ": {
+    "title": "Exercise 2",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Exercises/ex3/ai504 exercise 3.typ": {
+    "title": "Exercise 3",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Lectures/lec05/ai504-lec05 notes.typ": {
+    "title": "Lecture 5",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Lectures/lec07/ai504-lec07 notes.typ": {
+    "title": "Lecture 7",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Lectures/lec08/ai504-lec08 notes.typ": {
+    "title": "Lecture 8",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Lectures/lec09/ai504-lec09 notes.typ": {
+    "title": "Lecture 9",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Lectures/lec10/ai504-lec10.typ": {
+    "title": "Lecture 10",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Lectures/lec11/ai504-lec11.typ": {
+    "title": "Lecture 11",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Lectures/lec12/ai504-lec12.typ": {
+    "title": "Lecture 12",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Lectures/lec13/ai504-lec13.typ": {
+    "title": "Lecture 13",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Lectures/lec14/ai504-lec14.typ": {
+    "title": "Lecture 14",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Problem sets/set 1/report.typ": {
+    "title": "Problem set 1",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Problem sets/set 2/report.typ": {
+    "title": "Problem set 2",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Problem sets/set 3/programming.typ": {
+    "title": "Programming",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Problem sets/set 3/written.typ": {
+    "title": "Written",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Problem sets/set 4/report.typ": {
+    "title": "Problem set 4",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/Problem sets/set 6/ai504 problem set 6.typ": {
+    "title": "Problem set 6",
+    "description": ""
+  },
+  "4sem/AI504-Knowledge_Representation/exam/exam.typ": {
+    "title": "Exam",
+    "description": ""
+  },
+  "4sem/AI505-Optimization/Exercises/sheet01/ai505_sheet01.typ": {
+    "title": "Sheet 1",
+    "description": ""
+  },
+  "4sem/AI505-Optimization/Exercises/sheet05/ai505_sheet05.typ": {
+    "title": "Sheet 5",
+    "description": ""
+  },
+  "4sem/AI505-Optimization/Exercises/sheet09/ai505_sheet09.typ": {
+    "title": "Sheet 9",
+    "description": ""
+  },
+  "4sem/AI505-Optimization/Lectures/lec01/ai505-lec01_notes.typ": {
+    "title": "Lecture 1",
+    "description": ""
+  },
+  "4sem/AI505-Optimization/Lectures/lec02/ai505-lec02_notes.typ": {
+    "title": "Lecture 2",
+    "description": ""
+  },
+  "4sem/AI505-Optimization/Lectures/lec03/ai505-lec03_notes.typ": {
+    "title": "Lecture 3",
+    "description": ""
+  },
+  "4sem/AI505-Optimization/Lectures/lec04/ai505-lec04_notes.typ": {
+    "title": "Lecture 4",
+    "description": ""
+  },
+  "4sem/AI505-Optimization/Lectures/lec12/ai505-lec12 notes.typ": {
+    "title": "Lecture 12",
+    "description": ""
+  },
+  "4sem/AI505-Optimization/Lectures/lec13/ai505-lec13.typ": {
+    "title": "Lecture 13",
+    "description": ""
+  },
+  "4sem/AI505-Optimization/Lectures/lec14/lec14.typ": {
+    "title": "Lecture 14",
+    "description": ""
+  },
+  "4sem/AI505-Optimization/exam/exam_functions/exam_functions.typ": {
+    "title": "Exam functions",
+    "description": ""
+  },
+  "4sem/AI506-Advanced_Machine_Learning/Lectures/lec05/lec05 notes.typ": {
+    "title": "Lecture 5",
+    "description": ""
+  },
+  "4sem/AI506-Advanced_Machine_Learning/Lectures/lec10/ai510-transformers.typ": {
+    "title": "Transformers",
+    "description": ""
+  },
+  "4sem/AI506-Advanced_Machine_Learning/exam/pres1.typ": {
+    "title": "Presentation 1",
+    "description": ""
+  },
+  "4sem/AI506-Advanced_Machine_Learning/exam/pres2.typ": {
+    "title": "Presentation 2",
+    "description": ""
+  },
+  "4sem/AI506-Advanced_Machine_Learning/exam/pres3.typ": {
+    "title": "Presentation 3",
+    "description": ""
+  },
+  "4sem/AI506-Advanced_Machine_Learning/exam/pres4.typ": {
+    "title": "Presentation 4",
+    "description": ""
+  },
+  "4sem/AI506-Advanced_Machine_Learning/exam/pres5.typ": {
+    "title": "Presentation 5",
+    "description": ""
+  },
+  "5sem/AI508-Computervision/Lectures/lec01/ai508-lec01_notes.typ": {
+    "title": "Lecture 1",
+    "description": ""
+  },
+  "5sem/AI509-Natural_Language_Processing/Exercises/ex1/ai509-ex1.typ": {
+    "title": "Exercise 1",
+    "description": ""
+  },
+  "5sem/AI509-Natural_Language_Processing/Lectures/lec01/ai509-lec01_notes.typ": {
+    "title": "Lecture 1",
+    "description": ""
+  },
+  "5sem/AI510-Cybersecurity_and_Innovation/Exercises/ex1/ai510-ex1.typ": {
+    "title": "Exercise 1",
+    "description": ""
+  },
+  "5sem/AI510-Cybersecurity_and_Innovation/Lectures/lec00/ai510-lec00_notes.typ": {
+    "title": "Lecture 0",
+    "description": ""
+  },
   "5sem/AI510-Cybersecurity_and_Innovation/Lectures/lec01/ai510-lec01_notes.typ": {
-    "description": "Threat terminology, the CIA triad, and the Cyber Kill Chain."
+    "title": "Lecture 1",
+    "description": ""
+  },
+  "5sem/AI802-Algorithmic_Game_Theory/Exercises/ex1/ai508-ex1.typ": {
+    "title": "Exercise 1",
+    "description": ""
+  },
+  "5sem/AI802-Algorithmic_Game_Theory/Lectures/lec01/ai508-lec01_notes.typ": {
+    "title": "Lecture 1",
+    "description": ""
   }
 }
