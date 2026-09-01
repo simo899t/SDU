@@ -38,7 +38,6 @@ Let $A = {1,2,3}$ be a set, and $x R y$ be a relation from $A$ to $A$.
   ),
   caption: [Graph of $R = {(1,2),(2,3),(1,3)}$],
 )
-gr
 
 - Matrix
 $ R = mat(0,1,1;0,0,1;0,0,0) $

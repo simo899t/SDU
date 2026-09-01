@@ -3,8 +3,9 @@
   "tasks": [
     {
       "label": "Typst: Edit Figure",
-      "type": "shell",
-      "command": "~/bin/typst-figure-edit.sh \"${fileDirname}/figures\"",
+      "type": "process",
+      "command": "${env:HOME}/bin/typst-figure-edit.sh",
+      "args": ["${fileDirname}/figures"],
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",

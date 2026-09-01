@@ -1,1 +1,4 @@
 *.mp4
+
+# build output for the notes web hub
+/build/

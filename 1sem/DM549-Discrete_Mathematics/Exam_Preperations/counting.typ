@@ -39,6 +39,7 @@ The following rules are nice to remember for counting.
 #definition(title: "Definition: The Subtraction Rule")[
   For any finite sets $S_1,S_2,dots,S_n$ it holds that $abs(S_1) union abs(S_2) = abs(S_1) + abs(S_2) - abs(S_1 cap S_2)$.
 ]
+#pagebreak()
 
 = Pigeonhole
 #theorem(title: "The Pigeonhole Principle (Theorem 6.2.1 from book)")[
@@ -68,6 +69,7 @@ Permutations count ordered selections of $r$ elements from a set $S$ of $n$ elem
 Note that $C(n,r)$ can also be written as $mat(n;r)$ ($r$ choose $r$), known as the binomial coefficient #emoji.face.wink.
 
 #let nc(x,y) = $mat(#x;#y)$
+#pagebreak()
 
 = Binomial Coefficient
 #theorem(title: "The Binomial Theorem")[

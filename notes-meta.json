@@ -1,0 +1,6 @@
+{
+  "_README": "Optional per-note overrides for the web hub. Key = repo-relative path to the .typ file. Fields: title (string), description (string, shown under the title), hidden (bool, excludes it from the site). Anything not listed here is auto-derived from the path.",
+  "5sem/AI510-Cybersecurity_and_Innovation/Lectures/lec01/ai510-lec01_notes.typ": {
+    "description": "Threat terminology, the CIA triad, and the Cyber Kill Chain."
+  }
+}
