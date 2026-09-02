@@ -39,9 +39,16 @@ from pathlib import Path
 
 import yaml
 
+from urllib.parse import quote
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SPEC_FILE = REPO_ROOT / "coursework.yml"
 BLOB = "https://github.com/simo899t/SDU/blob/main"
+TREE = "https://github.com/simo899t/SDU/tree/main"
+
+
+def _gh(base: str, rel: str) -> str:
+    return f"{base}/{quote(rel, safe='/')}"
 
 
 class SpecError(Exception):
@@ -147,13 +154,20 @@ def _build_item(item: dict, where: str, pdf_out: Path | None, seen_pdf: dict) ->
 
     pdf_rel = item.get("pdf")
     url = item.get("url")
-    if bool(pdf_rel) == bool(url):
-        raise SpecError(f"{where} ({title!r}): set exactly one of 'pdf' or 'url'")
+    src = item.get("source")
+    if pdf_rel and url:
+        raise SpecError(f"{where} ({title!r}): set only one of 'pdf' or 'url'")
+    if not pdf_rel and not url and not src:
+        raise SpecError(f"{where} ({title!r}): needs one of 'pdf', 'url' or 'source'")
 
     # source link: a repo path becomes a GitHub blob URL, a full URL passes through
-    src = item.get("source")
     if src:
-        out["source"] = src if _is_url(src) else f"{BLOB}/{src}"
+        out["source"] = src if _is_url(src) else _gh(BLOB, src)
+
+    if not pdf_rel and not url:
+        # source-only entry: a note whose PDF isn't compiled/committed yet
+        out["updated"] = str(item["updated"]) if item.get("updated") else ""
+        return out
 
     if url:
         out["url"] = url
@@ -173,6 +187,15 @@ def _build_item(item: dict, where: str, pdf_out: Path | None, seen_pdf: dict) ->
         shutil.copy2(src_path, pdf_out / f"{digest}.pdf")
     out["pdf"] = f"pdf/{digest}.pdf"
     out["updated"] = str(item["updated"]) if item.get("updated") else _git_last_modified(pdf_rel)
+
+    # every bundled PDF gets a "source" link even when the spec omits one:
+    # the sibling .typ if there is one, otherwise the containing folder on GitHub.
+    if "source" not in out:
+        typ_rel = str(Path(pdf_rel).with_suffix(".typ"))
+        if (REPO_ROOT / typ_rel).is_file():
+            out["source"] = _gh(BLOB, typ_rel)
+        else:
+            out["source"] = _gh(TREE, str(Path(pdf_rel).parent))
     return out
 
 
