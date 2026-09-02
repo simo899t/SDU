@@ -1,16 +1,16 @@
 name: Publish notes hub
 
-# Regenerates the coursework manifest + PDF copies and pushes them into the
-# simo899t.github.io repo, which then runs its own Pages deploy.
+# Rebuilds the /coursework hub for simo899t.github.io from coursework.yml
+# (the single hand-authored source of truth) and pushes the manifest + PDF
+# copies into that repo, which then runs its own Pages deploy.
 
 on:
   push:
     branches: [main]
     paths:
+      - 'coursework.yml'
       - '**/*.pdf'
-      - '**/*.typ'
-      - 'notes-meta.json'
-      - 'scripts/generate_notes_manifest.py'
+      - 'scripts/build_coursework.py'
       - '.github/workflows/publish-notes.yml'
   workflow_dispatch:
 
@@ -27,8 +27,11 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Generate manifest + PDF copies
-        run: python3 scripts/generate_notes_manifest.py --out build/coursework
+      - name: Install deps
+        run: pip install pyyaml
+
+      - name: Build manifest + PDF copies
+        run: python3 scripts/build_coursework.py --out build/coursework
 
       - name: Checkout site repo
         uses: actions/checkout@v4

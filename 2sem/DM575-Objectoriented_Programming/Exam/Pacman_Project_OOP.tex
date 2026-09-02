@@ -1,0 +1,416 @@
+\documentclass[a4paper,5pt]{article}
+                            % Useful packages
+% Basic page setups
+\usepackage[english]{babel}
+\usepackage{minted}
+\usepackage{algpseudocode}
+\usepackage{ragged2e}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[a4paper,top=1cm,bottom=1cm,left=2cm,right=2cm,marginparwidth=1cm]{geometry}
+\usepackage{pdfpages}
+
+
+\newcommand{\bititem}[2][]{%
+  \bibitem[#1]{#2}%
+}
+
+% ULM diagrams
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{fullpage}
+\usepackage{tikz-uml}
+\sloppy
+\hyphenpenalty 10000000
+
+% Math
+\usepackage{amsmath}
+\usepackage{mathabx}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+% For psudocodes
+\usepackage{algorithm}% http://ctan.org/pkg/algorithms
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+
+%==================================================================================================================%
+\title{Pac-Man}
+\author{Simon Holm, Johannes Rothe og Daniel Nissen\\\\Objectoriented Programming (Java)\\\\ Professor: Casper Bach}
+\date{30th of May 2025}
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+\section{Introduction}
+This project was developed as part of the second semester of the Kunstig Intelligens bachelor programme at Syddansk Universitet, in the course Object-Oriented Programming. The goal of the project is to implement a fully functional version of the classic arcade game PacMan, using core principles of object-oriented design.\\\\In this project, the group has demonstrated through the code a thorough understanding of the ideas behind object-oriented programming, like encapsulation, inheritance, polymorphism, and abstraction. The game has been built in a way that's easy to understand and update later if needed. Each part of the game — like PacMan, the ghosts, the map, the score system, and the game loop — is split into its own class with a specific job, which helps keep the code organized and clean.\\\\Besides using object-oriented programming, this project also provided practice writing clean and readable code, working with event-driven programming, and making different parts of the game interact in real time. One of the more exciting parts was using basic AI concepts to control how the ghosts chase PacMan, making the game feel more dynamic and challenging. Building PacMan has been a fun and hands-on way to turn abstract theory into something real, ensuring the group is ready for more advanced programming and AI work in the semesters ahead.
+\newpage
+
+\section{Requirements and Goals}
+Besides the minimum requirements for this projects, there are a few extra requirements that the group has made.\\\\ For the most of this project, the visuals references to the original Pac-Man game, as depicted on \hyperlink{fig:OGPacman}{Figure 1} from the project description \cite{givenAssignment}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{OGCGhost.png}
+    \caption{Original Pac-Man}
+    \label{fig:OGPacman}
+\end{figure}
+\noindent It is a requirement for all ghosts to switch to a power-state in the event that PacMan eats a big pellet, as well as switch to its normal state after some time, no matter if it is eaten or not. The group also added the requirement that an eaten ghost must return to its start position and switch to its normal state on return.\\\\ The map itself must be interchangeable. This means that another developer might use a different map, where the layout is different. This should be an option.\\\\
+
+\newpage
+\section{User Experience} \label{userexp}
+Following the requirements, it is vital to ensure the user experience is considered when creating the game. It should be noted that the game should not just be working theoretically, but should also be enjoyable for the player to play. The following things are therefore taken into consideration.
+\begin{itemize}
+    \item Are the controls clear and responsive?
+        \begin{itemize}
+            \item The controls (buttons) should feel natural, intuitive, and responsive.
+            \item The player should be told which buttons to use.
+            \item The controls must also be responsive enough, so that players find them enjoyable. For this, the control logic must align with what most players expect (intuitive).
+        \end{itemize}
+    \item How hard should the game be?
+        \begin{itemize}
+            \item The game's difficulty should reflect a basic ability of a player. It should be just difficult enough not to be easy but not hard enough to be unbeatable.
+            \item The games difficulty should match the levels (so that an average player can just about beat a level, but if practiced, can reach further)
+        \end{itemize}
+    \item Visuals should be appealing and easy to understand
+        \begin{itemize}
+            \item The game should be visually appealing and easy to interpret. Colors and style choices should support readability while also contributing to the game's overall feel.
+            \item Important elements such as PacMan, the ghosts, walls, and pellets should be distinguishable from each other.
+        \end{itemize}
+\end{itemize}
+
+\newpage
+\section{System Design}
+The structural design of the PacMan game is explained through an overview of the architecture, the main classes, what their responsibilities are, and how object-oriented programming principles have been used. The goal is to show how the system is built to be clear, modular, and easy to maintain, using concepts like encapsulation, inheritance, polymorphism, and abstraction. The design choices focus on making the game work well, while also being easy to expand or change later.
+
+\subsection{UML Diagram}
+To structure the code design, both during the creation process and to get a final overview, UML diagrams were used. One of the greatest benefits of using diagrams during the implementation is the possibility of noticing "anomalies". That is, associations or dependencies that could impede the overall structure. This has been used throughout the project and has been used as guidance on where to improve. \\
+To improve the readability, the full diagram has been split into smaller segments, which will be discussed separately. The full UML diagram can be found in \hyperref[fig:uml_full]{Appendix[1]}. \\
+The UML Diagram has been split up according to the Model-View-Controller pattern. The MVC pattern defines the logic (model), graphics (view), and input (controller), as distinct parts of the program that should have minimum interdependency. This pattern is followed as much as possible in this project to ensure modularity and flexibility. The first part, Model, can be seen below:
+\begin{figure}[H]
+  \centering
+  % scale so the PDF page is 80% of the text width:
+  \includegraphics[width=0.9\textwidth]{UML_Model.pdf}
+  \caption{The model part of the UML Diagram }
+  \label{fig:UML_Model_With_Dependency}
+\end{figure}
+\noindent Since the Single Responsibility Principle requires that the full program is split into a host of smaller classes, the full diagram is quite complex. Although there are a lot of important aspects to notice. \\
+An important aspect of the model is ensuring its responsibility stays consistent. The model should only be responsible for modifying the internal model of the program based on the input from the user. For example, in the earlier states of the project, \mintinline{Java}{App} was responsible for managing the game UI. This has been changed so that the structure holds the MVC design. 
+Two big composition elements are \mintinline{Java}{App.java} and \mintinline{Java}{Map.java}. Since App's responsibility is initiating all the elements to get the game to run, it's only logical that it's then connected with said elements. The same is true for \mintinline{Java}{Map.java}, since it's a collection of block objects. This can also be seen in the overall layout of the diagram. \mintinline{Java}{App.java} is in the top part, and has a lot of composition arrows from classes that should be initiated. Classes like Update, GameTimer and CollideHandler are initiated and then passed to further classes that need them. At the bottom part of the diagram is the map, and mostly block based classes. Since \mintinline{Java}{Map} is composed of subclasses of block, most of these classes have a composite arrow to \mintinline{Java}{Map}, and an inheritance arrow to \mintinline{Java}{Block}. With \mintinline{Java}{Block} being a main component of changing the model (for example, getting and setting the block's coordinates), other classes has a lot of dependencies going to it.
+The \mintinline{Java}{Map} uses a simple factory, called \mintinline{Java}{BlockFactory.java} to create the blocks stored in \mintinline{Java}{Map.java}. In this project, it was determined that it wouldn’t make sense to implement the full factory method pattern because of the extra complexity, which is not needed. Here, the \mintinline{Java}{BlockFactory.java} fulfills its role in delegating the creation of blocks' responsibility away from \mintinline{Java}{Map.java}. \\
+\begin{figure}[H]
+  \centering
+  % scale so the PDF page is 80% of the text width:
+  \includegraphics[width=0.4\textwidth]{UML_View.pdf}
+  \caption{The view part of the UML Diagram }
+  \label{fig:UML_View}
+\end{figure}
+\noindent In MVC, the view is responsible for presenting the model to the user. In this case, it's the actual Pacman game. In view, it’s important to avoid complex functions that handle data. Its sole responsibility should be to display the model. \\
+\noindent To achieve this, some key design choices have been made. First, \mintinline{Java}{Draw.java} only depends on two aspects of the model. It depends on the interface \mintinline{Java}{IMap} to get all blocks, and then \mintinline{Java}{Block.java} to know the position and image the block. By only using the necessary coupling between view and model, unnecessary dependencies and associations can be avoided. This also ensured great flexibility while creating the program and in the future. For example, it doesn't matter what other elements are created in the game, whether it’s a powerup or a bigger map. Since all new additions would be subclasses of blocks, they would all always be compatible with view. \\
+\noindent Notice that there is no coupling from \mintinline{Java}{UI.java} to the rest of model, except for \mintinline{Java}{App.java}. By using \mintinline{Java}{App.java} to set the text in \mintinline{Java}{UI.java}, its only responsibility becomes displaying the graphical interface, thereby ensuring the MVC principle is held.
+
+\begin{figure}[H]
+  \centering
+  % scale so the PDF page is 80% of the text width:
+  \includegraphics[width=0.6\textwidth]{UML_Controller.pdf}
+  \caption{The controller part of the UML Diagram }
+  \label{fig:UML_Controller}
+\end{figure}
+\noindent The Controller is responsible for receiving user input and then redirecting the input accordingly. In some cases, Controller can directly affect the view, but that is not the case for this project. In this project, Controller includes the interface \mintinline{Java}{IController.java} and the concrete implementation \mintinline{Java}{Controller.java}. The input is used in \mintinline{Java}{App.java} to detect when to start the game, and concretely in \mintinline{Java}{Controller.java} to set \mintinline{Java}{bufferDirection} in Pacman. Therefore, the control part of the program doesn’t have responsibilities elsewhere, ensuring modularity and flexibility. 
+\newpage
+\subsection{OOP Principles}
+\subsubsection{Encapsulation}
+Encapsulation is used throughout this project to keep data and logic safely contained within individual classes, so that only relevant parts of the program can access or modify them. This helps reduce complexity, prevent unintended changes, and makes the code easier to manage and understand.\\\\ The following example looks at the \mintinline{Java}{map} class:
+\begin{minted}{Java}
+    private Pacman pacman;
+    private Ghost redGhost;
+    private Ghost blueGhost;
+    private Ghost pinkGhost;
+    private Ghost orangeGhost;
+    private Block ghostHome;
+    private final int tileSize = 32;
+    private int pelletCount = 0;
+    private int pelletsLeft;
+\end{minted}
+\noindent Notice how the Map class uses encapsulation to keep important data and logic hidden inside the class, so that only specific parts of the program can access or modify it. For example, variables like the ones above, and \mintinline{Java}{allBlocks} are marked as private, which means they cannot be accessed directly from outside the class. Instead, public methods like \mintinline{Java}{getPacman()}, \mintinline{Java}{getPelletsLeft()}, or \mintinline{Java}{resetMap()} are provided to safely access or update the data. This helps keep the internal state of the game controlled and protected from accidental changes, while still allowing other parts of the program to interact with the map in a clear and limited way. By hiding the details and only exposing what’s necessary, the class becomes easier to use and easier to maintain.
+
+\subsubsection{Abstraction}
+\label{sec:abstraction}
+Abstraction is used in this project to reduce complexity by exposing only the relevant details of a class or interface, while hiding internal implementation. This allows classes to work together, without understanding the underlying principles thhe other classes use.
+\\\\
+For example, in \mintinline{Java}{Ghost.java}, the ghost’s behavior is simplified for external use. The internal attributes for state and color are not accessed directly, instead methods like \mintinline{Java}{getState()} and \mintinline{Java}{getColor()} are used. This ensures that other classes can only retrieve the necessary information without manipulating the ghost’s internal logic.
+\\\\
+Additionally, interfaces like \mintinline{Java}{IGameScore.java} define a clear contract for how the score should be used. It allows points to be retrieved, added, or reset, but hides how the score is stored internally. This means that the underlying implementation of scoring can be changed without affecting the rest of the program, as long as the interface is used. Similarly, by abstracting “eatable” behavior into an interface, different types of blocks (e.g., pellets or ghosts) can share this common behavior without duplicating code.
+\newpage
+
+\subsubsection{Subtype-Polymorphism}
+Subtypes are used in this project to avoid repeating code by letting classes share common behavior and properties. In the Pac-Man game, a good example is the way characters are structured. Both \mintinline{Java}{Pacman} as well as the different types of \mintinline{Java}{Ghost} are blocks that move around the map, have a position, and use images. Instead of writing the same code in each of these classes, they can inherit from a common superclass like \mintinline{Java}{MoveableBlock.java}, which is an extension of \mintinline{Java}{Block.java}.
+\begin{minted}{Java}
+    public class Block {
+        // position, image and type
+    
+    public class MoveableBlock extends Block {
+        // startPosition, stepsize and direction
+
+    public class Pacman extends MoveableBlock {
+        // color and state
+
+    public class Ghost extends MoveableBlock {
+        // isAlive
+\end{minted}
+\noindent This means the shared functionality—such as position, movement, or type—can be defined once in the parent classes and then be reused by all subclasses of that parent. Each specific entity can then add its own behavior on top of that. This makes the code cleaner and much easier to update.
+
+\subsubsection{Interface Polymorphism}
+When adding behavior to specific classes, it is good practice to use polymorphism. In the instance of a block being able to "be eaten", all eatable blocks need to inherit behavior from somewhere. \\This is achieved using an interface, \mintinline{Java}{IEatableBehavior}, which defines common methods like \mintinline{Java}{isEaten}, \mintinline{Java}{setEaten()}, and \mintinline{Java}{getPoints()} that any eatable block should implement. \\\\Instead of duplicating the eatable logic in every class, each eatable block (such as \mintinline{Java}{BigPellet} and \mintinline{Java}{Ghost}) implements \mintinline{Java}{IEatableBehavior} and delegates the actual logic to a shared helper class, \mintinline{Java}{EatableBehavior}. This class (shown below) contains the logic and information for tracking whether the block has been eaten and how many points it is worth.\newpage
+\begin{minted}{Java}
+    public class Ghost extends MoveableBlock implements IEatableBehavior {
+        private final IEatableBehavior eatableBehavior = new EatableBehavior();
+
+        // Ghost implementation
+
+        @Override
+        public boolean isEaten() {
+            return eatableBehavior.isEaten();
+        }
+    
+        @Override
+        public void setEaten(boolean eaten) {
+            eatableBehavior.setEaten(eaten);
+        }
+    
+        @Override
+        public void setPoints(int points) {
+            eatableBehavior.setPoints(points);
+        }
+    
+        @Override
+        public int getPoints() {
+            return eatableBehavior.getPoints();
+        }
+    }
+\end{minted}
+
+\noindent For example, in the \mintinline{Java}{BigPellet} class, an instance of \mintinline{Java}{EatableBehavior} is used to manage whether the pellet has been eaten. \mintinline{Java}{BigPellet} simply forwards calls to its \mintinline{Java}{eatableBehavior} instance, maintaining clean separation of concerns.\\\\The same pattern is followed in the Ghost class. Even though a ghost has more complex logic related to movement and states, its "eatable" behavior (for example, when in \mintinline{Java}{FRIGHTENED} mode) is handled through the shared interface. This ensures consistency and allows the game logic to interact with all eatable entities through the same interface, without needing to know the specific type of object.
+
+\subsection{SOLID Principles}
+\subsubsection{Single Responsibility Principle}
+When designing classes, ensuring that classes doesn't have overlapping responsibilities, or responsibilities they shouldn't have is the core of the Single Responsibility Principle. 
+At the start of the project, \mintinline{Java}{Map.java} was responsible for the game state, points, pacman lives and the creating and managing of the all the blocks in the game. This, however was a violation of the single responsibility principle, so \mintinline{Java}{Map.java} was discussed after the initial implementation. The responsibility of \mintinline{Java}{Map.java} was then clearly defined, it should have all the blocks in the game, and the functionality of initiating/restarting the map but nothing more. As a result of this process, classes like \mintinline{Java}{BlockFactory.java}, \mintinline{Java}{GameLives.java}, \mintinline{Java}{GameScore.java} and \mintinline{Java}{GameMode.java} were used to remove that responsibility from \mintinline{Java}{Map.java}. For example, \mintinline{Java}{BlockFactory.java} ensures that \mintinline{Java}{Map.java} doesn't need to know about the specific complexities of how the blocks are created.\\\\
+Another example is \mintinline{Java}{Collision.java}, \mintinline{Java}{CollideHandler.java} and \mintinline{Java}{Update.java}. \mintinline{Java}{Update.java} uses \mintinline{Java}{Collision.java} to check for collisions, thereby delegating that responsibility, and in case of a collision, calls the appropriate function in \mintinline{Java}{CollideHandler.java}, so \mintinline{Java}{Update.java} doesn't need to know what should happen, in case of a specific collision. Afterwards, \mintinline{Java}{Update.java} calls \mintinline{Java}{Move.java} that moves that specific entity. This consistent design ensures that all classes have a single, well-defined responsibility throughout the program.
+
+
+\subsubsection{Open Closed Principle}
+The ideas behind the Open-Closed principle follows principles that had already been chosen to be worked on, such as \hyperref[sec:abstraction]{Abstraction}. A good example is the implementation of blocks. The core functionality of blocks is closed for modifications, nothing about how blocks work and interact with the rest of the code should be changed, but it's open for extension, since new block types can be extended from it. This results in a code that's easy to expand. If in the future, a speed boosting block wanted to be implemented, a new subclass could be made, without the need for changing the core functionality of \mintinline{Java}{Block.java}.
+
+\subsubsection{Liskov Substitution Principle}
+\mintinline{Java}{Block.java} also establishes the Liskov Substitution Principle. But making sure that all subclasses have a use for the functionality associated with both their class and superclass attributes. In the earlier stages of the project, the \mintinline{Java}{Block.java} class had the attribute direction, which held information on the block’s current direction. For non-moving blocks like \mintinline{Java}{Wall.java}, the direction was then just set to none. This would imply that the functionality of movement in the program would also apply to \mintinline{Java}{Wall.java}, which it clearly shouldn’t. Therefore, this functionality was refactored into a \mintinline{Java}{MoveableBlock.java} subclass, which then has functionality for movement, for which all its subclasses have a use for. This ensures that for every time an instance of a superclass is expected, a subclass can be used.\\
+
+\subsubsection{Interface Segregation Principle}
+The Interface Segregation Principle states that clients shouldn't rely on methods they do not use. This means in practice, that big interfaces should be avoided. In this project, smaller and more focused interfaces have been preferred for logical reasons. Instead of creating big interfaces and then constantly making sure that every class that uses them uses the full interface, smaller interfaces so every class that needs that specific functionality can decide which interfaces to use was made instead. This might result in more interfaces than strictly necessary, but it has been decided that this is more desirable than breaking the ISP.
+
+\subsubsection{Dependency Inversion Principle}
+Throughout the whole project, the dependency inversion principle ensures that lower level implementations depend on higher level, not the other way around. This means that a class might depend on abstractions (like interfaces), not on concrete implementations. This is also explained further in the \hyperref[sec:abstraction]{Abstraction chapter}.
+
+
+\subsection{DRY - Don't Repeat Yourself}
+A lot of changing and discussion was done within the group to ensure that a lot of code wasn't repeated. As an example a lot of tasks could be collected as one, when all the blocks were made in the beginning of the project, BigPellets and Pellets were set as each their own type of block, but they both use the same tasks which meant that every method within both types of pellet were made twice, which was very unnecessary. Instead, it was changed so the \mintinline{Java}{BigPellet.java} class would act as an extension of \mintinline{Java}{Pellet} class, so no method had to be repeated but could instead just follow over through the extension of the \mintinline{Java}{Pellet.java} class.
+
+
+\newpage
+\section{Implementation}
+\subsection{App.java}
+The \mintinline{Java}{App.java} class, is where the game itself is run. The \mintinline{Java}{App.java} class uses JavaFX's graphics and media packages to create the application where the game is shown. Firstly, the start method creates a window for the game. The window size is determined by the map size from the \mintinline{Java}{Map.java} class. The \mintinline{Java}{UI.java} class takes care of all labels, panels, and images (User Interface), and ensures that they are placed within the JavaFX \mintinline{Java}{canvasContainer}. Once all the UI is initially loaded, the \mintinline{Java}{gameloop} is started. Since the map has already been loaded, the \mintinline{Java}{gameloop} does the following.
+\begin{itemize}
+    \item[1. ] Change all ghosts' direction based on their algorithms 
+    \item[2. ] Update (both move and collision-check) all entities in the game based on their direction
+    \item[3. ] Check/change the gamestate (win/gameover/keep-playing)
+    \item[4. ] Update all images on the board based on their direction and/or state
+    \item[5. ] Draw all blocks based on their position
+    \item[6. ] Update the UI (score and lives)
+\end{itemize}
+\subsubsection{GameMode.java}
+The \mintinline{Java}{gameMode} refers to what mode the game is in. The game can be in 4 different modes; \mintinline{Java}{NOTSTARTEDYET}, \mintinline{Java}{PLAYING}, \mintinline{Java}{GAME_OVER} or \mintinline{Java}{WIN}. Depending on what mode the game is in, the \mintinline{Java}{updateGameMode()} method is responsible for managing the overall game state. It keeps track of whether the game is in a starting phase, actively running, finished with a win, or over due to failure (gameover). This class doesn’t handle gameplay mechanics like losing lives, but it reacts to those changes by updating the game mode accordingly. For example, if the player wins or loses, the class updates the mode and triggers the appropriate reset or end behavior. For the score and lives, separate classes are made for this. Score can be added onto or reset, while lives can only decreased by one or be reset to start value.
+
+\subsection{GameTimer.java \& GameTask.java}
+It was decided that the game should have the ability to do things based on time in the game loop, so some implementation was needed to create the possibility to let functions run on a timing-based behavior. To do this, three overall classes were made: an interface \mintinline{Java}{IGameTask.java}, a class implementing that interface called \mintinline{Java}{GameTask.java}, and a class called \mintinline{Java}{GameTimer.java} that uses elements from the \mintinline{Java}{GameTask.java} implementation. The idea behind these three classes is being able to add functions to a list that is constantly checked in the \mintinline{Java}{gameloop}, ensuring that a function should run after a specified amount of time, so if the amount of time has gone by, the function should be run and removed from the list, it would also remove the function, if there was another one added with the same name. This was useful in cases such as when a big pellet is eaten, because this would make the ghost change back to a CHASE state after 5 seconds, but if another big pellet is eaten it should check after the new time, so the player isn’t cheated for some extra time they should’ve gotten. So, the old one would be removed, and a new 5 second timer would be started.
+
+\newpage
+\subsection{Blocks}
+This project is built around the implementation of blocks. Within the game, everything is a type of block, whether it is PacMan himself, one of the four ghosts or a wall, all are blocks. Each block has a type, position, and an image, which can be both seen and altered by getters and setters. This makes it easy to reuse code, and make consistent changes across all blocks if needed. In this regard, the \mintinline{Java}{Block.java} is a superclass that has a lot of specific subclasses. Other essential classes then inherit from \mintinline{Java}{Block.java}, but then add their class-specific behavior. These subclasses can then be grouped into 3 subgroups in which they share behavior. The class \mintinline{Java}{MoveableBlock.java} is a subclass that inherits from Block, but then adds more functionality. Since multiple blocks move, it does not make sense to make an individual implementation of a movement system for each class. It is a lot easier to create, maintain, and keep consistent with the rest of the program. Both Ghosts and PacMan needs movement functionality, so by abstracting the specifics to a superclass, the other parts of the code only need to interact with that, instead of the specific classes. \mintinline{Java}{MoveableBlock.java} only has the necessary extra attributes to implement movement functionality, which includes;
+\begin{itemize}
+    \item \mintinline{Java}{direction}
+    \item \mintinline{Java}{bufferDirection}
+    \item \mintinline{Java}{stepSize}
+    \item \mintinline{Java}{startX}
+    \item \mintinline{Java}{startY}
+\end{itemize}
+\mintinline{Java}{MoveableBlock.java} is then extended by \mintinline{Java}{Pacman.java} and \mintinline{Java}{Ghost.java}. These subclasses then have their own further functionality. \mintinline{Java}{Pacman.java} has an attribute that determines if he's alive, which was deliberately chosen not to use the same implementation for both ghosts and PacMan, due to the difference in use case. Ghosts need a lot more states, like frightened, chase and eaten, which would not be used by PacMan.  \mintinline{Java}{Ghost.java} also has more functionality than PacMan, to make the interactability between Ghost and other classes more streamlined, which will be discussed further in the report. The primary extra functionality is the addition of the attributes \mintinline{Java}{states} and \mintinline{Java}{color}, which are used in other parts of the program, which shall be discussed. \\The state change has built in, that when the state is set to \mintinline{Java}{Ghost.state.EATEN}, the speed becomes double its base value, mimicking the real PacMan game. The method \mintinline{Java}{resetState()} sets the Ghost's state to \mintinline{Java}{STILL} for a specified time duration, and then changes it to \mintinline{Java}{CHASE}. This is especially useful when creating and resetting the ghosts in \mintinline{Java}{Map.java}.
+\\ The other subclasses from \mintinline{Java}{Block.java} are those without movement functionality. They include:
+\begin{itemize}
+    \item \mintinline{Java}{Pellet.java}
+    \item \mintinline{Java}{BigPellet.java}
+    \item \mintinline{Java}{Door.java}
+    \item \mintinline{Java}{EmptyBlock.java}
+    \item \mintinline{Java}{Wall.java}
+    \item \mintinline{Java}{Teleporter.java}
+\end{itemize}
+Door has the extra added methods of being set to open or closed, which changes its picture.
+
+\subsubsection{EatableBehavior.java}
+\mintinline{Java}{EatableBehavior.java} is an implementation of the interface \mintinline{Java}{IEatableBehavior.java} that adds the eatable functionality to objects that should be eatable. Then the blocks use composition to create an instance of \mintinline{Java}{EatableBehavior.java}, which they can delegate the method calls from the interface to. This means that instead of all the blocks needing to implement their individual eatable behavior, one class can handle the logic. 
+
+\subsection{Map.java}
+The class \mintinline{Java}{Map.java} is responsible for initiating the map and managing its layout. The map itself is created from a string, and then converted to an \mintinline{Java}{ArrayList} of blocks, each with its own coordinates. The core functionality has then been primarily focused on areas where large parts of the map are involved. The map is created using a \mintinline{Java}{BlockFactory.java}, where the program iterates over the map string, and then adds the appropriate created block to an \mintinline{Java}{ArrayList}. Therefore, \mintinline{Java}{Map.java}'s core responsibility becomes storing the map without having to create each element in it.
+\subsection{BlockFactory.java}
+\mintinline{Java}{BlockFactory.java} is a Factory that specializes in building Blocks for \mintinline{Java}{Map.java}. Each method in \mintinline{Java}{BlockFactory.java} is then a creation of an object used by \mintinline{Java}{Map.java}. Since \mintinline{Java}{BlockFactory.java} is a simple factory and the use cases are fixed, creating an interface would add unnecessary complexity without comparable benefits.
+
+\subsection{Update.java , Controller.java \& Move.java}
+Another important thing when it comes to games is movement. The player must be able to do something, and not just have to watch the game as if it were a movie playing. For this, an Interface and Class were created, this was \mintinline{Java}{IController.java} and \mintinline{Java}{Controller.java}, which would read the input from the user and apply data to the program based on what was gotten as input. Then a class \mintinline{Java}{Move.java} was made to get to get the data from the controller changes and allows a move in the specified direction upon calling the \mintinline{Java}{move()} function. This was then used in the Interface and Class couple – \mintinline{Java}{IUpdate.java} and \mintinline{Java}{Update.java} which handles all user movement and collisions for the code. It makes sure that PacMan cannot run into walls and calls functions upon collisions with other blocks, and does so for the Ghosts as well. Update is the checker for all movement-related elements, telling the code what to do. If a certain movement is allowed, then it moves the entity it is currently checking for. 
+
+\subsection{Eater.java}
+Then it was also necessary to add functionality for handling the specific collision interactions, so they would be callable within the \mintinline{Java}{Update.java} class and follow specific wanted tasks. An Interface and Class were made for the \mintinline{Java}{Eater.java} allowing it to have specific functionalities, that handle what happens when either a pellet, big pellet or ghost is eaten, changing the score and removing the eaten block. For big pellets a functionality to change the state of ghosts were made, making them become frightened and have animations happening after some time showing when the ghost will return to its chase state, where it hunts the player.
+
+\subsection{Revive.java}
+A simple small class \mintinline{Java}{Revive.java} was also made to allow for the ghost to try to be revived if it gets called. This would happen, whenever the \mintinline{Java}{GhostHome.java} is visited by ghost. Then it would check if the ghost had to be revived, meaning that it was in a state of being eaten, and if so, it would be changed into chase once again, putting itself back in the game.
+
+\subsection{KillEntity.java}
+Another set of Interface and Class were made for \mintinline{Java}{KillEntity.java} that had the task to kill either a player or a ghost based on outside behavior and should be able to call a function that would make the appropriate thing happen. As an example, a \mintinline{Java}{killPlayer()} function would be able to remove a life, resetting the game and making sure that every appropriate action would happen when the player gets killed by anything that would call the function.
+
+\subsection{Collision.java}
+The class \mintinline{Java}{Collision.java} was also made. This class had to ensure that a safety margin for collisions could be done, to make collisions visually happen at a point, where it looks normal for the entities to collide and not necessarily need to be straight above each other to let the collision happen.
+
+\subsection{Collidehandler.java}
+Then the class using the methods from these mentioned classes, \mintinline{Java}{CollideHandler.java} was created, and had functions made for each of the collisions that were expected to be able to happen, collisions with ghosts in their different states, collisions with different pellets and for ghosts specifically, collisions with the \mintinline{Java}{GhostHome.java} and \mintinline{Java}{Door.java}. These were all made to implement the different functionalities and allow for a focus-point that update would be able to point to and use for its different methods, when it came to every sort of possible collision it could have registered. And almost every time of collision could be taken straight from this create \mintinline{Java}{CollideHandler.java} Class and be used directly. Ensuring a locked-down functionality that would need to be changed directly for any difference to be made. 
+
+\subsection{Images}
+The \mintinline{Java}{UpdateImages.java} class represent all images that needs updating based on either an update from the player (direction change) or an animation. For a pretty and aesthetic PacMan design, it is great for the player, if their actions (such as controller input) have an immediate effect on the game's visuals. In this case, this means updating the  entities images such that the player can easily know, which direction the entity is heading. The \mintinline{Java}{UpdateImages.java} has one public method: \mintinline{Java}{updateAllImages()}, which calls \mintinline{Java}{updateImage(entity)} which is responsible for changing entities image depending on their direction and an animation clock, that ensures that entities images are animated. This class only switches an entity's image, this means that has no responsibility in how these images a drawn\\\\ The \mintinline{Java}{Draw.java} class on the other hand, has one responsibility only. "Take an entity's image and draw it on the correct positions".
+
+\newpage
+\subsection{Ghost Pathfinding}
+\subsubsection{Grid-based pathfinding}
+The Ghost path-finding relies on creating a node for every walkable tile in the map. This means that any tile that is not a wall, such as open paths, intersections, and corners, is turned into a node. Each of these nodes is then connected to adjacent walkable nodes (up, down, left, right), forming a complete graph that mirrors the layout of the game map. This graph structure allows the ghosts to navigate through the level using path-finding algorithms by treating the map as a network of connected points based on where Pacman and the ghosts are allowed to move.
+\subsubsection{Pathfinding algorithms}
+The ghosts' movement is directed by two different walk algorithms, \mintinline{Java}{RandomWalk.java} and \mintinline{Java}{BFS.java}. The algorithms use a \mintinline{Java}{Grid.java} class which is created along with the map. The grid ensures that the algorithms only see nodes, whom all have $\leq4$ nodes as their neighbors. The grid is made in such way that all Nodes have a list of neighbors (e.g. \mintinline{Java}{[null, node2, node3, null]}). This makes it easier for the ghosts to navigate, since for each node they can at all times check its neighbor nodes.\\\\ The walk-algorithm both returns a direction. Because of this, the algorithms can work nicely with the ghosts who only need a direction to move.
+\subsubsection{\mintinline{Java}{RandomWalk.java}}
+The \mintinline{Java}{RandomWalk} algorithm is a very simple algorithm, since it is not suppose to find PacMan specifically. Unlike \mintinline{Java}{BFS.java} it has no target. The \mintinline{Java}{RandomWalk.java} algorithm firstly uses \mintinline{Java}{random.nextInt(validIndices.size())} to choose a random neighbor node which is not \mintinline{Java}{null}, whenever its direction is \mintinline{Java}{NONE} (standing still). This ensures that whenever the ghost hits a wall, it immediately changes direction according to a valid node.\\\\ If the ghost is moving (direction in not \mintinline{Java}{NULL}) a random \mintinline{Java}{double} is used to pick a random direction for the ghosts 50\% of the time. This is so that the ghosts will do some turns while moving.\\\\ This all ensures that the movement of a ghost using \mintinline{Java}{RandomWalk.java} will seem random. 
+
+\newpage
+\subsubsection{\mintinline{Java}{BFS.java (Breadth First Search)}}
+Much like the \mintinline{Java}{RandomWalk.java} the \mintinline{Java}{BFS.java} algorithm returns a direction and uses the same grid. This time it also keeps track of whether a node has been seen or not. The goal of this BFS is to search for the most optimal route to PacMan. By always keeping track of which direction all possible paths originate from, once the target is found, it can return the desired direction.\\\\ The PacMan-BFS algorithm in this case works on a grid (similar to a graph), because of this, it is possible to use the \textsc{GraphTraversal()} method. This method is a common "graph-walk", and has a variation, breadth first search, generally good for searching optimal routes in a graph (Figure 5).
+\begin{figure}[H]
+\centering
+    \includegraphics[width=0.35\linewidth]{BFSGraphTraversal.png}
+    \caption{\textsc{BreadthFirstSeach} as a \textsc{GraphTraversal}}
+    \label{fig:2}
+\end{figure}
+\noindent The pseudo-code above depicts the BFS-algorithm as a graph-traversal, it starts of by coloring all vertices white, ensuring that all vertices are able to be seen if reachable. In the PacMan-BFS, this corresponds, to setting all nodes in the grid to not \mintinline{Java}{seen} and their \mintinline{Java}{neighborDirection} to \mintinline{Java}{NONE}. The Graph-BFS then proceeds to color the start node gray, much like the PacMan-BFS which sets the first node to \mintinline{Java}{seen} and sets all its neighbors to their corresponding direction.\\\\ Now the actual search begins. In the PacMan-BFS this means that it builds a queue of possible nodes that leads to the path to the target. It then selects the first node from the queue as the \mintinline{Java}{currentNode}. It then checks all the current vertex' valid neighbor vertices. If a neighbor is not \mintinline{Java}{seen}, check it and set it to \mintinline{Java}{seen}. This follows the same \mintinline{Java}{while} loop as in the Graph-BFS, where it keeps checking un\mintinline{Java}{seen} nodes until either target is found or there is no un\mintinline{Java}{seen} nodes left. In that case there is no direct path to the target.
+
+\newpage
+\section{Process}
+The overall workflow of the project has followed a structured and consistent effort from the whole team to ensure both a well-designed and implemented project, but also a balanced workflow within the team. 
+To ensure maximum creativity and clean design, every part of the program was brainstormed, discussed and test-drawn on whiteboards to visualize the intended functionality of each part. By not dividing every part into separate workflows for each team member, the overall vision of the final product managed to stay consistent. \\\\
+\noindent GitLab has been an essential part of the workflow, enabling the ease of making all parts of the code accessible to the whole team at any time. With informative commits, merging and being able to work on a branch of the project has increased productivity tremendously whenever it wasn’t possible for the group to meet in person.\\\\
+AI has had a minimal, but supportive role in this project. Used correctly, it could help spot flaws, or sup-optimal use of SOLID, DRY and OOP principles in the code. Leading to a more consistent final product.
+
+\newpage
+\section{Quality}
+\subsection{Testing each component}
+In the following segment, how testing has been used in the most critical parts of the program to ensure correctness and stability will be discussed. Key functionalities, such as movement logic, collision detection, scoring, game state transitions, and search strategies, have been tested. This helps catch potential bugs early, verify that changes don’t break existing behavior, and ensures that the core features work reliably as the project evolves. It is also vital that every (major) change to the structure is tested before push, and more importantly, before anything is built on top of it.\\\\ The groups practical knowledge of automated unit testing remains quite limited. Instead, the use of manual debugging using extensive print statements throughout the development process has been relied on. These print statements helped when tracing changes, monitoring program behavior, and quickly identifying errors as they occurred. While not as systematic or proper as actual unit testing, this approach still made tracking down bugs easier, as well as understanding the effects of the modifications during development.
+
+\subsection{Black \& White Box Testing}
+When black \& white box testing, it is vital to consider the statements from [section 3: \hyperref[userexp]{User Experience}] to ensure that feedback from either a black- or white-box test, can make the game better. White-box testing refers to the developers (authors of this paper) testing the game throughout the project. While this is, without a doubt, the easiest test to perform, it is very biased. Since a developer likely knows every in and out of the program, doing black-box testing (where the tester is not a developer) allows errors or lacks in the program can be more easily noticed. Throughout the project, friends and/or relatives of the authors have been subject to helping white-box test the program. White-box testing was specifically useful when deciding on difficulty changes.
+
+\subsection{Regression testing}
+For this project a lot of regression testing was done, every time a change was made to ensure that the program would still work, this was done partly by expecting and using the error messages that would be gotten in the terminal upon running, and also by inserting print-statements to look for potential errors or general code mishaps that would happen after changing code. There was done this kind of testing several times and major mistakes often relating to null errors were caught as changes were made or other if statements and switches were made to handle information, this happened quite a few times during changes that the changes would allow for other parts of the program to run in unexpected ways.
+
+\subsection{Testing Based On Requirements}
+While the game was being developed, it was deemed necessary to test based on the different requirements given and make sure that the expected functionality was working. This was done especially at the end of the project to ensure that every single part of the specification was followed and had been involved as required. When doing requirement-based testing, looking at every requirement to see if the code would live up to it, by doing this, smaller mistakes such as not having a wait time after PacMan dies were found. This part of the program was then changed to ensure that this was fulfilled, which created problems with the other classes needing a different implementation of the \mintinline{Java}{GameMode.java}, which was done to ensure that a pause state could be handled correctly.
+
+\section{Discussion}
+This section will discuss possible improvements and modifications, if the project were being redone, or more time was given.
+\subsection{EatableBehavior.java}
+The \mintinline{Java}{EatableBehavior.java} class acts as a helper to reduce code duplication (DRY) across all eatable blocks, since they share the same behavior. However, in the current setup, this helper is instantiated directly inside each class, rather than being injected from the outside (through the constructor). This makes it difficult to properly unit test the eatable blocks in isolation. Because it's impossible to replace the internal behavior, any unit test on a class such as \mintinline{Java}{Pellet.java} will also end up testing the logic inside \mintinline{Java}{EatableBehavior.java}. This breaks the principles of unit testing, where each class should ideally be tested in isolation, with external dependencies mocked or faked.
+
+\subsection{Use of Singleton}
+Pacman would be a great candidate for a singleton. Since there should only be one instance of PacMan in the program at all times. In this project, PacMan is only initiated once, and then \mintinline{Java}{Map.java} is managing that instance, using a specific \mintinline{Java}{getPacman()} function as an access point. \\ 
+By using a Singleton, the reliance on \mintinline{Java}{Map.java} could be reduced, leading to a leaner program and less dependency chaining. It would also guarantee that only one instance of PacMan can exist, avoiding complex errors where multiple instances of PacMan are initiated outside \mintinline{Java}{Map.java}'s control. Using a Singleton would reduce the program's flexibility, since the option for creating multiple PacMan's, for example, to use in a multiplayer game, would not be possible. But since the project focuses on single-player PacMan, this potential drawback does not seem relevant.
+
+\subsection{Setters}
+The encapsulation principle ensures that almost all attributes in the program are private. This allows the implementation and good practice use of getters and setters, which can have the functionality of having built-in "value tests". For example, in \mintinline{Java}{MoveableBlock.java}:
+\begin{minted}{Java}
+    public void setStepSize(int stepSize) {
+        if (stepSize < 1) {
+            this.stepSize = 1;
+            return;
+        }
+        this.stepSize = stepSize;
+    }
+\end{minted}
+This setter tests the \mintinline{Java}{stepSize} value, and if less than 1 (for example, 0 or negative values), sets the \mintinline{Java}{stepSize} to the minimum allowed value. This is good practice for setters, and if given more time, would possibly be implemented for every setter in the program. \\\\
+
+\subsection{Constants within the code}
+In a few cases, such as the \mintinline{Java}{margin} constant used in \mintinline{Java}{Collision.java}, values are defined without getters or setters. This is not done because it would probably cause even more coupling. Note, even though this does not pose an issue in the current implementation, introducing getters and setters would be beneficial for future development. For example, exposing such values through getters and setters would make it easier to adjust parameters like margin dynamically,  potentially through a user interface, without modifying the underlying code.
+
+\newpage
+\subsection{Design Pattern States}
+The possibility of using the design pattern States to manage the different states of the game was discussed in the group. The state design pattern allows all the context specifics of a state to be separated into different classes, thus escaping the use of long conditional statements or switch cases. In the following example:
+\begin{minted}{Java}
+    public void updateGameState() {
+        if (gameLives.getLives() < 0) {
+            gameMode = mode.GAME_OVER;
+        } else if (map.getPelletsLeft() == 0) {
+            gameMode = mode.WIN;
+        } else if (!pacman.isAlive()) {
+            gameMode = mode.NOTSTARTEDYET;            
+        }
+        checkGameState();
+    }
+\end{minted}
+The class \mintinline{Java}{GameMode.java} constantly checks to change the game mode based on specific conditions. However, since this is a relatively infrequent occurrence, and the conditional statement is still rather short, it was decided to keep it as is. If in the future, more modes were added, implementing the state design pattern might have relevance.
+
+
+\subsection{Saving Images In The Entity}
+As an extension to any potentially wanted texture changes, it was thought but not done due to time complications, that it would be more correct and easier for modification if Pacman, Ghosts and every other type of block would hold their own images within their class. This would allow for images of every texture to be changed to match the users specific wants and needs and allowing for a more Object-oriented view. Making sure that values for images of specific blocks would not be specified without the blocks own consent.
+
+\subsection{Interchangeable map}
+Although the current map implementation is somewhat interchangeable, future improvements could include the ability to import maps from external text files. This would allow for easier level design, testing, and switching between layouts without requiring changes to the code itself, thereby allowing for more flexibility.
+
+\newpage
+\section{References}
+\renewcommand{\refname}{}
+\begin{thebibliography}{10}
+\bibitem{givenAssignment}
+Casper Bach (2025), \textit{DM575: Projektbeskrivelse}.
+
+\bibitem{YearBook}
+John Lewis; William Loftus (2018) \textit{Java Software Solution - Foundations Of Program Design} (\textbf{9th Edition})
+
+\bibitem{claude}
+Anthropic (2025), \textit{Claude 3.7 Sonnet Thinking}.
+
+\bibitem{Gemini}
+Google (2025), \textit{Gemini 2.5 Preview}.
+
+\end{thebibliography}
+\pagebreak
+
+\section{Appendix}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[page=1, width=\textwidth]{UML_Full.pdf}
+    \caption{Full UML Diagram of the System}
+    \label{fig:uml_full}
+\end{figure}
+
+\end{document}
+
