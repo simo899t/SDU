@@ -85,7 +85,7 @@ For all $Gam, phi$: if there exists a proof of $phi$ from $Gam$, then for every 
   title: [Message]
 )
 
-Now we can do induction to prove this, where #u("goal")
+Now we can do induction to prove this, where #underline("goal")
 
 if $T$ is a proof of $phi$ from $Gam$ and $cal(M)$ is any model satisfying $Gam$ them $cal(M) ent phi$ too
 #pagebreak()
@@ -93,14 +93,14 @@ if $T$ is a proof of $phi$ from $Gam$ and $cal(M)$ is any model satisfying $Gam$
 #pseudo[
   *Proof by induction*
 
-  - *#u("Base Case)") (Assume proof $T$ is a single leaf)*
+  - *#underline("Base Case)") (Assume proof $T$ is a single leaf)*
     + Assume proof $T$ is a single leaf
     + Then $phi$ is the only thing in $T$, since $T$ is a proof from $phi$.
     + Notice that all the leaves from $T$ fomrs from $Gam$
     + Let $cal(M)$ be any model that satisfies (all sentences in) $Gam$
     + since $phi in Gam$, *$cal(M) ent phi$*
   + 
-  - *#u("Inductive step")*
+  - *#underline("Inductive step")*
     + Suppose that $T$ is not a leaf
     + Decompose $T$ as follows. Say that $phi$ is "all $p$ are $q$"
   + Then there exists an $r$ s.t $T$ looks like

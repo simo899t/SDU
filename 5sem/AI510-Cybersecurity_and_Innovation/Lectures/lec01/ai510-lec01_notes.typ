@@ -144,3 +144,12 @@ not supposed to do
 - Techniques are sorted into categories
 - Techniques can have sub-techniques
 Freely available online: #link("https://attack.mitre.org/tactics/TA0043/")
+
+
+== The Swiss Cheese Model
+#figure(
+  image("assets/image-7.png"),
+  caption: [Example: Swiss Cheese Model],
+) <label>
+
+If one countermeasure fails, we want another one to fend of adversaries. The attacker will only get through if all countermeasures fail

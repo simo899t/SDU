@@ -433,12 +433,12 @@ This is equivilant to $ sum_(i,j) x_i a_(i j) x_i - sum_i b_i dot x_i. $
 
 Now we can differentiate to find the gradient $nf$
 
-$ ppx sum_(i,j) x_i a_(i j) x_i - ppx sum_i b_i dot x_i= sum_(i,j) pv((x_i,x_j),x_k)-  pp(x_k) sum_i b_i dot x_i. $
+$ ppx sum_(i,j) x_i a_(i j) x_i - ppx sum_i b_i dot x_i= sum_(i,j) (partial (x_i x_j))/(partial x_k)-  pp(x_k) sum_i b_i dot x_i. $
 
 We know that 
-- *if* $i=k != j$ *then* $pv((x_i,x_j),x_k) = x_j $
-- *if* $i!= k = j$ *then* $pv((x_i,x_j),x_k) = x_i $
-- *if* $i=k = j$ *then* $pv((x_i,x_j),x_k) = 2x_k $
+- *if* $i=k != j$ *then* $(partial (x_i x_j))/(partial x_k) = x_j $
+- *if* $i!= k = j$ *then* $(partial (x_i x_j))/(partial x_k) = x_i $
+- *if* $i=k = j$ *then* $(partial (x_i x_j))/(partial x_k) = 2x_k $
 
 therfore
 

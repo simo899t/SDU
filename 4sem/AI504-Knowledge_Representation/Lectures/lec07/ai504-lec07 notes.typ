@@ -40,7 +40,7 @@ Then ${1} psubset emptyset quad absurd$
       Let $m$ be an arbitrary moonack, $m$ must be a woodchuck
       
       Therefore I fear $m$
-  - Therefore i fear #u("all") moonacks
+  - Therefore i fear #underline("all") moonacks
 
 3. Let $m = {1}, w = {1,2}, "where" 3 arrow.r.long^"fears" m "and" 4 arrow.r.long^"loves" 3 $
    
@@ -54,6 +54,6 @@ Then ${1} psubset emptyset quad absurd$
       this arbitrary person must fear $m$
       
       Since I love this person
-  - I must love #u("all") who fears #u("all") moonacks
+  - I must love #underline("all") who fears #underline("all") moonacks
 
 This is confusing 3 should be true, and false should be false

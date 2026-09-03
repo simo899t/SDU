@@ -15,7 +15,7 @@ Come by his office or email him
 */
 
 = $cal(A(R C))$: logic of "$term(a,q)$"
-Recal that this was enhanced by #u([relative clauses]) (terms and verbs)
+Recal that this was enhanced by #underline([relative clauses]) (terms and verbs)
 
 Today we will do soundness and completeness
 

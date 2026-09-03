@@ -45,7 +45,7 @@ The canonical model only satisfy senteces, which $Gam$ proves. I.e., for any sen
 
 e.g. In other model $cal(N)$, if $cal(N) ent Gam$ then i must satisfy any sentece that $Gam$ proves (by soundness).
 
-#u("But") $cal(N)$ could also satisfy  other sentences too, not $model_Gam$. This #u("only") satisfies the senteces whcih $Gam$ proves.
+#underline("But") $cal(N)$ could also satisfy  other sentences too, not $model_Gam$. This #underline("only") satisfies the senteces whcih $Gam$ proves.
 
 #pagebreak()
 
