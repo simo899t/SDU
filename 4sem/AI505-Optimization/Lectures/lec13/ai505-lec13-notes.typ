@@ -97,11 +97,11 @@ This is called the *primal problem*
 
 For (FONC) $x^*$ to be a critical point then we need
 
-$mycases(
-  nabla f(arrow(x)^*) = arrow(lambda) nabla arrow(g)(arrow(x)^*),,
-  arrow(g)(arrow(x)^*) >= 0,,
-  arrow(lambda) >= 0,,
-  arrow(lambda) dot arrow(g)(arrow(x)^*) = 0,,
+$cases(
+  nabla f(arrow(x)^*) = arrow(lambda) nabla arrow(g)(arrow(x)^*),
+  arrow(g)(arrow(x)^*) >= 0,
+  arrow(lambda) >= 0,
+  arrow(lambda) dot arrow(g)(arrow(x)^*) = 0,
 )$
 
 Particular cases:
@@ -172,6 +172,6 @@ Methods
 - Inverse Barrier:
   $ p_"barrier" (x) = - sum_i 1/(g_i (x)) $
 - Log Barrier
-  $ p_"barrier" (x) = - sum_i mycases(log(-g_i (x)), g_i (x)<= -1,
-                                          0,      "otherwise",
-                                          word: "if") $
+  $ p_"barrier" (x) = - sum_i cases(log(-g_i (x)) quad & g_i (x)<= -1,
+                                          0 &"otherwise"
+   ) $

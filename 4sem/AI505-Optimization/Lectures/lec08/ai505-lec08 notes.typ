@@ -1,9 +1,9 @@
-
+#import "@local/tempst:0.1.0": *
 #let title = "Lecture 8: Beyond Local Optima"
 #let author = "Simon Holm"
 #let date = "March - 2026"
 
-#import "@local/sdu-notes:0.1.0": *
+
 
 #show: note.with(
   title: title,
@@ -66,10 +66,9 @@ $ x' = x+eps, quad eps tilde T $
 
 - *Metropolis acceptance criterion:*
 
-$ p(x,x') = mycases(
-  1, del <= 0,
-  e^(-del/t_k), del > 0,
-  word: "if"
+$ p(x,x') = cases(
+  1 &del <= 0,
+  e^(-del/t_k) quad &del > 0,
 ) $
 
 
@@ -87,11 +86,10 @@ $ x' = x + r v_i e_i $
 where $r$ is randomly sampled from ${-1,1}$
 
 Then after $n_s$ cycles, adjust the step size
-$ mycases(
-  v_i(1+c_i ((a_i)/(n_s)-0.6)/(0.4)), a_i > 0.6 n_s,
-  v_i(1+c_i (0.4-(a_i)/(n_s))/(0.4))^-1, a_i < 0.4 n_s,
-  v_i, "otherwise",
-  word: "if"
+$ cases(
+  v_i (1+c_i ((a_i)/(n_s)-0.6)/(0.4)) & a_i > 0.6 n_s,
+  v_i (1+c_i (0.4-(a_i)/(n_s))/(0.4))^(-1) quad & a_i < 0.4 n_s,
+  v_i & "otherwise",
 ) $
 
 

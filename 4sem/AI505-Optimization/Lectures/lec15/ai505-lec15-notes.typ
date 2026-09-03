@@ -33,7 +33,7 @@ In Combinatorial Optimization, variables have some combinatorial structure, ie, 
 ])
 
 COP can also be modelled as discrete optimization problems.
-Typically: *incidence vector* of $S, x^S in BB^n: x_j^S = mycases(1,j in S, 0, "otherwise", word: "if")$
+Typically: *incidence vector* of $S, x^S in BB^n: x_j^S = cases(1 quad &j in S, 0 &"otherwise")$
 
 #figure(
   image("assets/image.png")

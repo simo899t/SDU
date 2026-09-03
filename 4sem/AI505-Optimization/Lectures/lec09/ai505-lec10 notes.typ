@@ -12,7 +12,7 @@
 In all nonlinear non convex optimization, to generate good initial design points. With computationally costly functions, to create an initial set of design points from where to build a *surrogate model* to optimize in place of the original function
 
 = Full Factorial Design
-In the seach space $[a_1,a,2 .. b_1,b_2] (RR^2)$
+In the search space $[a_1,a,2 .. b_1,b_2] (RR^2)$
 
 Then we use uniform and evenly spaced samples across
 domain (a grid) as shown on @fig:gridsearch

@@ -54,8 +54,9 @@ while i < max_iter:
 #theorem([
   The next search directions are orthogonal to the current direction. That is.
 
-  #u("Proof:")
-  #align($ arg min_alpha f(x_k + alpha * d_k)\
+
+  #proof(title: "Proof")[
+    #align($ arg min_alpha f(x_k + alpha * d_k)\
   nf(x_k + alpha_k^* d_k) = nabla_d_k f(x_k+alpha_k^* &d_k = 0) &wide "since" alpha_k^* "is minimum" \
   nf(x_k + alpha_k^* d_k)^top d_k = 0 & &wide nabla_s f(x) = nf(x)^top s \ 
   
@@ -63,6 +64,8 @@ while i < max_iter:
   
   d_(k+1)^top d_k = -(nf(x_k + alpha_k^* d_k))^top & d_k/norm(nf(x_k + alpha_k^* d_k)) = 0 &wide d_(k+1)^top d_k = 0 imp d_(k+1) bot d_k quad QED
    $)
+  ]
+  
   
 ])
 

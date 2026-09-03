@@ -10,10 +10,10 @@
 = Theoretical Analysis - Preliminaries
 
 We know that for 
-$ F(w) = mycases(
-  R_n (w) = 1/n = summ(i=1,n,f_i (w)),  "Emperical Risk",
-  R(w) = EE_Xi [f(w;Xi)],               "Expected Risk"
-  , word: ""
+$ F(w) = cases(
+  R_n (w) = 1/n = summ(i=1,n,f_i (w))  quad &"Emperical Risk",
+  R(w) = EE_Xi [f(w;Xi)]                &"Expected Risk"
+  
 ) $
 
 #pseudo[

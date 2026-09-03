@@ -79,7 +79,7 @@ Improves each individual $x$ by recombining other individuals according to a sim
 + Choose three random, distinct individuals a, b, and c
 + Construct interim design $z = a + w(b-c)$
 + Choose a random dimension to optimize in
-+ Construct candidate $x'$ via binary crossover of $x'$ and $z$ $ mycases(z_i, i=j "or with probability" p, x_i, "otherwise", word: "if") $
++ Construct candidate $x'$ via binary crossover of $x'$ and $z$ $ cases(z_i quad &i=j "or with probability" p, x_i &"otherwise") $
 + Insert better design between $x$ and $x'$ into next generation
 
 

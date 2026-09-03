@@ -9,7 +9,7 @@
 
 = Randomized Optimization Heuristics
 
-Until now we have mostly seen #u("complete") methods, which explore all possibilities. #u("incomplete") methods use heuristics to approach "good enough" solution.
+Until now we have mostly seen #underline("complete") methods, which explore all possibilities. #underline("incomplete") methods use heuristics to approach "good enough" solution.
 
 These include
 - effective rules without theoretical support (such as genetics)

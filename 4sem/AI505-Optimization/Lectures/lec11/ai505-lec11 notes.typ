@@ -19,7 +19,7 @@ Two case studies:
 Task: determining whether a text document is one that discusses politics.
 - Set of examples ${(x_1,y_1), dots, (x_n,y_n)}$ where each $i in {1,dots,n}$. $x_1$ represents the features of a text document (e.g., the words it includes) $y_i$ is a label indicating whether the document belongs $(y_i = 1)$ or not $(y_i = -1)$ to a particular class
 
-Wi minimize the *emperical risk*
+Wi minimize the *empirical risk*
 
 $ R_n (h) = 1/n summ(i=1,n,II[h(x_i)!= y_i]), quad "where" II[A] = cases(1 "if" A "is true,", 0 "otherwise") $
 
@@ -31,7 +31,7 @@ performance measure: count how many times $sign(h(x; w,τ))$ mispredicts. Discon
 
 alternatively, define a continuous *loss function* $ell$ that measures a cost for predicting $h$ when the true label is y; e.g., one may choose a log-loss function of the form $ell(h,y) = log(1 + exp (-h y))$.
 
-We then minimize the emperical risk
+We then minimize the empirical risk
 $ min_((2,tau) in RR^d times RR) 1/n summ(i=1,n,ell(h(x; w, tau),y_i)+ lambda/2 norm(w)_2^2) $
 Then solve for various $lambda$ (on the validation set) to the best one.
 
@@ -65,7 +65,7 @@ training set, so as to avoid bias or underfitting the data.
 
 We want to decrease the gap between $underbrace(R(h), "exp risk") - underbrace(R_n (h), "emp risk")$
 
-Uniform laws of large numbers and the Hoeffding inequality gurantee that with probability at least
+Uniform laws of large numbers and the Hoeffding inequality guarantee that with probability at least
 $ 1-eta $
 $ sup_(h in cal(H)) abs(R(h) - R_n (h)) <=cal(O)(sqrt(1/(2n) log(2/eta) + (d_cal(H))/n log(n/(d_cal(H))))) $
 
@@ -114,9 +114,9 @@ SG more sensitive to $alpha_k$ and starting point. If more epochs, batch may bec
 == Beyond SG: Noise Reduction and Second-Order Methods
 $ w_(k+1) <- w_k - (alpha_k)/abs(cal(S)_k) sum_(i in cal(S)) nf_i_k (w_k) $
 
-$ F ) mycases(
-  R(w) = EE_xi [f(w;xi)], "Emperical Risk"
-  R_n (w) = 1/n summ(i=1,n,f_i (w)), "Expected Risk"
+$ F ) cases(
+  R(w) = EE_xi [f(w;xi)]  &"Empirical Risk",
+  R_n (w) = 1/n summ(i=1,n,f_i (w)) quad&"Expected Risk"
 ) $
 
 $ g(w_k, xi_k) = cases(
@@ -139,7 +139,7 @@ where the stochastic directions are computed for some $tau > 1$ as
 
 $ g(w_k,Xi_k) def 1/n_k sum nf(w_k\;Xi_(k,i)) quad "with" n_k def abs(cal(S)_k)=ceil(tau^(k-1)) $
 
-Note that batch algorithm might be linearly convergent, and therfore faster than the regular gradient descent. It is Computationally slower.
+Note that batch algorithm might be linearly convergent, and therefore faster than the regular gradient descent. It is Computationally slower.
 
 == Guidelines
 - if the optimization method has a sublinear rate of convergence, then there is no sampling rate that makes the algorithm “efficient”;
@@ -154,11 +154,11 @@ This works on finite sums like $R_n$
 
 SVRG: Method for Minimizing an Empirical Risk Rn
 #pseudo[
-  *Procudure SVRG*
+  *Procedure SVRG*
   
-  - Choose an initial iterate $w_1 in RR^d$, setsize $alpha > 0$ and a positive interger $m$;
+  - Choose an initial iterate $w_1 in RR^d$, setsize $alpha > 0$ and a positive integer $m$;
   + *for* $k=1,2,dots$ *do*
-    + Compute the batch graidetn $nabla R_n (w_k)$
+    + Compute the batch gradient $nabla R_n (w_k)$
     + Initialize $accent(w,tilde)_1 <- w_k$
     + *for* $j = 1, dots , m$ *do*
       + $accent(g,tilde)_j <- nf_i_j (accent(g,tilde)_j) - (nf_i_j (w_k)-nabla R_n (w_k))$;
