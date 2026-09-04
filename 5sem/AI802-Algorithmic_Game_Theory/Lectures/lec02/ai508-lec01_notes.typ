@@ -171,7 +171,7 @@ Note that conditional expectations are not scalars,
 
   $ EE[cal(X)] &= sum_(x>=0) x dot P(cal(X)=x) \
   &= sum_(x=0)^a x dot P(cal(X)=x) + sum_(x>=a) x dot P(cal(X)=x) \
-  &= sum_(x>=a) x dot P(cal(X)=x) >= a sum_(x>=a) P(cal(X)=x) = a 
+  &= sum_(x>=a) x dot P(cal(X)=x) >= a sum_(x>=a) P(cal(X)=x) = a EE[cal(X)]  
   
   $
 ]
