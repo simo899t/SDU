@@ -143,6 +143,13 @@ Originally no dedicated hashes existed, and cryptographic hashes ware used mostl
   caption: [],
 ) <label>
 
+= Hybrid Encryption
+#figure(
+  image("/AI510-Cybersecurity_and_Innovation/Exercises/ex1/assets/image.png"),
+  caption: [],
+) <label>
+
+
 == RSA
 - Encryption $c teq m^e mod n$
 - Decryption $m teq c^d mod n [teq (m^e)^d mod n teq m^(e d)]$

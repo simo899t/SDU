@@ -58,10 +58,10 @@ $ D_"KL"(P||Q) =  $
 == Softmax loss
 For multi-class classification with K classes, assume targets follow a Categorical distribution
 
-then softmax $ sigma(m(x))_k = (e^(m(x)_k))/summ(j=1,K,e^(m(x)_j)) $
+then softmax $ sigma(m(x))_k = (e^(m(x)_k))/sum_(j=1)^K e^(m(x)_j) $
 
 The likelihood of a single observation with one-hot label $y_i in {0,1}^K$
-$ p(y_i|x_i, theta) = prod(k=1,K,sigma(m(x_i))_k^(y_(i k))) $
+$ p(y_i|x_i, theta) = product_(k=1)^K sigma(m(x_i))_k^(y_(i k)) $
 
 Now log-likelihood over all observations:
 $ log(L(theta)) = sum_i sum_k y_(i k) log(sigma(m(x_i)))_k $

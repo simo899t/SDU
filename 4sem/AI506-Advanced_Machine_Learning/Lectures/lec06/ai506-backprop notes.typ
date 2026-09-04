@@ -46,7 +46,7 @@ $ B= {x_1, dots x_(m')} $
 
 == SGD Estimate using minibatch
 We can estimate the gradient by:
-$ g = 1/(m')nabla_theta summ(i=1,m',L(x_i,y_i,theta)) $
+$ g = 1/(m')nabla_theta sum_(i=1)^(m') L(x_i,y_i,theta) $
 Using *only* the examples of the minibatch
 
 #figure(

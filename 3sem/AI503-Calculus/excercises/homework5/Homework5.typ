@@ -1,7 +1,7 @@
 #import "@local/tempst:0.1.0": *
 
 #show: exercise.with(
-  title: "Homework 4",
+  title: "Homework 5",
   //subtitle: "",       // optional
   course: "AI503: Calculus",
   author: "Simon Holm",
