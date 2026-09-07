@@ -58,19 +58,19 @@ Proof technique used to establish that a statement $P(n)$ holds for all integers
   *Proof by induction*
 
   - Goal: Prove $P(n)$ that 
-  - $ summ(n,i=1,2^i) = 2^nplus -1 space forall n >=0 $
+  - $ sum_(i=1)^n 2^i = 2^nplus -1 space forall n >=0 $
   + *$underline("Base case")$*
     + $2^0 = 2^(0+1)-1 = 1 quad top$ 
   + *$underline("Inductive hypothesis")$*
-    + Assume that $summ(k,i=1,2^i) = 2^kplus - 1 space "for" k >=0$ (base case)
+    + Assume that $sum^k_(i=1) 2^i = 2^kplus - 1 space "for" k >=0$ (base case)
   + *$underline("Inductive step")$*
-    + $ summ(kplus, i=0,2^i) &= (summ(k, i=0,2^i)) + 2^kplus qquad (IH" in parentheses") \ 
+    + $ sum^kplus_(i=0) 2^i &= (sum ^k_(i=0) 2^i) + 2^kplus qquad (IH" in parentheses") \ 
       &= (2^kplus - 1) + 2^kplus \ &= 2^(k+2) - 1 $ #QED
   ]
 
   Since base case is true, and we have shown that for any $P(k) iimp P(kplus)$,
 
-  We have proven by induction that $summ(n,i=1,2^i) = 2^nplus -1 space forall n >=0$
+  We have proven by induction that $sum^n_(i=1) 2^i = 2^nplus -1 space forall n >=0$
   
 ]
 #pagebreak()
