@@ -1,6 +1,6 @@
 #import "@local/tempst:0.1.0": *
 #show: note.with(
-  title:         "Lecture 1: Cybersecurity Fundamentals",
+  title:         "Lecture 2: Primers on Cryptography",
   course:        "AI510 - Cybersecurity and Innovation",
   author:        "Simon Holm",
   date:          "Fall - 2026",
@@ -149,6 +149,9 @@ Originally no dedicated hashes existed, and cryptographic hashes ware used mostl
   caption: [],
 ) <label>
 
+== Digital signatures
+Use either RSA or ECDSA (elliptic curve digital signature)
+When assuming that the private keys are private, one can create signatures with the private keys (which can be verified with the public key)
 
 == RSA
 - Encryption $c teq m^e mod n$
@@ -157,9 +160,13 @@ Originally no dedicated hashes existed, and cryptographic hashes ware used mostl
 $e$ is the public key, $d$ is the private key
 
 #example(title: "Example: RSA")[
-  1. Select $p = 17, q = 11$
-
+  1. Select $p = 17, q = 11$ #fill (both $p$ and $q$ are prime and $p neq q$)
   2. Calculate $n = p dot q = 17 dot 11 = 187$
   3. Calculate $phi(n) = (p-1) dot (q-1) = 160$
-  4. 
+  4. Select integer $e$ #fill ($gcd(phi(n),e) = 1;1<e<phi(n)$)
+  5. Calculate $d$ #fill ($d dot e mod phi(n) = 1$)
 ]
+
+= Pitfalls in practice
+- Don't implement your own encryption. It will be susceptible to fatal attacks. Examples from the book like (RSA) is deterministic and multiplicative homomorphic 
+- Side channel attacks. Hardware might leak secrets, (timing or power)
