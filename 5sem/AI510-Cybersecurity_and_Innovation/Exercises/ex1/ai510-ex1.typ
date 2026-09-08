@@ -22,7 +22,7 @@ Explain, in your own words, the three protection goals that make up the C-I-A tr
 ]
 
 #question(title: "1.2")[
-1.2: How was risk mathematically defined in the lecture?
+How was risk mathematically defined in the lecture?
 ]
 #answer[
  $ R_a = p_a dot d_a $
