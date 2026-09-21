@@ -315,7 +315,7 @@ Similar to CE but all points.
 
 == CMA-ES
 Same but with covariance so that it can utilize multivariate data. 
-$ x from gauss(mu,var cov) $
+$ x from normal(mu,var cov) $
 
 mean is weighed average of $m$-elites
 
