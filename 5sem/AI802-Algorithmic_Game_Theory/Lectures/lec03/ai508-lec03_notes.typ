@@ -142,7 +142,7 @@ For constrained convex optimization, the gradient need not be zero at an optimum
 
 #theorem(title: "Theorem: First-order optimality condition")[
   Let $cal(X)$ be convex and $f:cal(X) to RR$ be differentiable and convex. A point $x^* in cal(X)$ is a _Global minimizer_ if and only if 
-  #boxed($ chevron(nabla f(x^*)\, x-x^*) >= 0 quad forall x in cal(X). $)
+  #boxed($ tran(nabla f(x^*)) (x-x^*) >= 0 quad forall x in cal(X). $)
 ]
 
 If $x^*$ is an interior point of $cal(X)$, then we may move a small amount in both directions along every coordinate. The condition above then reduces to 
@@ -166,13 +166,13 @@ For closed convex $cal(X)$, the Euclidean projection exists and is unique.
 = Constrained optimization: the Lagrangian and KKT conditions
 Consider the constrained marginalization problem
 #set math.equation(numbering: "(1)")
-$ min_(x in cal(X)) f(x) \ st g_i (x) &<= 0, quad i =1,dots,m \ h_j (x) &= 0, quad j =1,dots,r $ <constrained-opt>
+$ min_(x in cal(X)) f(x) \ st g_i (x) &<= 0, quad i =1,dots,n \ h_j (x) &= 0, quad j =1,dots,m $ <constrained-opt>
 #set math.equation(numbering: none)
 We associate a nonnegative multiplier $lam_i$ with each inequality constraint and an unrestricted multiplier $mu_i$ with each equality constraint.
 
 #definition(title: "Definition: Lagrangian")[
   The _Lagrangian_ of the problem above [@constrained-opt].
-  #boxed($ cal(L) (x,lam,mu) = f(x) + sum_(i=1)^(m) lam_i g_i (x) + sum_(i=1)^(r) mu_i h_i (x) $)
+  #boxed($ cal(L) (x,lam,mu) = f(x) + sum_(i=1)^(n) lam_i g_i (x) + sum_(j=1)^(m) mu_i h_i (x) $)
   At an optimum, the Lagrange multipliers measure how the active constraints balance the gradient of the objective.
 ]
 #pagebreak()
@@ -205,6 +205,8 @@ inequality constraints strictly. It is a convenient condition that rules out deg
 
 = Linear programming
 A Linear program (LP) optimizes a linear objective over a feasible set defined by linear constraints. LPs are among the most important optimization problems in algorithms, economics, operations research and game theory.
+
+#boxed($ "linear programming is solvable in polynomial time" $)
 
 == Primal Linear Programming
 #example(title: "Example: Primal LP")[
@@ -274,7 +276,7 @@ Complementary slackness says, informally:
   Complementary slackness is also visible
   - he first and second primal constraints are tight, and their dual variables $y_1^*, y_2^*$ may be positive
   - the third primal constraint is slack $(x^*_2 = 2 < 2)$, and indeed $y_3^*$;
-  - both primal variables
+  - both primal variables variables are positive, and both dual constraints hold with equality.
 
 ]
 
@@ -287,15 +289,52 @@ Complementary slackness says, informally:
 = Exercises
 
 #question(title: "2.34")[
+Consider the optimization problem
+$ max_(x_1,x_2,v) & v \ st v&<=2x_1 \ v&<=x_2 \ x_1+x_2 &=1 \ x_1,x_2 &>=0 $
 
++ Solve the linear program and find the optimal values of $x_1, x_2$ and $v$
++ Explain why at the optimum, the two constraints
+  $ v<=2x_1 quad "and" quad v<=x_2 $
+  must both be tight
+
+*Hint*: If one of the two quantities $2x_1$ or $x_1$ is strictly larger other the other, can you change $x_1,x_2$ slightly to increase the other.
 ]
 #answer[
++ Maximizing both $x_1$ and $x_2$ gives, $ 2x_1 = x_2 $
 
+  Therefore
+
+  $ v=2/3, quad x_1= 1/3, quad x_2= 2/3 $
+
++ Since $v = 2x_1 = x_2$. This is tight
 ]
+#pagebreak()
 
 #question(title: "2.35")[
+Consider the regularized optimization problem
+$ max_(x in Delta_2) {tran(g)x - 1/(2eta) norm(x)_2^2}, $
+where $ g = (g_1,g_2) in RR^2, quad eta > 0, $
+and $ Del_2 = {x in RR^2 : x_1,x_2 >= 0, x_1 + x_2 = 1} $
 
++ Write the lagrangian for this optimization problem
++ Assuming that the optimal solution satisfies $ x^*_1 > 0, quad x^*_2 > 0, $ write down the first-order optimality conditions.
++ Use these conditions to derive a relation between $x^*_1 -x^*_2$ and $g_1 -g_2$.
+
+*Hint.* Use a lagrange multiplier for the constraint $ x_1 + x_2 = 1 $
+Under the interior assumption, the nonnegativity constraints are inactive
 ]
 #answer[
-
++ Given that $f(x) = g_1x_1 dot g_2x_2 - 1/(2eta) sqrt(x_1^2+x_2^2)^2 $
+  
+  The constrains are: $ x_1 +x_2 -1 = 0, quad x_1,x_2 >=0 $ 
+  Therefore
+  $ cal(L)(x,lam,mu>=0) = f(x) - mu_1 x_i - mu_2 x_2 + lam (x_1+x_2-1)) $
++ Input $x^*$ as $x$ in the KKT conditions
+  \ \
+  + *Primal feasibility*: $x_1^*+x_2^*-1 = 0, quad x_i^*, x_2^* > 0. $
+  + *Dual feasibility*: $lam_i^* >= 0. $
+  + *Stationarity*: $nabla cal(L) = vec(g_1,g_2) - 1/eta vec(x_1, x_2) + lam vec(1,1) = 0 $
+  + *Complementary slackness*: $lam_i^* g_i (x^*) = 0 quad forall i $
++ Given stationarity and Complementary slackness$ nabla_x_1 cal(L) = nabla_x_2 cal(L) iimp g_1 - x_1/eta= g_2 - x_2/eta $
+  $ g_1 - g_2 = (x_1 - x_2)/eta $
 ]

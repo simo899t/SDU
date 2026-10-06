@@ -1,6 +1,6 @@
 #import "@local/tempst:0.1.0": *
 #show: exercise.with(
-  title:         ("Lecture 5: Sealed Bid \n Auctions 2"),
+  title:         ("Lecture 5: Sealed Bid \n Auctions cont."),
   author:        "Simon Holm",
   course:        "AI508 — Algorithmic Game Theory",
   date:          "Fall - 2026",
@@ -61,7 +61,8 @@ $ underbrace(v_i x_i (v_i, b_(-i)) - p_i (v_i, b_(-i)),"truthful bidding") >= v_
 ]
 
 #theorem(title: "Myerson's Lemma")[
-  For $(x,p)$ DSIC $bii$ X is a monosome allocation
+  An allocation rule $x$ can be implemented in a dominant-strategy incentive-compatible (DSIC) mechanism $(x,p)$ if and only if $x$ is monotone. Moreover, the payment rule is then uniquely determined by
+  $ p_i (b_i) = b_i dot x_i (b_i) - integral_0^(b_i) x_i (z) dif z. $
 ]
 
 Then derived from Myersons' Lemma is:

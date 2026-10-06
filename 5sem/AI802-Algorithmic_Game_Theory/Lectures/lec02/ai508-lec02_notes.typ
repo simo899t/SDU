@@ -120,7 +120,7 @@ condition is $EE[X] < oo$.
   We did not need to separately compute the distribution of $X^2$
 ]
 
-#definition(title: "Definition: The lazy statistician rule (LOTUS)")[
+#definition(title: "Definition: The lazy statistician rule (discrete)")[
   Suppose we want the expectation of a function $f(X)$. We do not need to first derive the distribution of $f(X)$. Instead,
   $ EE[f(X)] = sum_x f(x) PP(X=x) $
 
@@ -136,6 +136,13 @@ condition is $EE[X] < oo$.
   $ EE[f(X)] &= sum_z z sum_x (PP(X=x)) where x:f(x)=z \
     &= sum_x f(x) PP(X = x). $
     #QED
+]
+
+#definition(title: "Definition: The lazy statistician rule (continuous)")[
+  Suppose we want the expectation of a function $f(X)$. We do not need to first derive the distribution of $f(X)$. Instead,
+  $ EE[f(X)] = integral_(-infinity)^infinity f(x) f_X (x) dif x $
+
+  for a continuous random variable with density $f_X$.
 ]
 
 #definition(title: "Definition: Bernoulli")[
@@ -173,7 +180,6 @@ condition is $EE[X] < oo$.
     &= EE[X Y] + EE[X]EE[Y] - EE[X] EE[Y] - EE[Y EE[X]] \
     &= EE[X Y] - EE[X]EE[Y] $
 ]
-#pagebreak()
 
 #definition(title: "Definition: Uncorrelation of 2 random variables")[
   2 R.V's are uncorrelated if 
