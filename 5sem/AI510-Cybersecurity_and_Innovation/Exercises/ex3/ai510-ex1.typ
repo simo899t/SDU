@@ -159,8 +159,6 @@ the server’s response change from the original response?
 + `370` bytes
 + `Length`, `370` bytes
 + Because of my browser, no change
-+ 
-+ 
 ]
 
 

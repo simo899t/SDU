@@ -1,7 +1,7 @@
 #import "@local/tempst:0.1.0": *
 
 #show: note.with(
-  title: "Lecture 2: ",
+  title: "Lecture 2: Mixture of Experts",
   course: "AI509 - Natural Language Processing",
   date: "Fall - 2026"
 )
@@ -96,7 +96,7 @@ Muon = MomentUm Orthogonalized by Newton-Schulz
 = RMS Normalization
 Assume mean is $0$ for LayerNorm, so we only normalize variance
 $ y_i  = x_i / "RMS"(x) dot gam_i where "RMS"(x) = sqrt(eps + 1/n sum_(i=1)^(n) x^2_i) $
-
+where $gam$ are learnable paramters. Torch also allows for parameterless RMSNorm
 = SwiGLU
 A mix of Swish and GLU
 $ "FFN"(x) = ("Swish"_beta (x W_1) dot (x V))W_2 $
