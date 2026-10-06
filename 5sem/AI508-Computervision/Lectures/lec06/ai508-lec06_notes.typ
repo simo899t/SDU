@@ -33,3 +33,11 @@ Universal Model architecture and data
 == Depth Anything 2
 Trained on correctly.labelled synthetic data instead of real data.
 #link("https://depth-anything-v2.github.io/")[Depth Anything v2]
+
+= Video Latent Diffusion Model
+
+= Stable Video Diffusion
+FVD
+
+= 3d VAE
+
